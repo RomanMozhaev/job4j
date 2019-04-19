@@ -14,8 +14,8 @@ public class Point {
      * @return the distance
      */
     public double distance(int x1, int y1, int x2, int y2) {
-        double xPow = Math.pow(x1 - x2, 2);
-        double yPow = Math.pow(y1 - y2, 2);
-        return Math.sqrt(xPow + yPow);
+        double abscissa2 = Math.pow(x1 - x2, 2);
+        double ordinata2 = Math.pow(y1 - y2, 2);
+        return Math.sqrt(abscissa2 + ordinata2);
     }
 }
