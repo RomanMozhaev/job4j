@@ -44,4 +44,13 @@ public class TriangleTest {
         double area = triangle.area(1, 1, 5, 5, 8, 1);
         assertThat(area, closeTo(14, 0.1));
     }
+    /**
+     * Test. The triangle became a line
+     */
+    @Test
+    public void whenLineThenNoTriangle() {
+        Triangle triangle = new Triangle();
+        double area = triangle.area(1, 1, 5, 1, 8, 1);
+        assertThat(area, is(-1D));
+    }
 }

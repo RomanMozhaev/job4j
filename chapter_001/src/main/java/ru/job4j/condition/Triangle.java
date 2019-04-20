@@ -39,7 +39,7 @@ public class Triangle {
      * @return - true - exists, false - does not exist.
      */
     private boolean triangleExist(double a, double b, double c) {
-        if (a == 0 || b == 0 || c == 0) {
+        if (a == 0 || b == 0 || c == 0 || ((a + b) <= c) || ((a + c) <= b) || ((b + c) <= a)) {
             return false;
         }
         return true;
