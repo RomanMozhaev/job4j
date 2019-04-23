@@ -12,12 +12,10 @@ public class Check {
      * @return - if all elements are equal, it return true, else - false
      */
     public boolean mono(boolean[] data) {
-        boolean result = false;
+        boolean result = true;
         for (int i = 0; i < data.length - 1; i++) {
             if (data[i] != data[i + 1]) {
                 return false;
-            } else {
-                result = true;
             }
         }
         return result;
