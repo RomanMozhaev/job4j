@@ -69,50 +69,25 @@ public class Logic {
     public boolean isWin() {
         int[][] table = this.convert();
         boolean result = false;
-        int tableHeight = table.length;
-        int tableWidth = table[0].length;
-        // Проверяем строки на "1" во всех ячейках.
-        linesFirst:
-        {
-            for (int i = 0; i < tableHeight; i++) {
-                linesSecond:
-                {
-                    for (int j = 0; j < tableWidth; j++) {
-                        if (table[i][j] == 1) {
-                            result = true;
-                        } else {
-                            result = false;
-                            break linesSecond;
-                        }
+        int countLine = 0;
+        int countColumn = 0;
 
-                    }
-                    if (result == true) {
-                        break linesFirst;
-                    }
+        for (int i = 0; i < table.length; i++) {
+            for (int j = 0; j < table[0].length; j++) {
+                if (table[i][j] == 1) {
+                    countLine++;
+                }
+
+                if (table[j][i] == 1) {
+                    countColumn++;
                 }
             }
-        }
-        //Проверяем столбцы на "1" во всех ячейках, если результат ложь.
-        if (result == false) {
-            columnFirst:
-            {
-                for (int i = 0; i < tableWidth; i++) {
-                    columnSecond:
-                    {
-                        for (int j = 0; j < tableHeight; j++) {
-                            if (table[j][i] == 1) {
-                                result = true;
-                            } else {
-                                result = false;
-                                break columnSecond;
-                            }
-                        }
-                        if (result == true) {
-                            break columnFirst;
-                        }
-
-                    }
-                }
+            if (countColumn==table.length || countLine == table[0].length){
+                result = true;
+                break;
+            } else {
+                countLine = 0;
+                countColumn = 0;
             }
         }
         return result;
