@@ -12,8 +12,8 @@ public class Converter {
      * Обменный курс 70 руб. за 1 евро.
      */
     public int rubleToEuro(int value) {
-        int exchageRate = 70;
-        return value / exchageRate;
+        int rate = 70;
+        return value / rate;
     }
     /**
      * Конвертируем евро в рубли.
@@ -22,8 +22,8 @@ public class Converter {
      * Обменный курс 70 руб. за 1 евро.
      */
     public int euroToRuble(int value) {
-        int exchageRate = 70;
-        return value * exchageRate;
+        int rate = 70;
+        return value * rate;
     }
     /**
      * Конвертируем рубли в доллары.
@@ -32,8 +32,8 @@ public class Converter {
      * Обменный курс 60 руб за 1 дол.
      */
     public int rubleToDollar(int value) {
-        int exchageRate = 60;
-        return value / exchageRate;
+        int rate = 60;
+        return value / rate;
     }
     /**
      * Конвертируем доллары в рубли.
@@ -42,8 +42,8 @@ public class Converter {
      * Обменный курс 60 руб за 1 дол.
      */
     public int dollarToRuble(int value) {
-        int exchageRate = 60;
-        return value * exchageRate;
+        int rate = 60;
+        return value * rate;
     }
 
 }
