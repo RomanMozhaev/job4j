@@ -6,6 +6,8 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 /**
  * Test for Point.java.
+ * @author RomanM
+ * @version 1.1 April 30, 2019
  */
 public class PointTest {
     /**
@@ -13,8 +15,9 @@ public class PointTest {
      */
     @Test
     public void whenZeroAndTenThenTen() {
-        Point point = new Point();
-        double result = point.distance(0, 0, 0, 10);
+        Point first = new Point(0, 0);
+        Point second = new Point(0, 10);
+        double result = first.distance(second);
         assertThat(result, is(10D));
     }
 
@@ -23,8 +26,9 @@ public class PointTest {
      */
     @Test
     public void whenThisCoordinate1ThenThatDistance1() {
-        Point point = new Point();
-        double result = point.distance(5, 6, 7, 8);
+        Point first = new Point(5, 6);
+        Point second = new Point(7, 8);
+        double result = first.distance(second);
         assertThat(result, closeTo(2.82, 0.01));
     }
     /**
@@ -32,8 +36,9 @@ public class PointTest {
      */
     @Test
     public void whenThisCoordinate2ThenThatDistance2() {
-        Point point = new Point();
-        double result = point.distance(10, 6, 7, 15);
+        Point first = new Point(10, 6);
+        Point second = new Point(7, 15);
+        double result = first.distance(second);
         assertThat(result, closeTo(9.48, 0.01));
     }
 }
