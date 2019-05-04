@@ -6,14 +6,17 @@ package ru.job4j.condition;
  * @version 1.0 April 19, 2019.
  */
 public class Triangle {
+    private Point first;
+    private Point second;
+    private Point third;
+
+    public Triangle(Point ap, Point bp, Point cp) {
+        this.first = ap;
+        this.second = bp;
+        this.third = cp;
+    }
     /**
      * this method calculates the area of the triangle.
-     * @param x1 - abscissa of the first point.
-     * @param y1 - ordinata of the first point.
-     * @param x2 - abscissa of the second point.
-     * @param y2 - ordinata of the second point.
-     * @param x3 - abscissa of the third point.
-     * @param y3 - ordinata of the third point.
      * @return - if the triangle does not exist - return -1; if it exists - return its area.
      */
     public double area(int x1, int y1, int x2, int y2, int x3, int y3) {
@@ -24,9 +27,7 @@ public class Triangle {
             return -1D;
         }
         double p = period(a, b, c);
-        //triangle area calculating
-        double area = Math.sqrt(p * (p - a) * (p - b) * (p - c));
-        return area;
+        return Math.sqrt(p * (p - a) * (p - b) * (p - c));
     }
 
     /**

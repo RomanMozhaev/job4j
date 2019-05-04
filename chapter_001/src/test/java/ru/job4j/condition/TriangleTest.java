@@ -18,8 +18,11 @@ public class TriangleTest {
      */
     @Test
     public void whenDoesNotExistThenMinusOne() {
-        Triangle triangle = new Triangle();
-        double area = triangle.area(1, 1, 1, 1, 4, 7);
+        Point first = new Point(1, 1);
+        Point second = new Point(1, 1);
+        Point third = new Point(4, 7);
+        Triangle triangle = new Triangle(first, second, third);
+        double area = triangle.area();
         assertThat(area, is(-1D));
     }
 
@@ -30,8 +33,11 @@ public class TriangleTest {
      */
     @Test
     public void whenExist1ThenArea50() {
-        Triangle triangle = new Triangle();
-        double area = triangle.area(0, 0, 0, 10, 10, 0);
+        Point first = new Point(0, 0);
+        Point second = new Point(0, 10);
+        Point third = new Point(10, 0);
+        Triangle triangle = new Triangle(first, second, third);
+        double area = triangle.area();
         assertThat(area, closeTo(50, 0.1));
     }
 
@@ -40,8 +46,11 @@ public class TriangleTest {
      */
     @Test
     public  void whenExist2ThenArea14() {
-        Triangle triangle = new Triangle();
-        double area = triangle.area(1, 1, 5, 5, 8, 1);
+        Point first = new Point(1, 1);
+        Point second = new Point(5, 5);
+        Point third = new Point(8, 1);
+        Triangle triangle = new Triangle(first, second, third);
+        double area = triangle.area();
         assertThat(area, closeTo(14, 0.1));
     }
     /**
@@ -49,8 +58,11 @@ public class TriangleTest {
      */
     @Test
     public void whenLineThenNoTriangle() {
-        Triangle triangle = new Triangle();
-        double area = triangle.area(1, 1, 5, 1, 8, 1);
+        Point first = new Point(1, 1);
+        Point second = new Point(5, 1);
+        Point third = new Point(8, 1);
+        Triangle triangle = new Triangle(first, second, third);
+        double area = triangle.area();
         assertThat(area, is(-1D));
     }
 }
