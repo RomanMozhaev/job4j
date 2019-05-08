@@ -5,7 +5,7 @@ public class Profession {
     private String professionalArea;
     private String jobPlace;
 
-    public Profession (String name, String professionalArea, String jobPlace){
+    public Profession(String name, String professionalArea, String jobPlace) {
         this.name = name;
         this.professionalArea = professionalArea;
         this.jobPlace = jobPlace;

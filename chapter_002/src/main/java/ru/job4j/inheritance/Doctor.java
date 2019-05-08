@@ -3,7 +3,7 @@ package ru.job4j.inheritance;
 public class Doctor extends Profession {
     private String medicineSpeciality;
 
-    private Doctor(String name, String professionalArea, String jobPlace){
+    private Doctor(String name, String professionalArea, String jobPlace) {
         super(name, professionalArea, jobPlace);
     }
     public Doctor(String name, String professionalArea, String jobPlace, String medicineSpeciality) {
@@ -15,7 +15,7 @@ public class Doctor extends Profession {
         return medicineSpeciality;
     }
 
-    public Diagnose heal(Pacient pacient){
+    public Diagnose heal(Pacient pacient) {
         Diagnose diagnose = new Diagnose();
         return diagnose;
     }

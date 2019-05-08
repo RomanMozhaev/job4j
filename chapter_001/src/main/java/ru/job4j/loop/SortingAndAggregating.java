@@ -15,7 +15,7 @@ public class SortingAndAggregating {
     public int[] sorting(int[] arrayA, int[] arrayB) {
         int lengthA = arrayA.length;
         int lengthB = arrayB.length;
-        int[] arrayC = new int[lengthA+lengthB];
+        int[] arrayC = new int[lengthA + lengthB];
         int a = 0;
         int b = 0;
         for (int c = 0; c < arrayC.length; c++) {
