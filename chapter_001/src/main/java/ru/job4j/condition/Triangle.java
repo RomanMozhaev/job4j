@@ -19,10 +19,10 @@ public class Triangle {
      * this method calculates the area of the triangle.
      * @return - if the triangle does not exist - return -1; if it exists - return its area.
      */
-    public double area(int x1, int y1, int x2, int y2, int x3, int y3) {
-        double a = new Point().distance(x1, y1, x2, y2);
-        double b = new Point().distance(x3, y3, x2, y2);
-        double c = new Point().distance(x1, y1, x3, y3);
+    public double area() {
+        double a = first.distance(second);
+        double b = second.distance(third);
+        double c = third.distance(first);
         if (!triangleExist(a, b, c)) {
             return -1D;
         }
