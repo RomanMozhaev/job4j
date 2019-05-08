@@ -1,21 +1,28 @@
 package ru.job4j.condition;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 /**
  * This is the program, which calculates the distance between two points on cartesian plane.
+ * @author RomanM
+ * @version 1.1 April 30, 2019
  */
 
 public class Point {
+    int x;
+    int y;
+
+    public Point(int first, int second) {
+        this.x = first;
+        this.y = second;
+    }
     /**
      * The method for calculation the distance between two points.
-     * @param x1 - x-coordinate of first point.
-     * @param y1 - y-coordinate of second point.
-     * @param x2 - x-coordinate of first point.
-     * @param y2 - y-coordinate of second point.
+     * @param that - second point.
      * @return the distance
      */
-    public double distance(int x1, int y1, int x2, int y2) {
-        double abscissa2 = Math.pow(x1 - x2, 2);
-        double ordinata2 = Math.pow(y1 - y2, 2);
-        return Math.sqrt(abscissa2 + ordinata2);
+    public double distance(Point that) {
+        return sqrt(pow(this.x - that.x, 2) + pow(this.y - that.y, 2));
     }
 }
