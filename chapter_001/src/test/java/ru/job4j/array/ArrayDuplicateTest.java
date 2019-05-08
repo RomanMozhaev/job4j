@@ -18,7 +18,7 @@ public class ArrayDuplicateTest {
     @Test
     public void whenRemoveAllDuplicates() {
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
-        String[] array = {"Hi", "lol", "Hello","lol", "lol","Hi", "Cat","Hello","Hello"};
+        String[] array = {"Hi", "lol", "Hello", "lol", "lol", "Hi", "Cat", "Hello", "Hello"};
         String[] expect = {"Hi", "lol", "Hello", "Cat"};
         String[] result = arrayDuplicate.remove(array);
         assertThat(result, is(expect));
