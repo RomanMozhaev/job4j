@@ -75,11 +75,11 @@ public class TrackerTest {
         Item third = new Item("test3", "testDescription3", created + 2);
         tracker.add(third);
         Item[] result = tracker.findAll();
-        String nameAll = "";
-        for (Item item : result) {
-            nameAll += item.getName();
-        }
-        assertThat(nameAll, is("test1test2test3"));
+        Item[] expect = new Item[3];
+        expect[0] = first;
+        expect[1] = second;
+        expect[2] = third;
+        assertThat(expect, is(result));
     }
 
     /**
@@ -101,11 +101,12 @@ public class TrackerTest {
         Item fifth = new Item("test2", "testDescription5", created + 4);
         tracker.add(fifth);
         Item[] result = tracker.findByName("test2");
-        String nameAll = "";
-        for (Item item : result) {
-            nameAll += item.getName();
-        }
-        assertThat(nameAll, is("test2test2test2"));
+        Item[] expect = new Item[3];
+        expect[0] = second;
+        expect[1] = fourth;
+        expect[2] = fifth;
+
+        assertThat(result, is(expect));
     }
 
 }
