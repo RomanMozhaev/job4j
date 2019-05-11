@@ -3,7 +3,7 @@ package ru.job4j.inheritance;
 public class Teacher extends Profession {
     private String subject;
 
-    private Teacher(String name, String professionalArea, String jobPlace){
+    private Teacher(String name, String professionalArea, String jobPlace) {
         super(name, professionalArea, jobPlace);
     }
     public Teacher(String name, String professionalArea, String jobPlace, String subject) {
