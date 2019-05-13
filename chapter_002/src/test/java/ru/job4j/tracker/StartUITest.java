@@ -1,6 +1,12 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,6 +15,155 @@ import static org.junit.Assert.assertThat;
  * Tests for StartUI
  */
 public class StartUITest {
+    /**
+     * Common fields for two new test with Before/ After
+     */
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    PrintStream stdout = System.out;
+    Tracker tracker = new Tracker();
+    DateFormat simple = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");
+    Item item1 = this.tracker.add(new Item("test first", "description of first", 123L));
+    Item item2 = this.tracker.add(new Item("test second", "description of second", 124L));
+    Item item3 = this.tracker.add(new Item("test third", "description of third", 125L));
+    Item item4 = this.tracker.add(new Item("test second", "description of second number two", 126L));
+    String menu = new StringBuilder()
+            .append("Menu:")
+            .append(System.lineSeparator())
+            .append("0. Add New Ticket")
+            .append(System.lineSeparator())
+            .append("1. Edit The Ticket")
+            .append(System.lineSeparator())
+            .append("2. Delete The Ticket")
+            .append(System.lineSeparator())
+            .append("3. Review All Tickets")
+            .append(System.lineSeparator())
+            .append("4. Find  Tickets by Name")
+            .append(System.lineSeparator())
+            .append("5. Find A Ticket by ID")
+            .append(System.lineSeparator())
+            .append("6. Exit")
+            .append(System.lineSeparator())
+            .toString();
+
+    /**
+     * the method implements before tests
+     */
+    @Before
+    public void loadOutput() {
+        System.setOut(new PrintStream(this.out));
+    }
+
+    /**
+     * the method implements after tests
+     */
+    @After
+    public void backOutput() {
+        System.setOut(stdout);
+        this.tracker = null;
+    }
+
+    /**
+     * the test of console output for review command
+     */
+    @Test
+    public void whenReviewAllN2() {
+        String[] answers = {"3", "6"};
+        Input input = new StubInput(answers);
+        new StartUI(input, this.tracker).init();
+        assertThat(new String(this.out.toByteArray()),
+                is(new StringBuilder()
+                        .append(this.menu)
+                        .append("------------ All tickets review --------------")
+                        .append(System.lineSeparator())
+                        .append("Order number: 1")
+                        .append(System.lineSeparator())
+                        .append("Ticket's ID: " + this.item1.getId())
+                        .append(System.lineSeparator())
+                        .append("Ticket's name: test first")
+                        .append(System.lineSeparator())
+                        .append("Ticket's description: description of first")
+                        .append(System.lineSeparator())
+                        .append("Ticket's date creation: " + this.simple.format(123L))
+                        .append(System.lineSeparator())
+                        .append("----------------------")
+                        .append(System.lineSeparator())
+                        .append("Order number: 2")
+                        .append(System.lineSeparator())
+                        .append("Ticket's ID: " + this.item2.getId())
+                        .append(System.lineSeparator())
+                        .append("Ticket's name: test second")
+                        .append(System.lineSeparator())
+                        .append("Ticket's description: description of second")
+                        .append(System.lineSeparator())
+                        .append("Ticket's date creation: " + this.simple.format(124L))
+                        .append(System.lineSeparator())
+                        .append("----------------------")
+                        .append(System.lineSeparator())
+                        .append("Order number: 3")
+                        .append(System.lineSeparator())
+                        .append("Ticket's ID: " + this.item3.getId())
+                        .append(System.lineSeparator())
+                        .append("Ticket's name: test third")
+                        .append(System.lineSeparator())
+                        .append("Ticket's description: description of third")
+                        .append(System.lineSeparator())
+                        .append("Ticket's date creation: " + this.simple.format(125L))
+                        .append(System.lineSeparator())
+                        .append("----------------------")
+                        .append(System.lineSeparator())
+                        .append("Order number: 4")
+                        .append(System.lineSeparator())
+                        .append("Ticket's ID: " + this.item4.getId())
+                        .append(System.lineSeparator())
+                        .append("Ticket's name: test second")
+                        .append(System.lineSeparator())
+                        .append("Ticket's description: description of second number two")
+                        .append(System.lineSeparator())
+                        .append("Ticket's date creation: " + this.simple.format(126L))
+                        .append(System.lineSeparator())
+                        .append("----------------------")
+                        .append(System.lineSeparator())
+                        .append(this.menu)
+                        .toString()
+                )
+        );
+
+    }
+
+    /**
+     * the test for console output of FindByName command
+     */
+    @Test
+    public void whenFindByNameTestThird() {
+        String[] answers = {"4", "test third", "6"};
+        Input input = new StubInput(answers);
+        new StartUI(input, this.tracker).init();
+        assertThat(new String(this.out.toByteArray()),
+                is(new StringBuilder()
+                        .append(this.menu)
+                        .append("------------ Finding all tickets with a specific name --------------")
+                        .append(System.lineSeparator())
+                        .append("------------ The tickets with the specific name review --------------")
+                        .append(System.lineSeparator())
+                        .append("Order number: 1")
+                        .append(System.lineSeparator())
+                        .append("Ticket's ID: " + this.item3.getId())
+                        .append(System.lineSeparator())
+                        .append("Ticket's name: test third")
+                        .append(System.lineSeparator())
+                        .append("Ticket's description: description of third")
+                        .append(System.lineSeparator())
+                        .append("Ticket's date creation: " + this.simple.format(125L))
+                        .append(System.lineSeparator())
+                        .append("----------------------")
+                        .append(System.lineSeparator())
+                        .append(this.menu)
+                        .toString()
+                )
+        );
+
+    }
+
     /**
      * Test for add method
      */
