@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class Item {
@@ -63,6 +66,23 @@ public class Item {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, decs, time);
+    }
+    @Override
+    public String toString() {
+        DateFormat simple = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");
+        Date result = new Date(getTime());
+        return new StringBuilder()
+                .append("Ticket's ID: " + getId())
+                .append(System.lineSeparator())
+                .append("Ticket's name: " + getName())
+                .append(System.lineSeparator())
+                .append("Ticket's description: " + getDecs())
+                .append(System.lineSeparator())
+                .append("Ticket's date creation: " + simple.format(result))
+                .append(System.lineSeparator())
+                .append("----------------------")
+                .toString();
+
     }
 
 }

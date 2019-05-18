@@ -172,8 +172,14 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ All tickets review --------------");
             Item[] items = tracker.findAll();
-            TicketPrinting print = new TicketPrinting(items);
-            print.print();
+            if (items.length == 0) {
+                System.out.println("No ticket found.");
+            } else {
+                for (int i = 0; i < items.length; i++) {
+                    System.out.println("Order number: " + (i + 1));
+                    System.out.println(items[i].toString());
+                }
+            }
         }
         @Override
         public  String info() {
@@ -195,8 +201,14 @@ public class MenuTracker {
             String specName = input.ask("Enter the name for searching: ");
             Item[] items = tracker.findByName(specName);
             System.out.println("------------ The tickets with the specific name review --------------");
-            TicketPrinting print = new TicketPrinting(items);
-            print.print();
+            if (items.length == 0) {
+                System.out.println("No ticket found.");
+            } else {
+                for (int i = 0; i < items.length; i++) {
+                    System.out.println("Order number: " + (i + 1));
+                    System.out.println(items[i].toString());
+                }
+            }
         }
         @Override
         public  String info() {
@@ -218,10 +230,7 @@ public class MenuTracker {
             String id = input.ask("Enter the ID for searching: ");
             Item item = tracker.findById(id);
             if (item != null) {
-                Item[] items = new Item[1];
-                items[0] = item;
-                TicketPrinting print = new TicketPrinting(items);
-                print.print();
+                System.out.println(item.toString());
             } else {
                 System.out.println("No ticket found.");
             }
@@ -248,35 +257,6 @@ public class MenuTracker {
             return "6. Exit";
         }
     }
-    /**
-     * this class prints the array of tickets
-     */
-    private class TicketPrinting {
-
-        Item[] items;
-
-        TicketPrinting(Item[] items) {
-            this.items = items;
-        }
-
-        private void print() {
-            if (items.length == 0) {
-                System.out.println("No ticket found.");
-            } else {
-                for (int i = 0; i < items.length; i++) {
-                    System.out.println("Order number: " + (i + 1));
-                    System.out.println("Ticket's ID: " + items[i].getId());
-                    System.out.println("Ticket's name: " + items[i].getName());
-                    System.out.println("Ticket's description: " + items[i].getDecs());
-                    DateFormat simple = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");
-                    Date result = new Date(items[i].getTime());
-                    System.out.println("Ticket's date creation: " + simple.format(result));
-                    System.out.println("----------------------");
-                }
-            }
-        }
-    }
-
 }
 
 

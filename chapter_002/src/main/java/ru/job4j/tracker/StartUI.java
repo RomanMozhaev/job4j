@@ -31,28 +31,10 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
-        boolean exit = false;
-        while (!exit) {
+        do {
             menu.show();
-            String answer = this.input.ask("Choose one option: ");
-            switch (answer) {
-                case "0":
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                case "5":
-                    menu.select(answer);
-                    break;
-                case "6":
-                    exit = true;
-                    break;
-
-                default:
-                    System.out.println("Wrong selection. Try again.");
-                    break;
-            }
-        }
+            menu.select(input.ask("Choose one option: "));
+        } while (!"y".equals(this.input.ask("Exit?(y): ")));
     }
     /**
      * The program start.
