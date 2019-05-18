@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class creates the user interface for working with ticket's system.
  */
@@ -29,11 +32,15 @@ public class StartUI {
      * the main program cycle.
      */
     public void init() {
+        List<Integer> range = new ArrayList<>();
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
+        for (int i = 0; i < menu.getActionsLength(); i++) {
+            range.add(i);
+        }
         do {
             menu.show();
-            menu.select(input.ask("Choose one option: "));
+            menu.select(input.ask("Choose one option: ", range));
         } while (!"y".equals(this.input.ask("Exit?(y): ")));
     }
     /**
@@ -41,6 +48,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }

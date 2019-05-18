@@ -1,9 +1,6 @@
 package ru.job4j.tracker;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,9 +42,9 @@ public class MenuTracker {
         this.tracker = tracker;
     }
 
-//    public int getActionsLength() {
-//        return this.actions.size();
-//    }
+    public int getActionsLength() {
+        return this.actions.size();
+    }
 
     /**
      * the method adds all action-classes to the list.
@@ -66,9 +63,8 @@ public class MenuTracker {
      * the method calls the action according to the key of the command
      * @param key - the key of the command
      */
-    public void select(String key) {
-        int i = Integer.valueOf(key);
-        this.actions.get(i).execute(this.input, this.tracker);
+    public void select(int key) {
+        this.actions.get(key).execute(this.input, this.tracker);
 
     }
 
