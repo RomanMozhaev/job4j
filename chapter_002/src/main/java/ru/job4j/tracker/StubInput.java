@@ -2,7 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.List;
 
-public class StubInput implements Input {
+public class StubInput extends ValidateInput {
     /**
      * Это поле содержит последовательность ответов пользователя.
      * Например. Если пользователь
@@ -36,8 +36,4 @@ public class StubInput implements Input {
     public String ask(String question) {
         return this.value[this.position++];
     }
-    public int ask(String string, List<Integer> range) {
-        return -1;
-    }
-
 }
