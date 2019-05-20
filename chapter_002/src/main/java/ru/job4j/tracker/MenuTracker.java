@@ -50,13 +50,13 @@ public class MenuTracker {
      * the method adds all action-classes to the list.
      */
     public void fillActions() {
-        this.actions.add(new AddItem());
-        this.actions.add(new ReplaceItem());
-        this.actions.add(new DeleteItem());
-        this.actions.add(new FindAll());
-        this.actions.add(new FindItemsByName());
-        this.actions.add(new FindItemsById());
-        this.actions.add(new Exit());
+        this.actions.add(new AddItem("Add New Ticket", ADD));
+        this.actions.add(new ReplaceItem("Edit The Ticket", REPLACE));
+        this.actions.add(new DeleteItem("Delete The Ticket", DELETE));
+        this.actions.add(new FindAll("Review All Tickets", FIND_ALL));
+        this.actions.add(new FindItemsByName("Find  Tickets by Name", FIND_BY_NAME));
+        this.actions.add(new FindItemsById("Find A Ticket by ID", FIND_BY_ID));
+        this.actions.add(new Exit("Exit", EXIT));
     }
 
     /**
@@ -80,11 +80,12 @@ public class MenuTracker {
     /**
      * This class adds a new ticket to the array.
      */
-    public class AddItem implements UserAction {
-        @Override
-        public String key() {
-            return ADD;
+    public class AddItem extends BaseAction {
+
+        public AddItem(String info, String key) {
+            super(info, key);
         }
+
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Adding of a new ticket --------------");
@@ -95,18 +96,14 @@ public class MenuTracker {
             tracker.add(item);
             System.out.println("------------ The New Ticket has ID: " + item.getId() + "-----------");
         }
-        @Override
-        public  String info() {
-            return "0. Add New Ticket";
-        }
     }
     /**
      * this class replaces the ticket.
      */
-    public class ReplaceItem implements UserAction {
-        @Override
-        public String key() {
-            return REPLACE;
+    public class ReplaceItem extends BaseAction {
+
+        public ReplaceItem(String info, String key) {
+            super(info, key);
         }
         @Override
         public void execute(Input input, Tracker tracker) {
@@ -128,18 +125,14 @@ public class MenuTracker {
                 }
             }
         }
-        @Override
-        public  String info() {
-            return "1. Edit The Ticket";
-        }
     }
     /**
      * the class deletes the ticket with a corresponding ID.
      */
-    public class DeleteItem implements UserAction {
-        @Override
-        public String key() {
-            return DELETE;
+    public class DeleteItem extends BaseAction {
+
+        public DeleteItem(String info, String key) {
+            super(info, key);
         }
         @Override
         public void execute(Input input, Tracker tracker) {
@@ -151,18 +144,14 @@ public class MenuTracker {
                 System.out.println("the operation failure. The ticket with the entered ID doesn't exist.");
             }
         }
-        @Override
-        public  String info() {
-            return "2. Delete The Ticket";
-        }
     }
     /**
      * the method prints information from all entered tickets.
      */
-    public class FindAll implements UserAction {
-        @Override
-        public String key() {
-            return FIND_ALL;
+    public class FindAll extends BaseAction {
+
+        public FindAll(String info, String key) {
+            super(info, key);
         }
         @Override
         public void execute(Input input, Tracker tracker) {
@@ -177,19 +166,15 @@ public class MenuTracker {
                 }
             }
         }
-        @Override
-        public  String info() {
-            return "3. Review All Tickets";
-        }
     }
 
     /**
      * this class finds all tickets with specific name
      */
-    public class FindItemsByName implements UserAction {
-        @Override
-        public String key() {
-            return FIND_BY_NAME;
+    public class FindItemsByName extends BaseAction {
+
+        public FindItemsByName(String info, String key) {
+            super(info, key);
         }
         @Override
         public void execute(Input input, Tracker tracker) {
@@ -206,19 +191,15 @@ public class MenuTracker {
                 }
             }
         }
-        @Override
-        public  String info() {
-            return "4. Find  Tickets by Name";
-        }
     }
 
     /**
      * the class finds a ticket with specific ID
      */
-    public class FindItemsById implements UserAction {
-        @Override
-        public String key() {
-            return FIND_BY_ID;
+    public class FindItemsById extends BaseAction {
+
+        public FindItemsById(String info, String key) {
+            super(info, key);
         }
         @Override
         public void execute(Input input, Tracker tracker) {
@@ -231,26 +212,18 @@ public class MenuTracker {
                 System.out.println("No ticket found.");
             }
         }
-        @Override
-        public  String info() {
-            return "5. Find A Ticket by ID";
-        }
     }
 
     /**
      * the class for closing the application.
      */
-    public class Exit implements UserAction {
-        @Override
-        public String key() {
-            return EXIT;
+    public class Exit extends BaseAction {
+
+        public Exit(String info, String key) {
+            super(info, key);
         }
         @Override
         public void execute(Input input, Tracker tracker) {
-        }
-        @Override
-        public  String info() {
-            return "6. Exit";
         }
     }
 }
