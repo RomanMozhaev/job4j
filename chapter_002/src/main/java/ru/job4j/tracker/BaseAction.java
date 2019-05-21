@@ -9,6 +9,7 @@ public abstract class BaseAction implements UserAction {
     /**
      * field with key-number and description of action
      */
+//    композиция везде, где объект стринг создается.
    private final String key;
    private final String info;
 

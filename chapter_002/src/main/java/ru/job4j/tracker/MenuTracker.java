@@ -11,6 +11,7 @@ public class MenuTracker {
     /**
      * the constants for choosing of the menu options.
      */
+//    композиция - объекты стринг
     private static final String ADD = "0";
     private static final String REPLACE = "1";
     private static final String DELETE = "2";
@@ -24,14 +25,17 @@ public class MenuTracker {
     /**
      * the input provides user answers
      */
+//    компазиция . повторно используем класс интерфейса
     private Input input;
     /**
      * the tracker contains tickets
      */
+    //    компазиция . повторно используем класс трекер
     private Tracker tracker;
     /**
      * the list of available actions
      */
+//    агригация
     private List<UserAction> actions = new ArrayList<>();
 
     /**
@@ -39,6 +43,7 @@ public class MenuTracker {
      * @param input
      * @param tracker
      */
+
     MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
@@ -60,6 +65,7 @@ public class MenuTracker {
      * the method adds all action-classes to the list.
      */
     public void fillActions() {
+//        агригация классов по одному интерфейсу
         this.actions.add(new AddItem("Add New Ticket", ADD));
         this.actions.add(new ReplaceItem("Edit The Ticket", REPLACE));
         this.actions.add(new DeleteItem("Delete The Ticket", DELETE));
@@ -74,6 +80,7 @@ public class MenuTracker {
      * @param key - the key of the command
      */
     public void select(int key) {
+//        использование метода после агрегации
         this.actions.get(key).execute(this.input, this.tracker);
 
     }
@@ -90,6 +97,7 @@ public class MenuTracker {
     /**
      * This class adds a new ticket to the array.
      */
+//    все внутренние классы наследуются от БейсикЭкшен
     public class AddItem extends BaseAction {
 
         public AddItem(String info, String key) {
@@ -97,11 +105,13 @@ public class MenuTracker {
         }
 
         @Override
+//        композиция Инпут и Трекер
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Adding of a new ticket --------------");
             String name = input.ask("Enter the ticket name: ");
             String desc = input.ask("Enter the ticket description: ");
             long created = System.currentTimeMillis();
+    //       композиция айтем
             Item item = new Item(name, desc, created);
             tracker.add(item);
             System.out.println("------------ The New Ticket has ID: " + item.getId() + "-----------");
