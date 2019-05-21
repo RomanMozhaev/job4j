@@ -19,6 +19,8 @@ public class MenuTracker {
     private static final String FIND_BY_ID = "5";
     private static final String EXIT = "6";
 
+    private boolean quit;
+
     /**
      * the input provides user answers
      */
@@ -40,6 +42,14 @@ public class MenuTracker {
     MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
+    }
+
+    public boolean isQuit() {
+        return quit;
+    }
+
+    private void setQuit(Boolean quit) {
+        this.quit = quit;
     }
 
     public int getActionsLength() {
@@ -224,6 +234,7 @@ public class MenuTracker {
         }
         @Override
         public void execute(Input input, Tracker tracker) {
+            setQuit(true);
         }
     }
 }
