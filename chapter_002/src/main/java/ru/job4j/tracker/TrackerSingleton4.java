@@ -4,14 +4,19 @@ import java.util.Arrays;
 
 /**
  * The Tracker collects tickets.
+ * The singleton version. .Enum class. Eager loading.
  * @author RomanM
- * @version 1.1 May 9, 2019
+ * @version 1.0 May 23, 2019
  */
-public class Tracker {
-//    агрегация айтем
-    private final Item[] items = new Item[100];
+public enum TrackerSingleton4 {
+
+    INSTANCE;
+
+    Item[] items = new Item[100];
     private int position = 0;
 
+    TrackerSingleton4() {
+    }
     /**
      * The method adds a new ticket
      * @param item - contains parameters of the ticket
@@ -28,7 +33,7 @@ public class Tracker {
      * @return - the unique ID
      */
     private String generateId() {
-//     композиция тайм и рандом и обертки Лонг
+
         long time = System.currentTimeMillis();
         long random = (long) (Math.random() * 100000);
         return Long.toString(time + random);
@@ -76,7 +81,7 @@ public class Tracker {
      * @return - the array with all tickets
      */
     public Item[] findAll() {
-//        композиция класса Эррейс и далее по коду в низ.
+
         return Arrays.copyOf(this.items, position);
     }
 

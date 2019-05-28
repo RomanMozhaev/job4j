@@ -4,13 +4,24 @@ import java.util.Arrays;
 
 /**
  * The Tracker collects tickets.
+ * The singleton version. .Private static final class. Lazy loading.
  * @author RomanM
- * @version 1.1 May 9, 2019
+ * @version 1.0 May 23, 2019
  */
-public class Tracker {
-//    агрегация айтем
+public class TrackerSingleton3 {
+
     private final Item[] items = new Item[100];
     private int position = 0;
+
+    private TrackerSingleton3() {
+
+    }
+    private static final class Holder {
+        private static final TrackerSingleton3 INSTANCE = new TrackerSingleton3();
+    }
+    public static TrackerSingleton3 getInstance() {
+        return Holder.INSTANCE;
+    }
 
     /**
      * The method adds a new ticket
@@ -28,7 +39,7 @@ public class Tracker {
      * @return - the unique ID
      */
     private String generateId() {
-//     композиция тайм и рандом и обертки Лонг
+
         long time = System.currentTimeMillis();
         long random = (long) (Math.random() * 100000);
         return Long.toString(time + random);
@@ -76,7 +87,7 @@ public class Tracker {
      * @return - the array with all tickets
      */
     public Item[] findAll() {
-//        композиция класса Эррейс и далее по коду в низ.
+
         return Arrays.copyOf(this.items, position);
     }
 

@@ -1,8 +1,12 @@
 package ru.job4j.tracker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class Item {
+//    создание объекта стринг тоже является композицией.
     private String id;
     private String name;
     private String decs;
@@ -46,6 +50,7 @@ public class Item {
         this.time = time;
     }
     @Override
+//    композиция - создаем ноый объект при вызове метода и используем его методы.
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -62,7 +67,28 @@ public class Item {
 
     @Override
     public int hashCode() {
+//        Композиция
         return Objects.hash(id, name, decs, time);
+    }
+    @Override
+    public String toString() {
+//  Композиция
+        DateFormat simple = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");
+//  Композиция
+        Date result = new Date(getTime());
+//  Композция.
+        return new StringBuilder()
+                .append("Ticket's ID: " + getId())
+                .append(System.lineSeparator())
+                .append("Ticket's name: " + getName())
+                .append(System.lineSeparator())
+                .append("Ticket's description: " + getDecs())
+                .append(System.lineSeparator())
+                .append("Ticket's date creation: " + simple.format(result))
+                .append(System.lineSeparator())
+                .append("----------------------")
+                .toString();
+
     }
 
 }
