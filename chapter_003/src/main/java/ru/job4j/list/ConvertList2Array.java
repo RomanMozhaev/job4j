@@ -20,9 +20,6 @@ public class ConvertList2Array {
                 row++;
             }
         }
-        while (column == columns) {
-            array[row][column] = 0;
-        }
         return array;
     }
 }
