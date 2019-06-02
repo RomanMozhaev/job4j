@@ -7,6 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -171,7 +173,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();     // создаём Tracker
         Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});   //создаём StubInput с последовательностью действий
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.findAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        assertThat(tracker.findAll().iterator().next().getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
     /**
      * Test for Replace method
@@ -194,7 +196,7 @@ public class StartUITest {
         Item item2 = tracker.add(new Item("test second", "description of second", 124L));
         Input input = new StubInput(new String[]{"2", item1.getId(), "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("test second"));
+        assertThat(tracker.findAll().get(0).getName(), is("test second"));
     }
     /**
      * Test for findAll method
@@ -206,7 +208,7 @@ public class StartUITest {
         Item item2 = tracker.add(new Item("test second", "description of second", 124L));
         Input input = new StubInput(new String[]{"3", "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll().length, is(2));
+        assertThat(tracker.findAll().size(), is(2));
     }
     /**
      * Test for find by name method
@@ -218,7 +220,9 @@ public class StartUITest {
         Item item2 = tracker.add(new Item("test second", "description of second", 124L));
         Item item3 = tracker.add(new Item("test third", "description of third", 125L));
         Item item4 = tracker.add(new Item("test second", "description of second number two", 126L));
-        Item[] expect = {item2, item4};
+        List<Item> expect = new ArrayList<>();
+        expect.add(item2);
+        expect.add(item4);
         Input input = new StubInput(new String[]{"4", "test second", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findByName("test second"), is(expect));

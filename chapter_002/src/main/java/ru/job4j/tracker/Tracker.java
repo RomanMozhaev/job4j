@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Tracker collects tickets.
@@ -8,9 +9,9 @@ import java.util.Arrays;
  * @version 1.1 May 9, 2019
  */
 public class Tracker {
-//    агрегация айтем
-    private final Item[] items = new Item[100];
-    private int position = 0;
+
+    private final List<Item> items = new ArrayList<>();
+//    private int position = 0;
 
     /**
      * The method adds a new ticket
@@ -19,16 +20,15 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[this.position++] = item;
+        this.items.add(item);
         return item;
     }
 
     /**
-     * The method generetes a unique ID for tickets
+     * The method generates a unique ID for tickets
      * @return - the unique ID
      */
     private String generateId() {
-//     композиция тайм и рандом и обертки Лонг
         long time = System.currentTimeMillis();
         long random = (long) (Math.random() * 100000);
         return Long.toString(time + random);
@@ -41,13 +41,15 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(id)) {
-                this.items[i] = item;
-                this.items[i].setId(id);
+        int index = 0;
+        for (Item elmnt : this.items) {
+            if (elmnt.getId().equals(id)) {
+                item.setId(id);
+                this.items.set(index, item);
                 result = true;
                 break;
             }
+            index++;
         }
         return result;
     }
@@ -59,14 +61,14 @@ public class Tracker {
      */
     public boolean delete(String id) {
         boolean result = false;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(id)) {
-                System.arraycopy(this.items, (i + 1), this.items, i, (this.items.length - 1 - i));
-                this.items[this.items.length - 1] = null;
-                this.position--;
+        int index = 0;
+        for (Item elmnt : items) {
+            if (elmnt.getId().equals(id)) {
+                this.items.remove(index);
                 result = true;
                 break;
             }
+            index++;
         }
         return result;
     }
@@ -75,9 +77,8 @@ public class Tracker {
      * the method returns the array with all tickets
      * @return - the array with all tickets
      */
-    public Item[] findAll() {
-//        композиция класса Эррейс и далее по коду в низ.
-        return Arrays.copyOf(this.items, position);
+    public List<Item> findAll() {
+        return this.items;
     }
 
     /**
@@ -85,15 +86,14 @@ public class Tracker {
      * @param key - forwarded key-word
      * @return - the array with founded tickets
      */
-    public Item[] findByName(String key) {
-        Item[] itemsKey = new Item[this.position];
-        int index = 0;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getName().equals(key)) {
-                itemsKey[index++] = this.items[i];
+    public List<Item> findByName(String key) {
+        List<Item> oneName = new ArrayList<>();
+        for (Item elmnt : this.items) {
+            if (elmnt.getName().equals(key)) {
+                oneName.add(elmnt);
             }
         }
-        return Arrays.copyOf(itemsKey, index);
+        return oneName;
     }
 
     /**
@@ -103,9 +103,9 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item itemReturn = null;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(id)) {
-                itemReturn = this.items[i];
+        for (Item elmnt : this.items) {
+            if (elmnt.getId().equals(id)) {
+                itemReturn = elmnt;
                 break;
             }
         }
