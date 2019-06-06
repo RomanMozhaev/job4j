@@ -41,13 +41,15 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
+        int index = 0;
         for (Item elmnt : this.items) {
             if (elmnt.getId().equals(id)) {
                 item.setId(id);
-                this.items.set(this.items.indexOf(elmnt), item);
+                this.items.set(index, item);
                 result = true;
                 break;
             }
+            index++;
         }
         return result;
     }
@@ -59,11 +61,14 @@ public class Tracker {
      */
     public boolean delete(String id) {
         boolean result = false;
+        int index = 0;
         for (Item elmnt : items) {
             if (elmnt.getId().equals(id)) {
-                result = this.items.remove(elmnt);
+                this.items.remove(index);
+                result = true;
                 break;
             }
+            index++;
         }
         return result;
     }
