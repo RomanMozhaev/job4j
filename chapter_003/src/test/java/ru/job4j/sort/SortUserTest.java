@@ -39,9 +39,6 @@ public class SortUserTest {
                 new User("Polina", 34),
                 new User("Alla", 56)
         ));
-        System.out.println(list);
-        System.out.println(result);
-        System.out.println(expect);
         assertThat(result, is(expect));
     }
 
