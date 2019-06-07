@@ -2,6 +2,9 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -56,8 +59,8 @@ public class TrackerTest {
         tracker.add(third);
         String id = second.getId();
         tracker.delete(id);
-        Item[] result = tracker.findAll();
-        assertThat(result[1].getName(), is("test3"));
+        List<Item> result = tracker.findAll();
+        assertThat(result.get(1).getName(), is("test3"));
     }
 
     /**
@@ -74,11 +77,11 @@ public class TrackerTest {
         tracker.add(second);
         Item third = new Item("test3", "testDescription3", created + 2);
         tracker.add(third);
-        Item[] result = tracker.findAll();
-        Item[] expect = new Item[3];
-        expect[0] = first;
-        expect[1] = second;
-        expect[2] = third;
+        List<Item> result = tracker.findAll();
+        List<Item> expect = new ArrayList<>();
+        expect.add(first);
+        expect.add(second);
+        expect.add(third);
         assertThat(expect, is(result));
     }
 
@@ -100,11 +103,11 @@ public class TrackerTest {
         tracker.add(fourth);
         Item fifth = new Item("test2", "testDescription5", created + 4);
         tracker.add(fifth);
-        Item[] result = tracker.findByName("test2");
-        Item[] expect = new Item[3];
-        expect[0] = second;
-        expect[1] = fourth;
-        expect[2] = fifth;
+        List<Item> result = tracker.findByName("test2");
+        List<Item> expect = new ArrayList<>();
+        expect.add(second);
+        expect.add(fourth);
+        expect.add(fifth);
 
         assertThat(result, is(expect));
     }

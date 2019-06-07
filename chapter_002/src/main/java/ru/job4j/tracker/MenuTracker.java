@@ -11,7 +11,6 @@ public class MenuTracker {
     /**
      * the constants for choosing of the menu options.
      */
-//    композиция - объекты стринг
     private static final String ADD = "0";
     private static final String REPLACE = "1";
     private static final String DELETE = "2";
@@ -25,17 +24,14 @@ public class MenuTracker {
     /**
      * the input provides user answers
      */
-//    компазиция . повторно используем класс интерфейса
     private Input input;
     /**
      * the tracker contains tickets
      */
-    //    компазиция . повторно используем класс трекер
     private Tracker tracker;
     /**
      * the list of available actions
      */
-//    агригация
     private List<UserAction> actions = new ArrayList<>();
 
     /**
@@ -65,7 +61,6 @@ public class MenuTracker {
      * the method adds all action-classes to the list.
      */
     public void fillActions() {
-//        агригация классов по одному интерфейсу
         this.actions.add(new AddItem("Add New Ticket", ADD));
         this.actions.add(new ReplaceItem("Edit The Ticket", REPLACE));
         this.actions.add(new DeleteItem("Delete The Ticket", DELETE));
@@ -80,7 +75,6 @@ public class MenuTracker {
      * @param key - the key of the command
      */
     public void select(int key) {
-//        использование метода после агрегации
         this.actions.get(key).execute(this.input, this.tracker);
 
     }
@@ -97,7 +91,6 @@ public class MenuTracker {
     /**
      * This class adds a new ticket to the array.
      */
-//    все внутренние классы наследуются от БейсикЭкшен
     public class AddItem extends BaseAction {
 
         public AddItem(String info, String key) {
@@ -105,13 +98,11 @@ public class MenuTracker {
         }
 
         @Override
-//        композиция Инпут и Трекер
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Adding of a new ticket --------------");
             String name = input.ask("Enter the ticket name: ");
             String desc = input.ask("Enter the ticket description: ");
             long created = System.currentTimeMillis();
-    //       композиция айтем
             Item item = new Item(name, desc, created);
             tracker.add(item);
             System.out.println("------------ The New Ticket has ID: " + item.getId() + "-----------");
@@ -176,18 +167,18 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ All tickets review --------------");
-            Item[] items = tracker.findAll();
-            if (items.length == 0) {
+            List<Item> items = tracker.findAll();
+            int index = 1;
+            if (items.isEmpty()) {
                 System.out.println("No ticket found.");
             } else {
-                for (int i = 0; i < items.length; i++) {
-                    System.out.println("Order number: " + (i + 1));
-                    System.out.println(items[i].toString());
+                for (Item elmnt : items) {
+                    System.out.println("Order number: " + index++);
+                    System.out.println(elmnt.toString());
                 }
             }
         }
     }
-
     /**
      * this class finds all tickets with specific name
      */
@@ -200,19 +191,19 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Finding all tickets with a specific name --------------");
             String specName = input.ask("Enter the name for searching: ");
-            Item[] items = tracker.findByName(specName);
+            List<Item> items = tracker.findByName(specName);
+            int index = 1;
             System.out.println("------------ The tickets with the specific name review --------------");
-            if (items.length == 0) {
+            if (items.isEmpty()) {
                 System.out.println("No ticket found.");
             } else {
-                for (int i = 0; i < items.length; i++) {
-                    System.out.println("Order number: " + (i + 1));
-                    System.out.println(items[i].toString());
+                for (Item elmnt : items) {
+                    System.out.println("Order number: " + index++);
+                    System.out.println(elmnt.toString());
                 }
             }
         }
     }
-
     /**
      * the class finds a ticket with specific ID
      */
