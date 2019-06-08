@@ -82,7 +82,7 @@ public class Logic {
                     countColumn++;
                 }
             }
-            if (countColumn==table.length || countLine == table[0].length){
+            if (countColumn == table.length || countLine == table[0].length) {
                 result = true;
                 break;
             } else {
