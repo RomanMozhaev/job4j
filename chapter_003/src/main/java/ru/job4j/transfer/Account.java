@@ -24,6 +24,16 @@ public class Account {
         this.value = value;
     }
 
+    public boolean wire(Account dstAccount, double amount) {
+        boolean result = false;
+        if (this.getValue() >= amount) {
+            this.setValue(this.getValue() - amount);
+            dstAccount.setValue(dstAccount.getValue() + amount);
+            result = true;
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

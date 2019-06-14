@@ -147,12 +147,8 @@ public class Bank {
         boolean result = false;
         Account srcAccount = findByPassportNRequisite(srcPassport, srcRequisite);
         Account dstAccount = findByPassportNRequisite(dstPassport, dstRequisite);
-        if (srcAccount != null && dstAccount != null) {
-            if (srcAccount.getValue() >= amount) {
-                srcAccount.setValue(srcAccount.getValue() - amount);
-                dstAccount.setValue(dstAccount.getValue() + amount);
-                result = true;
-            }
+        if (srcAccount != null && dstAccount != null && amount > 0) {
+            result = srcAccount.wire(dstAccount, amount);
         }
         return result;
     }
