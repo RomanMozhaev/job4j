@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * the outside class for menu creating and inside classes for different actions.
@@ -29,6 +30,7 @@ public class MenuTracker {
      * the tracker contains tickets
      */
     private Tracker tracker;
+    private final Consumer<String> output;
     /**
      * the list of available actions
      */
@@ -40,9 +42,10 @@ public class MenuTracker {
      * @param tracker
      */
 
-    MenuTracker(Input input, Tracker tracker) {
+    MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
     public boolean isQuit() {
@@ -173,8 +176,7 @@ public class MenuTracker {
                 System.out.println("No ticket found.");
             } else {
                 for (Item elmnt : items) {
-                    System.out.println("Order number: " + index++);
-                    System.out.println(elmnt.toString());
+                    output.accept(String.format("Order number: %s|", index++) + elmnt.toString());
                 }
             }
         }
@@ -198,8 +200,8 @@ public class MenuTracker {
                 System.out.println("No ticket found.");
             } else {
                 for (Item elmnt : items) {
-                    System.out.println("Order number: " + index++);
-                    System.out.println(elmnt.toString());
+                    output.accept(elmnt.toString());
+
                 }
             }
         }
@@ -218,7 +220,7 @@ public class MenuTracker {
             String id = input.ask("Enter the ID for searching: ");
             Item item = tracker.findById(id);
             if (item != null) {
-                System.out.println(item.toString());
+                output.accept(item.toString());
             } else {
                 System.out.println("No ticket found.");
             }
