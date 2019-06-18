@@ -22,12 +22,11 @@ public class StartUITest {
      * Common fields for two new test with Before/ After
      */
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream stdout = new PrintStream(out);
-    private String result = "";
     private final Consumer<String> output = new Consumer<>() {
+        private final PrintStream stdout = new PrintStream(out);
         @Override
         public void accept(String s) {
-            result += s;
+            stdout.printf(s);
         }
     };
 
@@ -37,6 +36,24 @@ public class StartUITest {
     Item item2 = this.tracker.add(new Item("test second", "description of second", 124L));
     Item item3 = this.tracker.add(new Item("test third", "description of third", 125L));
     Item item4 = this.tracker.add(new Item("test second", "description of second number two", 126L));
+    String menu = new StringBuilder()
+            .append("Menu:")
+            .append(System.lineSeparator())
+            .append("0. Add New Ticket")
+            .append(System.lineSeparator())
+            .append("1. Edit The Ticket")
+            .append(System.lineSeparator())
+            .append("2. Delete The Ticket")
+            .append(System.lineSeparator())
+            .append("3. Review All Tickets")
+            .append(System.lineSeparator())
+            .append("4. Find  Tickets by Name")
+            .append(System.lineSeparator())
+            .append("5. Find A Ticket by ID")
+            .append(System.lineSeparator())
+            .append("6. Exit")
+            .append(System.lineSeparator())
+            .toString();
 
     /**
      * the method implements before tests
@@ -51,9 +68,7 @@ public class StartUITest {
      */
     @After
     public void backOutput() {
-        System.setOut(stdout);
         this.tracker = null;
-        this.result = "";
     }
 
     /**
@@ -65,6 +80,9 @@ public class StartUITest {
         Input input = new StubInput(answers);
         new StartUI(input, this.tracker, this.output).init();
         String expect = new StringBuilder()
+                .append(menu)
+                .append("------------ All tickets review --------------")
+                .append(System.lineSeparator())
                 .append("Order number: 1|")
                 .append(System.lineSeparator())
                 .append("Ticket's ID: " + this.item1.getId())
@@ -113,8 +131,9 @@ public class StartUITest {
                 .append(System.lineSeparator())
                 .append("----------------------")
                 .append(System.lineSeparator())
+                .append(menu)
                 .toString();
-        assertThat(result, is(expect));
+        assertThat(this.out.toString(), is(expect));
     }
 
     /**
@@ -126,6 +145,11 @@ public class StartUITest {
         Input input = new StubInput(answers);
         new StartUI(input, this.tracker, this.output).init();
         String expect = new StringBuilder()
+                .append(menu)
+                .append("------------ Finding all tickets with a specific name --------------")
+                .append(System.lineSeparator())
+                .append("------------ The tickets with the specific name review --------------")
+                .append(System.lineSeparator())
                 .append(System.lineSeparator())
                 .append("Ticket's ID: " + this.item3.getId())
                 .append(System.lineSeparator())
@@ -138,7 +162,7 @@ public class StartUITest {
                 .append("----------------------")
                 .append(System.lineSeparator())
                 .toString();
-        assertThat(result, is(expect));
+        assertThat(this.out.toString(), is(expect));
     }
 
     /**
