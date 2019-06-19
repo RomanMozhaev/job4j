@@ -1,6 +1,7 @@
 package ru.job4j.transfer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * the class Bank has different methods for operation with users and their accounts.
@@ -44,13 +45,9 @@ public class Bank {
      */
     private User findUserByPassport(String passport) {
         User returningUser = null;
-        Iterator usersIterator = this.usersList.keySet().iterator();
-        while (usersIterator.hasNext()) {
-            User user = (User) usersIterator.next();
-            if (user.getPassport().equals(passport)) {
-                returningUser = user;
-                break;
-            }
+        List<User> userList = this.usersList.keySet().stream().filter(key -> key.getPassport().equals(passport)).collect(Collectors.toList());
+        if (!userList.isEmpty()) {
+            returningUser = userList.get(0);
         }
         return returningUser;
     }
@@ -98,39 +95,20 @@ public class Bank {
         return accounts;
     }
     /**
-     * it finds an account using its requisite and return account's index in the arraylist.
-     * @param user - user
-     * @param requisite of the required account
-     * @return - index in the arraylist
-     */
-    private int getAccountIndex(User user, String requisite) {
-        int result = -1;
-        int index = 0;
-        Account account;
-        Iterator accounts = this.usersList.get(user).iterator();
-        while (accounts.hasNext()) {
-            account = (Account) accounts.next();
-            if (account.getRequisites().equals(requisite)) {
-                result = index;
-                break;
-            }
-            index++;
-        }
-        return result;
-    }
-
-    /**
      * The method finds the account using user's passport and its requisite
      * @param passport - user's passport
      * @param requisite - account's number
      * @return founded account or null
      */
     private Account findByPassportNRequisite(String passport, String requisite) {
-        User user = findUserByPassport(passport);
-        int accountIndex = getAccountIndex(user, requisite);
         Account account = null;
-        if (user != null && accountIndex > -1) {
-            account = this.usersList.get(user).get(accountIndex);
+        User user = findUserByPassport(passport);
+        List<Account> accounts = new ArrayList<>();
+        if (user != null) {
+            accounts = this.usersList.get(user).stream().filter(accnt -> accnt.getRequisites().equals(requisite)).collect(Collectors.toList());
+        }
+        if (!accounts.isEmpty()) {
+            account = accounts.get(0);
         }
         return account;
     }
