@@ -25,8 +25,7 @@ public class Profiles {
      * @return- list of unique sorted customers' addresses
      */
     public List<Address> uniqueAddressCollect(List<Profile> profiles) {
-        List<Address> uniqueAddresses = collect(profiles).stream().distinct().collect(Collectors.toList());
-        uniqueAddresses.sort(Comparator.comparing(Address::getCity));
-        return uniqueAddresses;
+        return collect(profiles).stream().sorted(Comparator.comparing(Address::getCity)).distinct().collect(Collectors.toList());
+
     }
 }
