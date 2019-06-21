@@ -1,8 +1,9 @@
 package ru.job4j.sorting;
 
+import java.util.Comparator;
 import java.util.Objects;
 
-public class Student {
+public class Student implements Comparator<Student> {
     private int score;
     private String name;
 
@@ -22,6 +23,11 @@ public class Student {
                 + ", name='" + name
                 + '\''
                 + '}';
+    }
+
+    @Override
+    public int compare(Student o1, Student o2) {
+        return Integer.compare(o1.getScore(), o2.getScore());
     }
 
     @Override
