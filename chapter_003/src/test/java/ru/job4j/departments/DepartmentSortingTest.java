@@ -16,7 +16,7 @@ public class DepartmentSortingTest {
         String[] departments = {"K1/SK1", "K1/SK2", "K1/SK1/SSK1", "K1/SK1/SSK2", "K2", "K2/SK1/SSK1", "K2/SK1/SSK2"};
         DepartmentSorting sorting = new DepartmentSorting();
         List<String> result = sorting.departmentsAscendingSorting(departments);
-        List<String> expect = new ArrayList<>(Arrays.asList("K1", "K1/SK1", "K1/SK1/SSK1", "K1/SK1/SSK2", "K1/SK2", "K2", "K2/SK1", "K2/SK1/SSK1", "K2/SK1/SSK2"));
+        List<String> expect = List.of("K1", "K1/SK1", "K1/SK1/SSK1", "K1/SK1/SSK2", "K1/SK2", "K2", "K2/SK1", "K2/SK1/SSK1", "K2/SK1/SSK2");
         assertThat(result, is(expect));
     }
     /**
@@ -27,7 +27,7 @@ public class DepartmentSortingTest {
         String[] departments = {"K1/SK1", "K1/SK2", "K1/SK1/SSK1", "K1/SK1/SSK2", "K2", "K2/SK1/SSK1", "K2/SK1/SSK2"};
         DepartmentSorting sorting = new DepartmentSorting();
         List<String> result = sorting.departmentsDescendingSorting(departments);
-        List<String> expect = new ArrayList<>(Arrays.asList("K2", "K2/SK1", "K2/SK1/SSK2", "K2/SK1/SSK1", "K1", "K1/SK2", "K1/SK1", "K1/SK1/SSK2", "K1/SK1/SSK1"));
+        List<String> expect = List.of("K2", "K2/SK1", "K2/SK1/SSK2", "K2/SK1/SSK1", "K1", "K1/SK2", "K1/SK1", "K1/SK1/SSK2", "K1/SK1/SSK1");
         assertThat(result, is(expect));
     }
 

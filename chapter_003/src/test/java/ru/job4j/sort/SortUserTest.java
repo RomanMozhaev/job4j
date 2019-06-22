@@ -16,7 +16,7 @@ public class SortUserTest {
      */
     @Test
     public void whenListThenSortedSet() {
-        List<User> list = new ArrayList<>(Arrays.asList(
+        List<User> list = List.of(
                 new User("Anna", 23),
                 new User("Yulia", 24),
                 new User("Alex", 12),
@@ -26,10 +26,10 @@ public class SortUserTest {
                 new User("Polina", 32),
                 new User("Sergey", 18),
                 new User("Alla", 56)
-        ));
+        );
         SortUser sortUsers = new SortUser();
         Set<User> result = sortUsers.sort(list);
-        Set<User> expect = new TreeSet<>(Arrays.asList(
+        Set<User> expect = new TreeSet<>(Set.of(
                 new User("Alex", 12),
                 new User("Sergey", 18),
                 new User("Anna", 23),
@@ -47,7 +47,7 @@ public class SortUserTest {
      */
     @Test
     public void whenListThenSortedByNameLength() {
-        List<User> list = new ArrayList<>(Arrays.asList(
+        List<User> list = new ArrayList<>(List.of(
                 new User("Anna", 23),
                 new User("Yulia", 24),
                 new User("Alex", 12),
@@ -60,7 +60,7 @@ public class SortUserTest {
         ));
         SortUser sortUsers = new SortUser();
         List<User> result = sortUsers.sortNameLength(list);
-        List<User> expect = new ArrayList<>(Arrays.asList(
+        List<User> expect = List.of(
                 new User("Anna", 23),
                 new User("Alex", 12),
                 new User("Eric", 34),
@@ -70,7 +70,7 @@ public class SortUserTest {
                 new User("Polina", 34),
                 new User("Polina", 32),
                 new User("Sergey", 18)
-        ));
+        );
         assertThat(result, is(expect));
     }
 
@@ -79,7 +79,7 @@ public class SortUserTest {
      */
     @Test
     public void whenListThenSortedByAllFields() {
-        List<User> list = new ArrayList<>(Arrays.asList(
+        List<User> list = new ArrayList<>(List.of(
                 new User("Anna", 23),
                 new User("Yulia", 24),
                 new User("Alex", 15),
@@ -91,7 +91,7 @@ public class SortUserTest {
         ));
         SortUser sortUsers = new SortUser();
         List<User> result = sortUsers.sortByAllFields(list);
-        List<User> expect = new ArrayList<>(Arrays.asList(
+        List<User> expect = new ArrayList<>(List.of(
                 new User("Alex", 15),
                 new User("Alex", 17),
                 new User("Anna", 23),

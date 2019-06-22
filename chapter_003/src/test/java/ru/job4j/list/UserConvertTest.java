@@ -16,13 +16,13 @@ public class UserConvertTest {
      */
     @Test
     public void when3UsersThenAddedToHashMap() {
-        List<User> list = new ArrayList<>(Arrays.asList(
+        List<User> list = List.of(
                 new User(3, "Peter", "NYC"),
                 new User(5, "Matt", "Washington"),
                 new User(7, "Craig", "Las Vegas"),
                 new User(9, "Sarah", "Kent"),
                 new User(11, "Amber", "NYC")
-        ));
+        );
         UserConvert userConvert = new UserConvert();
         HashMap<Integer, User> result = userConvert.process(list);
         assertThat(result.get(11).getName(), is("Amber"));
