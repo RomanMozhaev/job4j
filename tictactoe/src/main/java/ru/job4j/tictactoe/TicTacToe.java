@@ -16,7 +16,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+
 public class TicTacToe extends Application {
+
     private static final String JOB4J = "Крестики-нолики www.job4j.ru";
     private final int size = 3;
     private final Figure3T[][] cells = new Figure3T[size][size];
@@ -124,11 +126,11 @@ public class TicTacToe extends Application {
         control.setPrefHeight(40);
         control.setSpacing(10.0);
         control.setAlignment(Pos.BASELINE_CENTER);
-//        Button start = new Button("Начать");
-//        start.setOnMouseClicked(
-//                event -> border.setCenter(this.buildGrid())
-//        );
-//        control.getChildren().addAll(start);
+        Button start = new Button("Start");
+        start.setOnMouseClicked(
+                event -> border.setCenter(this.buildGrid())
+        );
+        control.getChildren().addAll(start);
         border.setBottom(control);
         border.setCenter(this.buildGrid());
         stage.setScene(new Scene(border, 300, 300));
