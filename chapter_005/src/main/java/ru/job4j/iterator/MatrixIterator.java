@@ -1,10 +1,11 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MatrixIterator implements Iterator<Integer> {
 
-    private final int [][] matrix;
+    private final int[][] matrix;
     int column;
     int row;
 
@@ -21,12 +22,16 @@ public class MatrixIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        int result = this.matrix[this.row][this.column];
-        this.column++;
-        if (this.column == this.matrix[this.row].length) {
-            this.row++;
-            this.column = 0;
+        if (hasNext()) {
+            int result = this.matrix[this.row][this.column];
+            this.column++;
+            if (this.column == this.matrix[this.row].length) {
+                this.row++;
+                this.column = 0;
+            }
+            return result;
+        } else {
+            throw (new NoSuchElementException());
         }
-        return result;
     }
 }
