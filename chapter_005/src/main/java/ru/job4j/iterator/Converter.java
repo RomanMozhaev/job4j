@@ -14,16 +14,15 @@ public class Converter {
             private Iterator<Integer> nextIt = null;
             @Override
             public boolean hasNext() {
+
                 boolean result = false;
-                if (this.nextIt == null) {
-                    if (it.hasNext()) {
-                        this.nextIt = it.next();
-                    }
+                if (this.nextIt == null && it.hasNext()) {
+                    this.nextIt = it.next();
                 }
                 while (it.hasNext() && !this.nextIt.hasNext()) {
                     this.nextIt = it.next();
                 }
-                if (this.nextIt.hasNext() || it.hasNext()) {
+                if (this.nextIt.hasNext()) {
                     result = true;
                 }
                 return result;
@@ -31,22 +30,10 @@ public class Converter {
 
             @Override
             public Integer next() {
-                int result;
-                if (this.hasNext()) {
-                    if (this.nextIt.hasNext()) {
-                        result = this.nextIt.next();
-                    } else {
-                        if (it.hasNext()) {
-                            this.nextIt = it.next();
-                            result = this.nextIt.next();
-                        } else {
-                            throw new NoSuchElementException();
-                        }
-                    }
-                } else {
-                    throw (new NoSuchElementException());
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                return result;
+                return nextIt.next();
             }
         };
     }
