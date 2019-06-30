@@ -35,18 +35,20 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index - index of the element for replacing
      * @param model - the new element for adding instead of the old element
      */
-    public void set(int index, T model) {
+    public boolean set(int index, T model) {
         checkIndex(index);
         array[index] = model;
+        return true;
     }
     /**
      * the method removes the element in the cell with index
      * @param index
      */
-    public void remove(int index) {
+    public boolean remove(int index) {
         checkIndex(index);
         System.arraycopy(this.array, (index + 1), this.array, index, position - index);
         position--;
+        return true;
     }
     /**
      * the method returns the element with index if it exists.
