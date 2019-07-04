@@ -1,4 +1,4 @@
-package simplearraylist;
+package ru.job4j.simplearraylist;
 
 public class SimpleArrayList<E> {
 
