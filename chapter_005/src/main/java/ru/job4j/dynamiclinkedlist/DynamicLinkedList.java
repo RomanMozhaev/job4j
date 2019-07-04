@@ -45,19 +45,6 @@ public class DynamicLinkedList<E> implements Iterable<E> {
     }
 
     public E get(int position) {
-        return getNode(position).element;
-    }
-
-    public E remove(int position) {
-        Node<E> node = getNode(position);
-        Node<E> prev = node.previous;
-        Node<E> next = node.next;
-        prev.next = next;
-        next.previous = prev;
-        return node.element;
-    }
-
-    private Node<E> getNode(int position) {
         if (position >= this.nextIndex && position < 0) {
             throw new NullPointerException();
         }
@@ -67,7 +54,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
             node = node.next;
             index++;
         }
-        return node;
+        return node.element;
     }
 
 

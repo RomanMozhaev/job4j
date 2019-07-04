@@ -37,10 +37,5 @@ public class DynamicLinkedListTest {
         }
         assertThat(sum, is(21));
     }
-    @Test
-    public void whenDeletedThenNext() {
-        this.list.remove(4);
-        assertThat(this.list.get(4), is(6));
-    }
 
 }
