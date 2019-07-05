@@ -6,42 +6,39 @@ import java.util.Iterator;
 public class DynamicLinkedList<E> implements Iterable<E> {
 
     private int modCount;
-    private int nextIndex;
-    private Node<E> first = new Node<>(null, null, null);
-    private Node<E> last = new Node<>(null, null, null);
+    private int length;
+    private Node<E> lastAdded = new Node<>(null, null, null);
+    private Node<E> firstAdded = new Node<>(null, null, null);
 
     private int getModCount() {
         return this.modCount;
     }
 
-    private int getNextIndex() {
-        return this.nextIndex;
+    public int getLength() {
+        return this.length;
     }
 
-    private Node<E> getLast() {
-        return this.last;
+    private Node<E> getFirstAdded() {
+        return this.firstAdded;
     }
 
 
     public void add(E value) {
-        switch (this.nextIndex) {
-           case  0 :
-               this.first.element = value;
-               this.last.element = value;
-               break;
-            case 1 :
-                this.first.element = value;
-                this.first.previous = this.last;
-                this.last.next = this.first;
-                break;
-            default:
-                Node<E> node = this.first;
-                this.first = new Node<>(node, value, null);
-                node.next = this.first;
-                break;
+        if (this.length == 0) {
+            this.lastAdded.element = value;
+            this.firstAdded.element = value;
+        }
+        if (this.length == 1) {
+            this.lastAdded.element = value;
+            this.lastAdded.previous = this.firstAdded;
+            this.firstAdded.next = this.lastAdded;
+        } else {
+            Node<E> node = this.lastAdded;
+            this.lastAdded = new Node<>(node, value, null);
+            node.next = this.lastAdded;
         }
         this.modCount++;
-        this.nextIndex++;
+        this.length++;
     }
 
     public E get(int position) {
@@ -50,19 +47,46 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     public E remove(int position) {
         Node<E> node = getNode(position);
-        Node<E> prev = node.previous;
-        Node<E> next = node.next;
-        prev.next = next;
-        next.previous = prev;
+        if (this.length == 1) {
+            this.firstAdded = null;
+            this.lastAdded = null;
+        }
+        if (this.length == 2) {
+            lastAdded.previous = null;
+            firstAdded.next = null;
+            if (position == 0) {
+                firstAdded = lastAdded;
+            } else {
+                lastAdded = firstAdded;
+            }
+        }
+        if (this.length > 2) {
+            if (position == 0) {
+                this.firstAdded = this.firstAdded.next;
+                this.firstAdded.previous = null;
+            }
+            if (position == this.length - 1) {
+                this.lastAdded = this.lastAdded.previous;
+                this.lastAdded.next = null;
+            }
+            if (position > 0 && position < this.length - 1) {
+                Node<E> prev = node.previous;
+                Node<E> next = node.next;
+                prev.next = next;
+                next.previous = prev;
+            }
+        }
+        this.modCount++;
+        this.length--;
         return node.element;
     }
 
     private Node<E> getNode(int position) {
-        if (position >= this.nextIndex && position < 0) {
+        if (position >= this.length && position < 0) {
             throw new NullPointerException();
         }
         int index = 0;
-        Node<E> node = this.last;
+        Node<E> node = this.firstAdded;
         while (index != position) {
             node = node.next;
             index++;
@@ -76,9 +100,9 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         return new Iterator<E>() {
 
             private int expectedModCount = getModCount();
-            private int length = getNextIndex();
+            private int length = getLength();
             private int index;
-            private Node<E> node = getLast();
+            private Node<E> node = getFirstAdded();
 
             @Override
             public boolean hasNext() {
