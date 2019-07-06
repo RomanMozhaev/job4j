@@ -7,8 +7,8 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     private int modCount;
     private int length;
-    private Node<E> lastAdded = new Node<>(null, null, null);
-    private Node<E> firstAdded = new Node<>(null, null, null);
+    private Node<E> lastAdded;
+    private Node<E> firstAdded;
 
     private int getModCount() {
         return this.modCount;
@@ -25,8 +25,8 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     public void add(E value) {
         if (this.length == 0) {
-            this.lastAdded.element = value;
-            this.firstAdded.element = value;
+            this.lastAdded = new Node<>(null, value, null);
+            this.firstAdded = new Node<>(null, value, null);
         }
         if (this.length == 1) {
             this.lastAdded.element = value;
