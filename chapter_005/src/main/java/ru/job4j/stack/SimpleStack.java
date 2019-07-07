@@ -13,7 +13,7 @@ public class SimpleStack<T> {
         if (isEmpty()) {
             throw new EmptyStackException();
         }
-        return this.list.remove(this.list.getLength() - 1);
+        return this.list.removeLast();
     }
 
     public void push(T value) {

@@ -41,6 +41,20 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         return getNode(position).element;
     }
 
+    public E removeLast() {
+        E result = this.lastAdded.element;
+        if (this.lastAdded == this.firstAdded) {
+            this.lastAdded = null;
+            this.firstAdded = null;
+        } else {
+            this.lastAdded.previous.next = null;
+            this.lastAdded = this.lastAdded.previous;
+        }
+        this.modCount++;
+        this.length--;
+        return result;
+    }
+
     public E remove(int position) {
         Node<E> node = getNode(position);
         if (this.firstAdded == this.lastAdded) {
