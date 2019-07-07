@@ -7,8 +7,8 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     private int modCount;
     private int length;
-    private Node<E> lastAdded = new Node<>(null, null, null);
-    private Node<E> firstAdded = new Node<>(null, null, null);
+    private Node<E> lastAdded;
+    private Node<E> firstAdded;
 
     private int getModCount() {
         return this.modCount;
@@ -24,18 +24,14 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
 
     public void add(E value) {
+        Node<E> node = new Node<>(null, value, null);
         if (this.length == 0) {
-            this.lastAdded.element = value;
-            this.firstAdded.element = value;
-        }
-        if (this.length == 1) {
-            this.lastAdded.element = value;
-            this.lastAdded.previous = this.firstAdded;
-            this.firstAdded.next = this.lastAdded;
+            this.lastAdded = node;
+            this.firstAdded = this.lastAdded;
         } else {
-            Node<E> node = this.lastAdded;
-            this.lastAdded = new Node<>(node, value, null);
-            node.next = this.lastAdded;
+            this.lastAdded.next = node;
+            node.previous = this.lastAdded;
+            this.lastAdded = node;
         }
         this.modCount++;
         this.length++;
@@ -47,33 +43,23 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     public E remove(int position) {
         Node<E> node = getNode(position);
-        if (this.length == 1) {
+        if (this.firstAdded == this.lastAdded) {
             this.firstAdded = null;
             this.lastAdded = null;
-        }
-        if (this.length == 2) {
-            lastAdded.previous = null;
-            firstAdded.next = null;
-            if (position == 0) {
-                firstAdded = lastAdded;
+        } else {
+            if (node == firstAdded) {
+                firstAdded.next.previous = null;
+                firstAdded = firstAdded.next;
             } else {
-                lastAdded = firstAdded;
-            }
-        }
-        if (this.length > 2) {
-            if (position == 0) {
-                this.firstAdded = this.firstAdded.next;
-                this.firstAdded.previous = null;
-            }
-            if (position == this.length - 1) {
-                this.lastAdded = this.lastAdded.previous;
-                this.lastAdded.next = null;
-            }
-            if (position > 0 && position < this.length - 1) {
-                Node<E> prev = node.previous;
-                Node<E> next = node.next;
-                prev.next = next;
-                next.previous = prev;
+                if (node == lastAdded) {
+                    lastAdded.previous.next = null;
+                    lastAdded = lastAdded.previous;
+                } else {
+                    Node<E> prev = node.previous;
+                    Node<E> next = node.next;
+                    prev.next = next;
+                    next.previous = prev;
+                }
             }
         }
         this.modCount++;
@@ -97,7 +83,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
+        return new Iterator<>() {
 
             private int expectedModCount = getModCount();
             private int length = getLength();
@@ -134,7 +120,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         };
     }
 
-    private static class Node<E> {
+    class Node<E> {
         E element;
         Node<E> next;
         Node<E> previous;
