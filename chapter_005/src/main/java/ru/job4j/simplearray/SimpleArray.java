@@ -25,10 +25,10 @@ public class SimpleArray<T> implements Iterable<T> {
         if (this.position >= this.length) {
             throw new IndexOutOfBoundsException();
         }
-        if (model != null) {
+//        if (model != null) {
             array[position] = model;
             position++;
-        }
+//        }
     }
     /**
      * the method replaces the element with index with model if there is an element in the cell with index
