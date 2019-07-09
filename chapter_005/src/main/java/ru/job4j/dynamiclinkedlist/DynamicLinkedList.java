@@ -2,6 +2,8 @@ package ru.job4j.dynamiclinkedlist;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 public class DynamicLinkedList<E> implements Iterable<E> {
 
@@ -83,7 +85,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     private Node<E> getNode(int position) {
         if (position >= this.length && position < 0) {
-            throw new NullPointerException();
+            throw new IndexOutOfBoundsException();
         }
         int index = 0;
         Node<E> node = this.firstAdded;
@@ -118,7 +120,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
             public E next() {
                 modCheck();
                 if (!hasNext()) {
-                    throw new NullPointerException();
+                    throw new NoSuchElementException();
                 }
                 E result = node.element;
                 node = node.next;
