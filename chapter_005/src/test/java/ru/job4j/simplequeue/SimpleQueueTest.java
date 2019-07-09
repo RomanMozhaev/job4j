@@ -20,11 +20,22 @@ public class SimpleQueueTest {
     }
 
     @Test
-    public void whenThen() {
+    public void whenPollPushPullThenTreePolled() {
         queue.poll();
         queue.push(6);
         queue.poll();
         assertThat(queue.poll(), is(3));
+    }
+
+    @Test
+    public void whenAllPolledNewPushedThenSixPoll() {
+        queue.poll();
+        queue.poll();
+        queue.poll();
+        queue.poll();
+        queue.poll();
+        queue.push(6);
+        assertThat(queue.poll(), is(6));
     }
 
 }
