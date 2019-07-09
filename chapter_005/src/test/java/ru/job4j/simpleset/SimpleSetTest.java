@@ -19,4 +19,13 @@ public class SimpleSetTest {
         assertThat(set.toString(), is("Simple Set = {1, 2, 3, 4, 5}"));
     }
 
+    @Test
+    public void whenAddedOneNullOneThenOneNull() {
+        SimpleSet<Integer> set = new SimpleSet<>(10);
+        set.add(1);
+        set.add(null);
+        set.add(1);
+        assertThat(set.toString(), is("Simple Set = {1, null}"));
+    }
+
 }

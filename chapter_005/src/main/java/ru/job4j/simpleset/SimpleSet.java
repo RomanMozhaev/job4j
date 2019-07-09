@@ -13,17 +13,21 @@ public class SimpleSet<E> {
     }
 
     public void add(E e) {
-        boolean isIn = false;
+        if (isUnique(e)) {
+            this.list.add(e);
+        }
+    }
+
+    private boolean isUnique(E e) {
+        boolean uniqueE = true;
         Iterator<E> it = iterator();
         while (it.hasNext()) {
             if (it.next().equals(e)) {
-                isIn = true;
+                uniqueE = false;
                 break;
             }
         }
-        if (!isIn) {
-            this.list.add(e);
-        }
+        return uniqueE;
     }
 
     public Iterator<E> iterator() {
@@ -38,7 +42,7 @@ public class SimpleSet<E> {
         Iterator<E> it = iterator();
         while (it.hasNext()) {
             string.append(it.next());
-            if(it.hasNext()) {
+            if (it.hasNext()) {
                 string.append(", ");
             }
         }
