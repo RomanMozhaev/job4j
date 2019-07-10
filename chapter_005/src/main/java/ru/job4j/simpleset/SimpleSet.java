@@ -3,6 +3,7 @@ package ru.job4j.simpleset;
 import ru.job4j.simplearray.SimpleArray;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleSet<E> {
 
@@ -22,7 +23,7 @@ public class SimpleSet<E> {
         boolean uniqueE = true;
         Iterator<E> it = iterator();
         while (it.hasNext()) {
-            if (it.next().equals(e)) {
+            if (Objects.equals(it.next(), e)) {
                 uniqueE = false;
                 break;
             }
