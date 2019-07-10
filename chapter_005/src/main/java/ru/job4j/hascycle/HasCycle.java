@@ -7,8 +7,11 @@ public class HasCycle<T> {
         Node<T> hare = first;
         boolean result = false;
         while (hare != null && turtle != null) {
-            turtle = turtle.next;
+            if (hare.next == null) {
+                break;
+            }
             hare = hare.next.next;
+            turtle = turtle.next;
             if (turtle == hare) {
                 result = true;
                 break;
