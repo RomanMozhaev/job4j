@@ -37,7 +37,7 @@ public class Logic3T {
     private boolean checkWinner(Predicate<Figure3T> predicate) {
         boolean result = false;
         int i = 0;
-        while (result == false && i < coordinates.size()) {
+        while (!result && i < coordinates.size()) {
             int startX = coordinates.get(i).getCoordinateX();
             int startY = coordinates.get(i).getCoordinateY();
             int deltaX = coordinates.get(i).getDeltaX();
