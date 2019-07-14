@@ -30,7 +30,7 @@ public class TreeTest {
     }
 
     @Test
-    public void when() {
+    public void whenIteratorThenSum54() {
         Tree<Integer> tree = new Tree<>(1);
         tree.add(1, 2);
         tree.add(1, 3);
@@ -49,4 +49,34 @@ public class TreeTest {
 
     }
 
+    @Test
+    public void whenIsBinaryThenTrue() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(5, 7);
+        tree.add(5, 8);
+        tree.add(8, 10);
+        tree.add(10, 14);
+
+        assertTrue(tree.isBinary());
+
+    }
+    @Test
+    public void whenIsNotBinaryThenFalse() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(5, 7);
+        tree.add(5, 8);
+        tree.add(5, 10);
+        tree.add(10, 14);
+
+        assertFalse(tree.isBinary());
+
+    }
 }
