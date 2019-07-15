@@ -28,8 +28,9 @@ public class Analise {
                                 e -> e
                         ));
                 for (User user : current) {
-                    if (map.containsKey(user.getId())) {
-                        if (!map.containsValue(user)) {
+                    User mapUser = map.get(user.getId());
+                    if (mapUser != null) {
+                        if (!mapUser.equals(user)) {
                             changed++;
                         }
                     } else {
@@ -38,9 +39,6 @@ public class Analise {
                 }
                 int deleted = previous.size() - current.size() + added;
                 result = new Info(added, changed, deleted);
-                System.out.println(added);
-                System.out.println(changed);
-                System.out.println(deleted);
             }
         }
 
