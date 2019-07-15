@@ -38,6 +38,9 @@ public class Analise {
                 }
                 int deleted = previous.size() - current.size() + added;
                 result = new Info(added, changed, deleted);
+                System.out.println(added);
+                System.out.println(changed);
+                System.out.println(deleted);
             }
         }
 
