@@ -1,6 +1,8 @@
 package ru.job4j.analize;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Analise {
 
@@ -18,28 +20,27 @@ public class Analise {
                 result = new Info(0, 0, previous.size());
             } else {
                 int changed = 0;
-                List<User> listCrnt = new LinkedList<>();
-                List<User> listPrev = new LinkedList<>();
-                listCrnt.addAll(current);
-                listPrev.addAll(previous);
-                for (User userPrev : previous) {
-                    for (User userCrnt : current) {
-                        if (userPrev.equals(userCrnt)) {
-                            listCrnt.remove(userCrnt);
-                            listPrev.remove(userPrev);
-                            break;
-                        }
-                        if (userPrev.equalsId(userCrnt)) {
+                int added = 0;
+                Map<Integer, User> map = previous.stream()
+                        .flatMap(Stream:: ofNullable)
+                        .collect(Collectors.toMap(
+                                e -> e.getId(),
+                                e -> e
+                        ));
+                for (User user : current) {
+                    if (map.containsKey(user.getId())) {
+                        if (!map.containsValue(user)) {
                             changed++;
-                            listCrnt.remove(userCrnt);
-                            listPrev.remove(userPrev);
-                            break;
                         }
+                    } else {
+                        added++;
                     }
                 }
-                int added = listCrnt.size();
-                int deleted = listPrev.size();
+                int deleted = previous.size() - current.size() + added;
                 result = new Info(added, changed, deleted);
+                System.out.println(added);
+                System.out.println(changed);
+                System.out.println(deleted);
             }
         }
 

@@ -79,14 +79,13 @@ public class AnaliseTest {
         List<User> current = Arrays.asList(
                 new User(113, "First Modified"),
                 new User(115, "third"),
-                new User(116, "forth"),
                 new User(116, "forth Modified"),
                 new User(117, "fifth"),
                 new User(118, "sixth")
         );
         Analise analise = new Analise();
         Info info = analise.diff(previous, current);
-        Info expect = new Info(2, 1, 1);
+        Info expect = new Info(1, 2, 1);
         assertThat(info, is(expect));
 
     }

@@ -11,6 +11,14 @@ public class User {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public  boolean equalsId(User userOther) {
         return Objects.equals(this.id, userOther.id);
     }
