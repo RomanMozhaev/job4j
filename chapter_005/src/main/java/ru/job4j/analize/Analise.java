@@ -28,8 +28,9 @@ public class Analise {
                                 e -> e
                         ));
                 for (User user : current) {
-                    if (map.containsKey(user.getId())) {
-                        if (!map.containsValue(user)) {
+                    User mapUser = map.get(user.getId());
+                    if (mapUser != null) {
+                        if (!mapUser.equals(user)) {
                             changed++;
                         }
                     } else {
