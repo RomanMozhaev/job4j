@@ -23,7 +23,8 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public boolean add(E parent, E child) {
         boolean result = false;
         Optional<Node<E>> parentInTree = findBy(parent);
-        if (parentInTree.isPresent()) {
+
+        if (parentInTree.isPresent() && findBy(child).isEmpty()) {
             parentInTree.get().add(new Node<>(child));
             result = true;
             this.modCount++;
@@ -67,41 +68,45 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public Iterator<E> iterator() {
         return new Iterator<>() {
 
-            private int originModCount = getModCount();
-            private Queue<Node<E>> list;
+            private int originModCount = -1;
+            private List<Node<E>> list = new LinkedList<>(List.of(getRoot()));
+            private int index = 0;
 
             @Override
             public boolean hasNext() {
                 modCheck();
-                buildList();
-                return list.peek() != null;
+                boolean result = false;
+                if (this.list.size() > this.index) {
+                    result = true;
+                }
+                return result;
             }
 
             @Override
             public E next() {
                 modCheck();
-                buildList();
-                return list.remove().getValue();
+                if (!hasNext()) {
+                    throw new NullPointerException();
+                }
+                this.index++;
+                return list.get(this.index - 1).getValue();
             }
 
             private void modCheck() {
+                if (this.originModCount == -1) {
+                    buildList();
+                    this.originModCount = getModCount();
+                }
                 if (originModCount != getModCount()) {
                     throw new ConcurrentModificationException();
                 }
             }
 
             private void buildList() {
-                if (list == null) {
-                    list = new LinkedList<>();
-                    Queue<Node<E>> data = new LinkedList<>();
-                    data.offer(getRoot());
-                    while (!data.isEmpty()) {
-                        Node<E> el = data.poll();
-                        list.offer(el);
-                        for (Node<E> child : el.leaves()) {
-                            data.offer(child);
-                        }
-                    }
+                int i = 0;
+                while (this.list.size() > i) {
+                    this.list.addAll(this.list.get(i).leaves());
+                    i++;
                 }
             }
         };
