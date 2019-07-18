@@ -68,18 +68,13 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public Iterator<E> iterator() {
         return new Iterator<>() {
 
-            private int originModCount = -1;
+            private final int originModCount = getModCount();
             private List<Node<E>> list = new LinkedList<>(List.of(getRoot()));
-            private int index = 0;
 
             @Override
             public boolean hasNext() {
                 modCheck();
-                boolean result = false;
-                if (this.list.size() > this.index) {
-                    result = true;
-                }
-                return result;
+                return !list.isEmpty();
             }
 
             @Override
@@ -88,25 +83,14 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 if (!hasNext()) {
                     throw new NullPointerException();
                 }
-                this.index++;
-                return list.get(this.index - 1).getValue();
+                Node<E> result = list.remove(0);
+                list.addAll(result.leaves());
+                return result.getValue();
             }
 
             private void modCheck() {
-                if (this.originModCount == -1) {
-                    buildList();
-                    this.originModCount = getModCount();
-                }
                 if (originModCount != getModCount()) {
                     throw new ConcurrentModificationException();
-                }
-            }
-
-            private void buildList() {
-                int i = 0;
-                while (this.list.size() > i) {
-                    this.list.addAll(this.list.get(i).leaves());
-                    i++;
                 }
             }
         };
