@@ -19,7 +19,7 @@ public class SimpleHashMapTest {
     public void whenInsertSameThenFalse() {
         SimpleHashMap<Integer, String> map = new SimpleHashMap<>();
         map.insert(10, "First");
-        assertThat(map.insert(10, "First"), is(false));
+        assertThat(map.insert(10, "First"), is(true));
     }
 
 

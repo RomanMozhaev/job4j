@@ -10,7 +10,7 @@ import java.util.Objects;
  * @version July 13, 2019
  * The SimpleHashMap bases on array. Default length is 16;
  * Index calculates as key's hashcode % length
- * If the array's cell with index is not empty, SimpleHashMap does not add the new element and return false.
+ * If the array's cell with index is not empty, SimpleHashMap replace the element in cell with the new element and return true.
  * @param <K> - key
  * @param <V> - value
  */
@@ -49,17 +49,24 @@ public class SimpleHashMap<K, V> {
         Element element = new Element(key, value);
         boolean result = false;
         int index = getIndex(key);
-        if (this.map[index] == null) {
-            this.map[index] = element;
+        Element elementInMap = (Element) this.map[index];
+        if (elementInMap == null) {
             result = true;
             this.elementsQuantity++;
+            this.map[index] = element;
             this.modCount++;
+        } else {
+            if (elementInMap.getKey().equals(element.getKey())) {
+                result = true;
+                this.map[index] = element;
+                this.modCount++;
+            }
         }
         return result;
     }
     public V get(K key) {
         V result = null;
-        int keyHash = key.hashCode();
+        int keyHash = Objects.hash(key);
         Element element = (Element) this.map[getIndex(key)];
         if (element != null && element.getHashCode() == keyHash && Objects.equals(element.getKey(), key)) {
             result = element.getValue();
@@ -80,7 +87,7 @@ public class SimpleHashMap<K, V> {
     }
 
     private int getIndex(K key) {
-        return key == null ? 0 : key.hashCode() % this.length;
+        return key == null ? 0 : Objects.hash(key) % this.length;
     }
 
     private void extendArray() {
@@ -141,7 +148,7 @@ public class SimpleHashMap<K, V> {
         public Element(K key, V value) {
             this.key = key;
             this.value = value;
-            this.hashCode = key.hashCode();
+            this.hashCode = Objects.hash(key);
         }
 
         public K getKey() {
