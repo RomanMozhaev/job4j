@@ -1,26 +1,29 @@
 package ru.job4j.io;
 
+import java.io.File;
+import java.util.List;
+
 public class Args {
 
     private String dir;
-    private String exclude;
-    private String output;
+    private List<String> exclude;
+    private File output;
 
-    public Args(String dir, String exclude, String output) {
+    public Args(String dir, List<String> exclude, String output) {
         this.dir = dir;
         this.exclude = exclude;
-        this.output = output;
+        this.output = new File(output);
     }
 
     public String getDir() {
         return dir;
     }
 
-    public String getExclude() {
+    public List<String> getExclude() {
         return exclude;
     }
 
-    public String getOutput() {
+    public File getOutput() {
         return output;
     }
 }

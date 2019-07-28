@@ -1,22 +1,40 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
-    public List<File> seekBy(String root, String ext) {
-
-        return null;
+    public List<File> seekBy(String root, List<String> ext) {
+        Search search = new Search();
+        List<File> list = search.files(root);
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            String name = list.get(i).getName();
+            for (String extension : ext) {
+                if (name.endsWith("." + extension)) {
+                    list.remove(i);
+                    size--;
+                    i--;
+                    break;
+                }
+            }
+        }
+        return list;
     }
 
-    public void pack(File source, File target) {
+    public void pack(List<File> sources, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes());
+            if (sources != null) {
+                for (File file : sources) {
+                    zip.putNextEntry(new ZipEntry(file.getPath()));
+                    try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(file))) {
+                        zip.write(out.readAllBytes());
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,6 +42,8 @@ public class Zip {
     }
 
     public static void main(String[] args) {
-        new Zip().pack(new File("./chapter_005/pom.xml"), new File("./chapter_005/pom.zip"));
+        Zip zip = new Zip();
+        Args a = new Args("chapter_005", Arrays.asList("java", "xml"), "project.zip");
+        zip.pack(zip.seekBy(a.getDir(), a.getExclude()), a.getOutput());
     }
 }
