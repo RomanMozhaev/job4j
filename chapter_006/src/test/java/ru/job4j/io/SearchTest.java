@@ -15,8 +15,7 @@ public class SearchTest {
         Search search = new Search();
         List<String> exts = List.of("qwe", "rts");
         String parent = System.getProperty("java.io.tmpdir") + "/ScannerTest";
-        System.out.println(parent);
-        List<File> resultList = search.files(parent, exts);
+        List<File> resultList = search.exists(parent, exts);
         StringBuilder result = new StringBuilder();
         for (File file : resultList) {
             result.append(file.getName());
