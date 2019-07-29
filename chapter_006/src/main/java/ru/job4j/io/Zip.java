@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -15,7 +14,7 @@ public class Zip {
         for (int i = 0; i < size; i++) {
             String name = list.get(i).getName();
             for (String extension : ext) {
-                if (name.endsWith("." + extension)) {
+                if (name.endsWith(extension.substring(1))) {
                     list.remove(i);
                     size--;
                     i--;
@@ -42,8 +41,8 @@ public class Zip {
     }
 
     public static void main(String[] args) {
+        Args a = new Args(args);
         Zip zip = new Zip();
-        Args a = new Args("chapter_005", Arrays.asList("java", "xml"), "project.zip");
         zip.pack(zip.seekBy(a.getDir(), a.getExclude()), a.getOutput());
     }
 }
