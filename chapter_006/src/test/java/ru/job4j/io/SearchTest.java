@@ -10,11 +10,14 @@ import static org.junit.Assert.*;
 
 public class SearchTest {
 
+    private final String dir = "/home/roman/Projects/job4j/temp";
+
     @Test
     public void whenThen() {
         Search search = new Search();
         List<String> exts = List.of("qwe", "rts");
-        String parent = System.getProperty("java.io.tmpdir") + "/ScannerTest";
+        String parent = dir + "/ScannerTest";
+//        String parent = System.getProperty("java.io.tmpdir") + "/ScannerTest";
         List<File> resultList = search.exists(parent, exts);
         StringBuilder result = new StringBuilder();
         for (File file : resultList) {

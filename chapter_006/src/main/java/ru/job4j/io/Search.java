@@ -1,9 +1,7 @@
 package ru.job4j.io;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Search {
 
@@ -15,12 +13,20 @@ public class Search {
             int size = files.size();
             while (i < size) {
                 File f = files.get(i++);
-                String name = f.getName();
-                for (String ext : exts) {
-                    if (name.endsWith("." + ext)) {
-                        result.add(f);
-                    }
+                if (checkExtends(f.getName(), exts)) {
+                    result.add(f);
                 }
+            }
+        }
+        return result;
+    }
+
+    private boolean checkExtends(String fileName, List<String> exts) {
+        boolean result = false;
+        for (String ext : exts) {
+            if (fileName.endsWith("." + ext)) {
+                result = true;
+                break;
             }
         }
         return result;
@@ -28,15 +34,14 @@ public class Search {
 
     public List<File> files(String parent) {
         List<File> result = new ArrayList<>();
-        List<File> list = new ArrayList<>();
+        Queue<File> list = new LinkedList<>();
         File file = new File(parent);
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (files != null) {
                 list.addAll(Arrays.asList(files));
-                int i = 0;
-                while (i < list.size()) {
-                    file = list.get(i++);
+                while (!list.isEmpty()) {
+                    file = list.poll();
                     if (file.isFile()) {
                         result.add(file);
                     } else {
