@@ -2,13 +2,16 @@ package ru.job4j.socket;
 
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
 
 public class Server {
 
-    public final Socket socket;
+    private final Socket socket;
+    private final HashMap<String, String> map = new HashMap<>();
 
     public Server(Socket socket) {
         this.socket = socket;
+        this.initAnswersMap();
     }
 
     public void runServer() throws IOException {
@@ -24,27 +27,17 @@ public class Server {
     }
 
     private String getAnswer(String ask) {
-        String answer;
-        switch (ask) {
-            case "Hello Oracle" :
-                answer = "Hello, dear friend, I'm an oracle.";
-                break;
-            case "Say my name" :
-                answer = "My name";
-                break;
-            case "Which weekday is today?" :
-                answer = "Please, see the calendar, I am tired";
-                break;
-            case "What do you know about my future?" :
-                answer = "I am almost sure, you will wake up tomorrow morning";
-                break;
-            default:
-                answer = "I don't understand you";
-                break;
-        }
-        answer = answer + System.lineSeparator();
-        return answer;
+        return this.map.getOrDefault(ask, "I don't understand you") + System.lineSeparator();
     }
+
+    private void initAnswersMap() {
+        this.map.put("Hello Oracle", "Hello, dear friend, I'm an oracle.");
+        this.map.put("Say my name", "My name");
+        this.map.put("Which weekday is today?", "Please, see the calendar, I am tired");
+        this.map.put("What do you know about my future?", " am almost sure, you will wake up tomorrow morning");
+    }
+
+
 
     public static void main(String[] args) {
         try (Socket socket = new ServerSocket(15432).accept()) {
