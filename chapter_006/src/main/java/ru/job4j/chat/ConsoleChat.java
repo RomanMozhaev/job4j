@@ -6,16 +6,16 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ConsoleChat {
-    String exit = "ЗАКОНЧИТЬ";
-    String continuing = "ПРОДОЛЖИТЬ";
-    String stop = "СТОП";
-    File file;
+    private static final String EXIT = "ЗАКОНЧИТЬ";
+    private static final String CONTINUING = "ПРОДОЛЖИТЬ";
+    private static final String STOP = "СТОП";
+    private final File file;
 
     public ConsoleChat(String path) {
         this.file = new File(path);
     }
 
-    public void run() {
+    private void run() {
         String say;
         boolean answering = true;
         try {
@@ -25,16 +25,16 @@ public class ConsoleChat {
             System.out.println("Введите ЗАКОНЧИТЬ, чтобы закрыть программу");
             do {
                 say = br.readLine();
-                if (this.stop.equals(say.toUpperCase())) {
+                if (ConsoleChat.STOP.equals(say.toUpperCase())) {
                     answering = false;
                 }
-                if (this.continuing.equals(say.toUpperCase())) {
+                if (ConsoleChat.CONTINUING.equals(say.toUpperCase())) {
                     answering = true;
                 }
                 if (answering) {
                     System.out.println(getAnswer(say));
                 }
-            } while (!this.exit.equals(say.toUpperCase()));
+            } while (!ConsoleChat.EXIT.equals(say.toUpperCase()));
         } catch (IOException e) {
             e.printStackTrace();
         }
