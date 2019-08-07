@@ -9,15 +9,21 @@ public class ConsoleChat {
     private static final String EXIT = "ЗАКОНЧИТЬ";
     private static final String CONTINUING = "ПРОДОЛЖИТЬ";
     private static final String STOP = "СТОП";
-    private final File file;
+    private final String filePath;
+    private List<String> answers;
+    private int listAnswersSize = 0;
 
-    public ConsoleChat(String path) {
-        this.file = new File(path);
+    public ConsoleChat(String filePath) {
+        this.filePath = filePath;
     }
 
     private void run() {
         String say;
         boolean answering = true;
+        this.answers = getAnswersList(new File(this.filePath));
+        if (this.answers != null) {
+            this.listAnswersSize = this.answers.size();
+        }
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Здравствуйте, я - консольный чат! Давайте поговорим!");
@@ -40,15 +46,22 @@ public class ConsoleChat {
         }
     }
 
-    private String getAnswer(String say) {
-        String result = "";
+    private List<String> getAnswersList(File file) {
+        List<String> list = null;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            List<String> list = br.lines().collect(Collectors.toList());
-            Random random = new Random(say.hashCode());
-            int string = random.nextInt(list.size());
-            result = list.get(string);
+            list = br.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return list;
+    }
+
+    private String getAnswer(String say) {
+        String result = "";
+        if (this.answers != null) {
+            Random random = new Random(say.hashCode());
+            int string = random.nextInt(this.listAnswersSize);
+            result = this.answers.get(string);
         }
         return result;
     }
