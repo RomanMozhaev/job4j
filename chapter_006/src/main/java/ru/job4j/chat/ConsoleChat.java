@@ -9,15 +9,16 @@ public class ConsoleChat {
     private static final String EXIT = "ЗАКОНЧИТЬ";
     private static final String CONTINUING = "ПРОДОЛЖИТЬ";
     private static final String STOP = "СТОП";
-    private final File file;
+    private final String filePath;
 
-    public ConsoleChat(String path) {
-        this.file = new File(path);
+    public ConsoleChat(String filePath) {
+        this.filePath = filePath;
     }
 
     private void run() {
         String say;
         boolean answering = true;
+        File file = new File(this.filePath);
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Здравствуйте, я - консольный чат! Давайте поговорим!");
@@ -32,7 +33,7 @@ public class ConsoleChat {
                     answering = true;
                 }
                 if (answering) {
-                    System.out.println(getAnswer(say));
+                    System.out.println(getAnswer(say, file));
                 }
             } while (!ConsoleChat.EXIT.equals(say.toUpperCase()));
         } catch (IOException e) {
@@ -40,7 +41,7 @@ public class ConsoleChat {
         }
     }
 
-    private String getAnswer(String say) {
+    private String getAnswer(String say, File file) {
         String result = "";
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             List<String> list = br.lines().collect(Collectors.toList());
