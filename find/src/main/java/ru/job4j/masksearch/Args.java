@@ -167,7 +167,6 @@ public class Args {
                 "Для выхода введите EXIT"
         ));
         Scanner scanner = new Scanner(System.in);
-        System.out.println("1");
         String string = scanner.nextLine();
         String a = "";
         for (char ch : string.toCharArray()) {
