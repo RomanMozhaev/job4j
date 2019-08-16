@@ -9,6 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class SearchTest {
+
     private final String dir = "/home/roman/Projects/job4j/temp";
 
     @Test

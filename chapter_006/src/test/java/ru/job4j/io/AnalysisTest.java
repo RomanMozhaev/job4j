@@ -13,6 +13,8 @@ import static org.junit.Assert.*;
 public class AnalysisTest {
     private final String dir = "/home/roman/Projects/job4j/temp";
 
+    private final String dir = "/home/roman/Projects/job4j/temp";
+
     @Test
     public void whenSourceThenTarget() {
         Analysis analysis = new Analysis();
