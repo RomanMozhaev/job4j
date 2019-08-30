@@ -11,15 +11,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class AnalysisTest {
-    private final String dir = "/home/roman/Projects/job4j/temp";
-
-    private final String dir = "/home/roman/Projects/job4j/temp";
+    private final String dir = "D:\\GoogleDrive\\Projects\\job4j\\temp\\";
 
     @Test
     public void whenSourceThenTarget() {
         Analysis analysis = new Analysis();
-        String source = dir + "/unavailable.csv";
-        String target = dir + "/time.txt";
+        String source = dir + "unavailable.csv";
+        String target = dir + "time.txt";
 //        String source = System.getProperty("java.io.tmpdir") + "/unavailable.csv";
 //        String target = System.getProperty("java.io.tmpdir") + "/time.txt";
         analysis.unavailable(source, target);
@@ -37,8 +35,8 @@ public class AnalysisTest {
     @Test
     public void whenSource2ThenTarget2() {
         Analysis analysis = new Analysis();
-        String source = dir + "/unavailable2.csv";
-        String target = dir + "/time2.txt";
+        String source = dir + "unavailable2.csv";
+        String target = dir + "time2.txt";
 //        String source = System.getProperty("java.io.tmpdir") + "/unavailable2.csv";
 //        String target = System.getProperty("java.io.tmpdir") + "/time2.txt";
         analysis.unavailable(source, target);
