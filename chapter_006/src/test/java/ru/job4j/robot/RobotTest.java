@@ -22,10 +22,10 @@ public class RobotTest {
         Robot robot = new Robot();
         List<Integer> way = robot.optimalWay(matrix, sx, sy, fx, fy);
         List<Integer> expect = List.of(1, 2, 3, 2, 1, 1);
-        assertThat(NumAndSpace(way), is(NumAndSpace(expect)));
+        assertThat(numAndSpace(way), is(numAndSpace(expect)));
     }
 
-    private String NumAndSpace(List<Integer> list) {
+    private String numAndSpace(List<Integer> list) {
         StringBuilder builder = new StringBuilder();
         for (Integer i: list) {
             builder.append(i);

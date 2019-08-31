@@ -135,8 +135,9 @@ import java.util.*;
                 if (!check(mask, file)) {
                     removeBranch(stack);
                 } else {
-                    if ((element = stack.peek()) == null
-                            || element.getDepth() == 1 && !element.isLeft() ) {
+                    element = stack.peek();
+                    if (element == null
+                            || element.getDepth() == 1 && !element.isLeft()) {
                         result = true;
                         break;
                     }
