@@ -16,7 +16,7 @@ public class StartUI {
     /**
      * ticket's storage
      */
-    private final Tracker tracker;
+    private final ITracker tracker;
     private final Consumer<String> output;
 
     /**
@@ -24,7 +24,7 @@ public class StartUI {
      * @param input receiving of user input initialisation.
      * @param tracker ticket's storage initialisation.
      */
-    public StartUI(Input input, Tracker tracker, Consumer<String> output) {
+    public StartUI(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
         this.output = output;

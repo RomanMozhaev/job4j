@@ -15,7 +15,7 @@ public interface UserAction {
      * @param input - user answers
      * @param tracker - tickets' tracker
      */
-    void execute(Input input, Tracker tracker);
+    void execute(Input input, ITracker tracker);
 
     /**
      * the method returns th sort description of the action.

@@ -29,7 +29,7 @@ public class MenuTracker {
     /**
      * the tracker contains tickets
      */
-    private Tracker tracker;
+    private ITracker tracker;
     private final Consumer<String> output;
     /**
      * the list of available actions
@@ -42,7 +42,7 @@ public class MenuTracker {
      * @param tracker
      */
 
-    MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
+    MenuTracker(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
         this.output = output;
@@ -101,7 +101,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Adding of a new ticket --------------");
             String name = input.ask("Enter the ticket name: ");
             String desc = input.ask("Enter the ticket description: ");
@@ -120,7 +120,7 @@ public class MenuTracker {
             super(info, key);
         }
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Editing of the ticket --------------");
             String id = input.ask("Enter the ID:");
             Item item = tracker.findById(id);
@@ -149,7 +149,7 @@ public class MenuTracker {
             super(info, key);
         }
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Deleting of the ticket --------------");
             String id = input.ask("Enter the ID:");
             if (tracker.delete(id)) {
@@ -168,7 +168,7 @@ public class MenuTracker {
             super(info, key);
         }
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ All tickets review --------------");
             List<Item> items = tracker.findAll();
             int index = 1;
@@ -190,7 +190,7 @@ public class MenuTracker {
             super(info, key);
         }
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Finding all tickets with a specific name --------------");
             String specName = input.ask("Enter the name for searching: ");
             List<Item> items = tracker.findByName(specName);
@@ -215,7 +215,7 @@ public class MenuTracker {
             super(info, key);
         }
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Finding the ticket by ID --------------");
             String id = input.ask("Enter the ID for searching: ");
             Item item = tracker.findById(id);
@@ -236,7 +236,7 @@ public class MenuTracker {
             super(info, key);
         }
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             setQuit(true);
         }
     }

@@ -8,7 +8,7 @@ import java.util.List;
  * @author RomanM
  * @version 1.1 May 9, 2019
  */
-public class Tracker {
+public class Tracker implements ITracker {
 
     private final List<Item> items = new ArrayList<>();
 //    private int position = 0;
