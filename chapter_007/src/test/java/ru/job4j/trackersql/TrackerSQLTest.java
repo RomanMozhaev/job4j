@@ -2,17 +2,37 @@ package ru.job4j.trackersql;
 
 import org.junit.Test;
 import ru.job4j.tracker.Item;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class TrackerSQLTest {
 
+    public Connection init() {
+        try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+
     @Test
-    public void whenAddThenAdded() {
-        TrackerSQL tracker = new TrackerSQL();
-        tracker.init();
+    public void whenAddThenAdded() throws SQLException {
+        TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()));
         long created = System.currentTimeMillis();
         Item item = new Item("test1", "testDescription", created);
         Item result = tracker.add(item);
@@ -21,18 +41,17 @@ public class TrackerSQLTest {
     }
 
     @Test
-    public void whenReplaceThenReplaced() {
-        TrackerSQL tracker = new TrackerSQL();
-        tracker.init();
+    public void whenReplaceThenReplaced() throws SQLException {
+        TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()));
         Item added = tracker.add(new Item("test3", "testDescription3", System.currentTimeMillis()));
         Item replacing = new Item("test4", "testDescription3", System.currentTimeMillis());
         assertThat(tracker.replace(added.getId(), replacing), is(true));
 
     }
+
     @Test
-    public void whenDeleteThanDeleted() {
-        TrackerSQL tracker = new TrackerSQL();
-        tracker.init();
+    public void whenDeleteThanDeleted() throws SQLException {
+        TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()));
         long created = System.currentTimeMillis();
         Item item = new Item("testDelete", "testDescription", created);
         Item result = tracker.add(item);
@@ -41,9 +60,8 @@ public class TrackerSQLTest {
     }
 
     @Test
-    public void whenFindAllThanFoundAll() {
-        TrackerSQL tracker = new TrackerSQL();
-        tracker.init();
+    public void whenFindAllThanFoundAll() throws SQLException {
+        TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()));
         long created = 12345;
         Item item = new Item("test3", "testDescription3", created);
         tracker.add(item);
@@ -54,9 +72,8 @@ public class TrackerSQLTest {
     }
 
     @Test
-    public void whenFindByNameThanFoundByName() {
-        TrackerSQL tracker = new TrackerSQL();
-        tracker.init();
+    public void whenFindByNameThanFoundByName() throws SQLException {
+        TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()));
         long created = 12345;
         Item item = new Item("tess4t4", "testDescription3", created);
         tracker.add(item);
@@ -69,9 +86,8 @@ public class TrackerSQLTest {
     }
 
     @Test
-    public void whenFindByIdThanFoundById() {
-        TrackerSQL tracker = new TrackerSQL();
-        tracker.init();
+    public void whenFindByIdThanFoundById() throws SQLException {
+        TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.init()));
         Item expect = tracker.add(new Item("testFindByName", "testDescription3", 12345));
         String id = expect.getId();
         Item result = tracker.findById(id);
