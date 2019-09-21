@@ -1,10 +1,15 @@
 package ru.job4j.optimization;
 
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
@@ -107,5 +112,15 @@ public class OptimizationTest {
             e.printStackTrace();
         }
         assertThat(result.toString(), is(expected));
+    }
+    @Test
+    public void whenParserBySAXThenSum() throws SAXException, ParserConfigurationException, IOException {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser parser = factory.newSAXParser();
+        SAXCount count = new SAXCount();
+        String fileName = "D:\\GoogleDrive\\database\\newFile.xml";
+        File file = new File(fileName);
+        parser.parse(file, count);
+        assertThat(count.getSum(), is(6));
     }
 }
