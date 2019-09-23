@@ -40,8 +40,9 @@ public class StoreSQL implements AutoCloseable {
             PreparedStatement ps = this.connect.prepareStatement("INSERT INTO entry VALUES (?)");
             for (int i = 1; i <= size; i++) {
                 ps.setInt(1, i);
-                ps.executeUpdate();
+                ps.addBatch();
             }
+            ps.executeBatch();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
