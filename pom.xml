@@ -137,6 +137,19 @@
 
     </dependencies>
 
+    <profile>
+        <id>travis</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <db.url>jdbc:postgresql://localhost/tracker</db.url>
+            <db.username>postgres</db.username>
+            <db.password></db.password>
+            <db.driver>org.postgresql.Driver</db.driver>
+        </properties>
+    </profile>
+
     <modules>
        <module>chapter_001</module>
        <module>chapter_002</module>
