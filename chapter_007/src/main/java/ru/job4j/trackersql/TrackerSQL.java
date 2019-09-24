@@ -21,6 +21,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     private static final Logger LOG = LogManager.getLogger(UsageLog4j2.class.getName());
     private Connection connection;
 
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
+    }
+
     /**
      * THe method initialises the connection to the data base.
      * @return true if connected

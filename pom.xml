@@ -4,14 +4,14 @@
     <artifactId>junior</artifactId>
     <packaging>pom</packaging>
     <version>2.0</version>
-     <name>junior</name>
-     <url>http://job4j.ru/</url>
+    <name>junior</name>
+    <url>http://job4j.ru/</url>
 
     <properties>
-       <maven.compiler.source>11</maven.compiler.source>
-       <maven.compiler.target>11</maven.compiler.target>
-       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-     </properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
@@ -81,30 +81,30 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
         <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-fxml</artifactId>
-          <version>11</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>11</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
         <dependency>
             <groupId>org.openjfx</groupId>
-           <artifactId>javafx-graphics</artifactId>
-           <version>11</version>
+            <artifactId>javafx-graphics</artifactId>
+            <version>11</version>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
         <dependency>
-           <groupId>org.openjfx</groupId>
-          <artifactId>javafx-base</artifactId>
-           <version>11</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>11</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
         <dependency>
-           <groupId>org.openjfx</groupId>
-           <artifactId>javafx-controls</artifactId>
-           <version>11</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
@@ -137,17 +137,38 @@
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/tracker</db.url>
+                <db.username>postgres</db.username>
+                <db.password>password</db.password>
+                <db.driver>org.postgresql.Driver</db.driver>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/tracker</db.url>
+                <db.username>postgres</db.username>
+                <db.password>password</db.password>
+                <db.driver>org.postgresql.Driver</db.driver>
+            </properties>
+        </profile>
+    </profiles>
+
     <modules>
-       <module>chapter_001</module>
-       <module>chapter_002</module>
-       <module>chapter_003</module>
-       <module>chapter_004</module>
-       <module>chapter_005</module>
-       <module>chapter_006</module>
+        <module>chapter_001</module>
+        <module>chapter_002</module>
+        <module>chapter_003</module>
+        <module>chapter_004</module>
+        <module>chapter_005</module>
+        <module>chapter_006</module>
         <module>chapter_007</module>
-       <module>puzzle</module>
-       <module>chess</module>
-       <module>tictactoe</module>
-	   <module>find</module>
+        <module>puzzle</module>
+        <module>chess</module>
+        <module>tictactoe</module>
+        <module>find</module>
     </modules>
 </project>
