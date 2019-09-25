@@ -1,0 +1,4 @@
+/home/roman/Projects/job4j/temp/maskSearch
+
+
+-d /home/roman/Projects/job4j/temp/maskSearch -n *.txt -m -o log.txt
