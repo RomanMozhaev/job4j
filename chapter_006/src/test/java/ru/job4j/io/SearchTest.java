@@ -10,29 +10,28 @@ import static org.junit.Assert.*;
 
 public class SearchTest {
 
-    private final String dir = "D:\\GoogleDrive\\Projects\\job4j\\temp\\";
+    private final String dir = "temp/";
 
     @Test
     public void whenThen() {
         Search search = new Search();
         List<String> exts = List.of("qwe", "rts");
         String parent = dir + "ScannerTest";
-//        String parent = System.getProperty("java.io.tmpdir") + "ScannerTest";
         List<File> resultList = search.exists(parent, exts);
         StringBuilder result = new StringBuilder();
         for (File file : resultList) {
             result.append(file.getName());
             result.append(System.lineSeparator());
         }
-//        assertThat(result.toString(), is(new StringBuilder()
-//                                        .append("Untitled Document 2.qwe")
-//                                        .append(System.lineSeparator())
-//                                        .append("Untitled Document 2.rts")
-//                                        .append(System.lineSeparator())
-//                                        .append("Untitled Document 3.qwe")
-//                                        .append(System.lineSeparator())
-//                                        .toString()
-//                                        ));
+        assertThat(result.toString(), is(new StringBuilder()
+                                        .append("Untitled Document 2.qwe")
+                                        .append(System.lineSeparator())
+                                        .append("Untitled Document 2.rts")
+                                        .append(System.lineSeparator())
+                                        .append("Untitled Document 3.qwe")
+                                        .append(System.lineSeparator())
+                                        .toString()
+                                        ));
     }
 
 }
