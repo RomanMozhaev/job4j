@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class OptimizationTest {
-    private String home = "database";
+    private String home = "database/";
 
     @Test
     public void whenGenerateThanTableExists() {
@@ -45,7 +45,7 @@ public class OptimizationTest {
     @Test
     public void whenListThanXML() {
 //        String target = "D:\\GoogleDrive\\database\\file.xml";
-        String target = home + "\\file.xml";
+        String target = home + "file.xml";
         int size = 3;
         StringBuilder result = new StringBuilder();
         String expected = new StringBuilder()
@@ -86,11 +86,11 @@ public class OptimizationTest {
     @Test
     public void whenOldXMLThanNewXML() {
 //        String source = "D:\\GoogleDrive\\database\\file.xml";
-        String source = home + "\\file.xml";
+        String source = home + "file.xml";
 //        String dest = "D:\\GoogleDrive\\database\\newFile.xml";
-        String dest = home + "\\newFile.xml";
+        String dest = home + "newFile.xml";
 //        String scheme = "D:\\GoogleDrive\\database\\template.xsl";
-        String scheme = home + "\\template.xsl";
+        String scheme = home + "template.xsl";
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><entries>"
                 + "\t<entry href=\"1\"/>"
                 + "\t<entry href=\"2\"/>"
@@ -124,7 +124,7 @@ public class OptimizationTest {
         SAXParser parser = factory.newSAXParser();
         SAXCount count = new SAXCount();
 //        String fileName = "D:\\GoogleDrive\\database\\newFile.xml";
-        String fileName = home + "\\newFile.xml";
+        String fileName = home + "newFile.xml";
         File file = new File(fileName);
         parser.parse(file, count);
         assertThat(count.getSum(), is(6));
