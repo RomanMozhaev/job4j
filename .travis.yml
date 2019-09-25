@@ -12,9 +12,9 @@ sudo: false
 before_install:
   - psql -c 'create database tracker;' -U postgres
 
-cashe:
-  directories:
-    -$HOME/.m2
+#cashe:
+#  directories:
+#    -$HOME/.m2
 
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
