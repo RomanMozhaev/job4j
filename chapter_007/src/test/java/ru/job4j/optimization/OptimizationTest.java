@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class OptimizationTest {
-    private String home = System.getProperty("user.home") + "\\.m2\\database";
+    private String home = "database";
 
     @Test
     public void whenGenerateThanTableExists() {
