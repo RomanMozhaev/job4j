@@ -6,8 +6,7 @@ import org.xml.sax.helpers.*;
 public class SAXCount extends DefaultHandler {
 
     private int sum;
-    private char[] chars;
-    int startPoint;
+    private final static String ENTRY = "entry";
 
     public int getSum() {
         return sum;
@@ -18,34 +17,19 @@ public class SAXCount extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-//        this.element = qName;
-    }
-
-    @Override
-    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-        String num = "";
-        char c;
-        if (qName.equals("entry")) {
-            do {
-                c = this.chars[this.startPoint++];
-            } while (c != '"');
-            while (c != '/') {
-                if (c >= '0' && c <= '9') {
-                    num += c;
-                }
-                c = this.chars[this.startPoint++];
-            }
-            if (!num.equals("")) {
-                this.sum += Integer.parseInt(num);
-            }
+    public void startElement(String namespaceURI, String localName, String qName, Attributes attributes) throws SAXException {
+        if (ENTRY.equals(qName)) {
+            this.sum += Integer.parseInt(attributes.getValue("href"));
         }
     }
 
     @Override
+    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+    }
+
+    @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-        this.chars = ch;
-        this.startPoint = start;
+
     }
 
     @Override
