@@ -45,7 +45,7 @@ public class OptimizationTest {
     @Test
     public void whenListThanXML() {
         String target = home + "file.xml";
-        int size = 3;
+        int size = 5;
         StringBuilder result = new StringBuilder();
         String expected = new StringBuilder()
                 .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")
@@ -92,7 +92,7 @@ public class OptimizationTest {
                 + "\t<entry href=\"2\"/>"
                 + "\t<entry href=\"3\"/></entries>";
         StringBuilder result = new StringBuilder();
-        int size = 3;
+        int size = 5;
         StoreSQL storeSQL = new StoreSQL(new Config());
         StoreXML storeXML = new StoreXML(source);
         ConvertXSQT convertXSQT = new ConvertXSQT();
@@ -124,6 +124,6 @@ public class OptimizationTest {
         String fileName = home + "newFile.xml";
         File file = new File(fileName);
         parser.parse(file, count);
-        assertThat(count.getSum(), is(6));
+        assertThat(count.getSum(), is(15));
     }
 }
