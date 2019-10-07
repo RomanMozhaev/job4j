@@ -2,23 +2,18 @@ package ru.job4j.trackersql;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.sqlstorage.UsageLog4j2;
 import ru.job4j.tracker.ITracker;
 import ru.job4j.tracker.Item;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 public class TrackerSQL implements ITracker, AutoCloseable {
 
-    private static final Logger LOG = LogManager.getLogger(UsageLog4j2.class.getName());
+    private static final Logger LOG = LogManager.getLogger(TrackerSQL.class.getName());
     private Connection connection;
 
     public TrackerSQL(Connection connection) {
