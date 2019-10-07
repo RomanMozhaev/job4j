@@ -1,0 +1,42 @@
+package ru.job4j.parser;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+
+import static org.quartz.JobBuilder.newJob;
+
+public class Starter {
+    private static final Logger LOG = LogManager.getLogger(Starter.class.getName());
+    public void start() {
+        Config config = new Config("appParser.properties");
+        config.init();
+        try {
+            SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+            Scheduler scheduler = schedulerFactory.getScheduler();
+            JobDetail job = newJob(ParserJob.class)
+                    .withIdentity("ParserJob", "group1")
+                    .usingJobData("url", config.get("url"))
+                    .usingJobData("username", config.get("username"))
+                    .usingJobData("password", config.get("password"))
+                    .usingJobData("website", config.get("website"))
+                    .build();
+            CronTrigger trigger = TriggerBuilder.newTrigger()
+                    .withIdentity("trigger1", "group1")
+                    .withSchedule(CronScheduleBuilder.cronSchedule(config.get("cron.time")))
+                    .forJob("ParserJob", "group1")
+                    .build();
+            scheduler.scheduleJob(job, trigger);
+            scheduler.start();
+//            scheduler.shutdown(true);
+        } catch (SchedulerException e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    public static void main(String[] args) {
+        Starter starter = new Starter();
+        starter.start();
+    }
+}
