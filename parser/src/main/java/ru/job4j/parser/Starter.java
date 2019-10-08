@@ -9,8 +9,8 @@ import static org.quartz.JobBuilder.newJob;
 
 public class Starter {
     private static final Logger LOG = LogManager.getLogger(Starter.class.getName());
-    public void start() {
-        Config config = new Config("appParser.properties");
+    public void start(String prop) {
+        Config config = new Config(prop);
         config.init();
         try {
             SchedulerFactory schedulerFactory = new StdSchedulerFactory();
@@ -36,7 +36,13 @@ public class Starter {
     }
 
     public static void main(String[] args) {
-        Starter starter = new Starter();
-        starter.start();
+        if (args.length != 0) {
+            String prop = args[0];
+            Starter starter = new Starter();
+            starter.start(prop);
+        } else {
+            System.out.println("Please try again to enter file with properties");
+        }
+
     }
 }

@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.*;
 
-public class Parser {
+public class Parser implements ParserInterface {
     private Map<String, Vacation> vacations = new LinkedHashMap<>();
     private static final Logger LOG = LogManager.getLogger(Parser.class.getName());
     private long lastDate;
@@ -42,7 +42,7 @@ public class Parser {
     /**
      * the method puts the vacation, if it fits to the parameters, to the map
      * @param url
-     * @return true if the recored was added
+     * @return true if the recorded was added
      */
     public boolean parse(String url) {
         boolean result = true;
