@@ -30,7 +30,7 @@ public class InteractCalc {
     private static final int SUB = 2;
     private static final int DIV = 3;
     private static final int MUL = 4;
-    private static final int EXIT = 5;
+    private int exit;
 
     /**
      * the constructor initializes fields.
@@ -116,7 +116,8 @@ public class InteractCalc {
         this.operations.add(new Subtrack("Sub-Track", SUB));
         this.operations.add(new Division("deviation", DIV));
         this.operations.add(new Multiple("Multiple", MUL));
-        this.operations.add(new Exit("Close the program", EXIT));
+        this.exit = this.operations.size() + 1;
+        this.operations.add(new Exit("Close the program", this.exit));
     }
 
     /**
@@ -138,14 +139,14 @@ public class InteractCalc {
     private void operate(String enter) {
         String choose = enter.substring(0, 1);
         char number = choose.charAt(0);
-        char quit = Integer.toString(EXIT).charAt(0);
+        char quit = Integer.toString(this.exit).charAt(0);
         if (number >= '1' && number < quit) {
             if (prepareCalc()) {
                 this.operations.get(Integer.parseInt(choose) - 1).execute();
                 showResult();
             }
         } else if (number == quit) {
-            this.operations.get(EXIT - 1).execute();
+            this.operations.get(this.exit - 1).execute();
         } else {
             System.out.println("The program cannot identify your enter, please try again");
         }
@@ -176,14 +177,14 @@ public class InteractCalc {
                 if (firstCh == 'y') {
                     setFirst(getResult());
                     if (!readDigits("second")) {
-                        this.operations.get(EXIT - 1).execute();
+                        this.operations.get(this.exit - 1).execute();
                         result = false;
                     }
                     question = false;
                 }
                 if (answer.charAt(0) == 'n') {
                     if (!readDigits("first") || !readDigits("second")) {
-                        this.operations.get(EXIT - 1).execute();
+                        this.operations.get(this.exit - 1).execute();
                         result = false;
                     }
                     question = false;
@@ -193,7 +194,7 @@ public class InteractCalc {
             }
         } else {
             if (!readDigits("first") || !readDigits("second")) {
-                this.operations.get(EXIT - 1).execute();
+                this.operations.get(this.exit - 1).execute();
                 result = false;
             }
         }
@@ -213,7 +214,7 @@ public class InteractCalc {
         while (!quit) {
             String number = this.input.ask("Enter 'q' for exit or " + position + " number: ");
             if (number.toLowerCase().charAt(0) == 'q') {
-                this.operations.get(EXIT - 1).execute();
+                this.operations.get(this.exit - 1).execute();
                 quit = true;
                 result = false;
             } else {
@@ -245,10 +246,18 @@ public class InteractCalc {
             operate(showMenu());
         } while (!this.close);
     }
+    public void startADD() {
+        this.operations.add(new Add("Add", ADD));
+        this.exit = this.operations.size() + 1;
+        this.operations.add(new Exit("Close the program", this.exit));
+        do {
+            operate(showMenu());
+        } while (!this.close);
+    }
 
     public static void main(String[] args) {
         InteractCalc calc = new InteractCalc(new ConsoleInput());
-        calc.start();
+        calc.startADD();
 
     }
 
