@@ -2,6 +2,7 @@ package ru.job4j.srpcalc;
 
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.*;
 
 public class InteractCalcTest {
@@ -37,5 +38,21 @@ public class InteractCalcTest {
         InteractCalc calc = new InteractCalc(input);
         calc.start();
         assertThat(calc.getResult(), is(5D));
+    }
+    @Test
+    public void whenSinAndDivThen1986() {
+        String[] answers = {"5", "0.2", "9"};
+        Input input = new TestInput(answers);
+        InteractCalc calc = new InteractCalc(input);
+        calc.startWithTrigonometric();
+        assertThat(calc.getResult(), closeTo(0.1986, 0.0001));
+    }
+    @Test
+    public void whenSinAndDivThen2013() {
+        String[] answers = {"5", "0.2", "7", "y", "9"};
+        Input input = new TestInput(answers);
+        InteractCalc calc = new InteractCalc(input);
+        calc.startWithTrigonometric();
+        assertThat(calc.getResult(), closeTo(0.2013, 0.0001));
     }
 }
