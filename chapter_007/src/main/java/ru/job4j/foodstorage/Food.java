@@ -12,22 +12,19 @@ public class Food {
      * create date
      * food prise
      * discount
-     * id of the food type
      */
     private String name;
     private long expireDate;
     private long createDate;
     private long price;
     private double discount;
-    private int typeId;
 
-    public Food(String name, long expireDate, long createDate, long price, double discount, int typeId) {
+    public Food(String name, long expireDate, long createDate, long price, double discount) {
         this.name = name;
         this.expireDate = expireDate;
         this.createDate = createDate;
         this.price = price;
         this.discount = discount;
-        this.typeId = typeId;
     }
 
     public String getName() {
@@ -52,10 +49,6 @@ public class Food {
 
     public void setPrice(long price) {
         this.price = price;
-    }
-
-    public int getTypeId() {
-        return typeId;
     }
 
     /**
