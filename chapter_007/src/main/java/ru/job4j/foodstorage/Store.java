@@ -24,4 +24,9 @@ interface Store {
      * @return the foods list
      */
     List<Food> getList();
+
+    /**
+     * the method removes all in the food list.
+     */
+    void clearList();
 }

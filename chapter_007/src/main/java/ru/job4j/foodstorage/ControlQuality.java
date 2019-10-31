@@ -1,5 +1,6 @@
 package ru.job4j.foodstorage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,18 @@ public class ControlQuality {
                 break;
             }
         }
+    }
+
+    /**
+     * the method resorts the food from all stores.
+     */
+    public void resort() {
+        List<Food> allFoodList = new ArrayList<>();
+        for (Store store : this.stores) {
+            allFoodList.addAll(store.getList());
+            store.clearList();
+        }
+        start(allFoodList);
     }
 
     /**

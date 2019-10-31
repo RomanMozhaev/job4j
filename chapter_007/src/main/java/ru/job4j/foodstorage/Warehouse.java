@@ -15,6 +15,11 @@ public class Warehouse implements Store {
     }
 
     @Override
+    public void clearList() {
+        this.list.clear();
+    }
+
+    @Override
     public boolean accept(Food food) {
         boolean result = false;
         long now = System.currentTimeMillis();
@@ -30,4 +35,6 @@ public class Warehouse implements Store {
     public void add(Food food) {
         this.list.add(food);
     }
+
+
 }

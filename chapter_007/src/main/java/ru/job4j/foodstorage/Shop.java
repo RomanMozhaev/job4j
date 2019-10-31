@@ -28,6 +28,11 @@ public class Shop implements Store {
     }
 
     @Override
+    public void clearList() {
+        this.list.clear();
+    }
+
+    @Override
     public boolean accept(Food food) {
         boolean result = false;
         long now = System.currentTimeMillis();
