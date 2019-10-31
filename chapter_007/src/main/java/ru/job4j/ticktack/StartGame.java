@@ -68,7 +68,7 @@ public class StartGame {
     private void init() {
         this.actionMap.put(1, new ComputerStart("Computer starts the game."));
         this.actionMap.put(2, new UserStart("User starts the game."));
-        this.actionMap.put(3, new twoUsers("Two Users' game."));
+        this.actionMap.put(3, new TwoUsers("Two Users' game."));
         this.exit = this.actionMap.size() + 1;
     }
 
@@ -173,16 +173,17 @@ public class StartGame {
             return this.title;
         }
     }
+
     /**
      * the class for the option when two users play the game.
      */
-    private class twoUsers implements Action {
+    private class TwoUsers implements Action {
         /**
          * the title of the option.
          */
         private String title;
 
-        public twoUsers(String title) {
+        public TwoUsers(String title) {
             this.title = title;
         }
 
