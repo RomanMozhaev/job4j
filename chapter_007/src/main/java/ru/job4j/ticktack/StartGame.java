@@ -21,7 +21,6 @@ public class StartGame {
     private int boardSize;
     private Map<Integer, Action> actionMap;
     private int exit;
-    private String userName;
 
     /**
      * the constructor for the class.
@@ -34,15 +33,6 @@ public class StartGame {
         this.boardSize = boardSize;
         this.actionMap = new HashMap<>();
 
-    }
-
-    /**
-     * returns the user name.
-     *
-     * @return the string with the user name.
-     */
-    public String getUserName() {
-        return userName;
     }
 
     /**
@@ -78,6 +68,7 @@ public class StartGame {
     private void init() {
         this.actionMap.put(1, new ComputerStart("Computer starts the game."));
         this.actionMap.put(2, new UserStart("User starts the game."));
+        this.actionMap.put(3, new twoUsers("Two Users' game."));
         this.exit = this.actionMap.size() + 1;
     }
 
@@ -101,7 +92,7 @@ public class StartGame {
                     .append(LN);
             System.out.println(sb);
             answer = askUserInput("Select: ", this.exit);
-            this.userName = this.input.ask("Enter your name:");
+//            this.userName = this.input.ask("Enter your name:");
             this.actionMap.get(answer).act();
         }
     }
@@ -147,7 +138,7 @@ public class StartGame {
         @Override
         public void act() {
             BoardInterface board = new Board(getBoardSize());
-            GameLogic logic = new GameLogic(board, new ComputerPlayer("Computer", 'X'), new UserPlayer(getUserName(), '0'));
+            GameLogic logic = new GameLogic(board, new ComputerPlayer("Computer", 'X'), new UserPlayer(input.ask("Enter your name:"), '0'));
             logic.game();
         }
 
@@ -173,7 +164,33 @@ public class StartGame {
         @Override
         public void act() {
             BoardInterface board = new Board(getBoardSize());
-            GameLogic logic = new GameLogic(board, new UserPlayer(getUserName(), 'X'), new ComputerPlayer("Computer", '0'));
+            GameLogic logic = new GameLogic(board, new UserPlayer(input.ask("Enter your name:"), 'X'), new ComputerPlayer("Computer", '0'));
+            logic.game();
+        }
+
+        @Override
+        public String getTitle() {
+            return this.title;
+        }
+    }
+    /**
+     * the class for the option when two users play the game.
+     */
+    private class twoUsers implements Action {
+        /**
+         * the title of the option.
+         */
+        private String title;
+
+        public twoUsers(String title) {
+            this.title = title;
+        }
+
+        @Override
+        public void act() {
+            BoardInterface board = new Board(getBoardSize());
+            GameLogic logic = new GameLogic(board, new UserPlayer(input.ask("Enter the name of the first player:"), 'X'),
+                    new UserPlayer(input.ask("Enter the name of the second player:"), '0'));
             logic.game();
         }
 

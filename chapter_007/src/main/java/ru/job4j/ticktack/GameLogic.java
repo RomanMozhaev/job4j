@@ -11,12 +11,14 @@ public class GameLogic {
      * player1 - the first player.
      * player2 - the second player.
      * drawn - the symbol for the draw game.
+     * ch - the symbol of the player who has made the move.
      */
     private BoardInterface board;
     private boolean player;
     private PlayerInterface player1;
     private PlayerInterface player2;
     private char drawn = 'D';
+    private char ch;
 
     /**
      * the constructor for the class.
@@ -37,49 +39,38 @@ public class GameLogic {
      */
     public void game() {
         this.board.initNewBoard();
-        char ch;
         do {
             System.out.println(this.board.printBoard());
             if (player) {
                 player = false;
-                playerOneMove();
-                ch = this.player1.getSymbol();
+                playerMove(this.player1);
             } else {
                 player = true;
-                playerTwoMove();
-                ch = this.player2.getSymbol();
+                playerMove(this.player2);
             }
             if (this.board.checkDrawn()) {
-                ch = drawn;
+                this.ch = drawn;
                 break;
             }
-        } while (!this.board.win(ch));
+        } while (!this.board.win(this.ch));
         System.out.println(this.board.printBoard());
-        if (ch == this.player1.getSymbol()) {
+        if (this.ch == this.player1.getSymbol()) {
             System.out.println(this.player1.getName() + " won!");
-        } else if (ch == this.player2.getSymbol()) {
+        } else if (this.ch == this.player2.getSymbol()) {
             System.out.println(this.player2.getName() + " won!");
-        } else if (ch == drawn) {
+        } else if (this.ch == drawn) {
             System.out.println("Drawn!");
         }
     }
 
     /**
-     * the method which is responsible for the move of the first player.
+     * the method which is responsible for the move of the player.
      */
-    private void playerOneMove() {
-        int[] move = this.player1.move(this.board);
-        this.board.setCell(move[0], move[1], this.player1.getSymbol());
+    private void playerMove(PlayerInterface player) {
+        System.out.println(player.getName() + " is moving");
+        int[] move = player.move(this.board);
+        this.board.setCell(move[0], move[1], player.getSymbol());
+        this.ch = player.getSymbol();
 
     }
-
-    /**
-     * the method which is responsible for the move of the second player.
-     */
-    private void playerTwoMove() {
-        int[] move = this.player2.move(this.board);
-        this.board.setCell(move[0], move[1], this.player2.getSymbol());
-    }
-
-
 }
