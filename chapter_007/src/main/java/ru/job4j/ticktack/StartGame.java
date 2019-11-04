@@ -69,6 +69,7 @@ public class StartGame {
         this.actionMap.put(1, new ComputerStart("Computer starts the game."));
         this.actionMap.put(2, new UserStart("User starts the game."));
         this.actionMap.put(3, new TwoUsers("Two Users' game."));
+        this.actionMap.put(4, new TwoComputers("Two Computers' game."));
         this.exit = this.actionMap.size() + 1;
     }
 
@@ -92,7 +93,6 @@ public class StartGame {
                     .append(LN);
             System.out.println(sb);
             answer = askUserInput("Select: ", this.exit);
-//            this.userName = this.input.ask("Enter your name:");
             this.actionMap.get(answer).act();
         }
     }
@@ -201,5 +201,31 @@ public class StartGame {
         }
     }
 
+    /**
+     * the class for the option when two computers play the game.
+     */
+    private class TwoComputers implements Action {
+        /**
+         * the title of the option.
+         */
+        private String title;
+
+        public TwoComputers(String title) {
+            this.title = title;
+        }
+
+        @Override
+        public void act() {
+            BoardInterface board = new Board(getBoardSize());
+            GameLogic logic = new GameLogic(board, new ComputerPlayer("Computer1", 'X'),
+                    new ComputerPlayer("Computer2", '0'));
+            logic.game();
+        }
+
+        @Override
+        public String getTitle() {
+            return this.title;
+        }
+    }
 
 }
