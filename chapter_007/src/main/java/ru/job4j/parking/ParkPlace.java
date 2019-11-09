@@ -1,32 +1,37 @@
 package ru.job4j.parking;
 
+/**
+ * the class of the park place on the parking.
+ */
 public class ParkPlace {
 
     /**
-     * type - parking place type.
-     * status - free or occupied and what type of vehicle.
-     * carNumber - the state numeric sign.
      * placeNum - the place number.
      */
     private int placeNum;
+    /**
+     * type - parking place type.
+     */
     private char type;
+    /**
+     * status - free or occupied
+     */
     private char status;
+    /**
+     * the state numeric sign of the parked car or "none".
+     */
     private String carNumber;
 
-    public ParkPlace(int placeNum, char type, char status) {
+    /**
+     * the main constructor.
+     * @param placeNum - the place number.
+     * @param type - the place type.
+     */
+    public ParkPlace(int placeNum, char type) {
         this.placeNum = placeNum;
         this.type = type;
-        this.status = status;
-    }
-
-    public ParkPlace(int placeNum, char type, String carNumber) {
-        this.placeNum = placeNum;
-        this.type = type;
-        this.carNumber = carNumber;
-    }
-
-    public ParkPlace(String carNumber) {
-        this.carNumber = carNumber;
+        this.status = 'F';
+        this.carNumber = "none";
     }
 
     public int getPlaceNum() {
@@ -43,14 +48,6 @@ public class ParkPlace {
 
     public String getCarNumber() {
         return carNumber;
-    }
-
-    public void setPlaceNum(int placeNum) {
-        this.placeNum = placeNum;
-    }
-
-    public void setType(char type) {
-        this.type = type;
     }
 
     public void setStatus(char status) {
