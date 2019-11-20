@@ -47,8 +47,7 @@ public class Sorter {
      * @return - the list of the sets.
      */
     public List<Set<Integer>> groupGroups(Map<Integer, Set<Integer>> repeat) {
-        List<Set<Integer>> groupedRepeat
-                = new ArrayList<>();
+        List<Set<Integer>> groupedRepeat = new ArrayList<>();
         for (Map.Entry<Integer, Set<Integer>> entry : repeat.entrySet()) {
             groupedRepeat.add(entry.getValue());
         }

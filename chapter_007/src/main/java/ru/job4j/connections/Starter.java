@@ -19,15 +19,14 @@ public class Starter {
         starter.start(fileName, splitter, limitNumber, finalFile);
     }
 
-    private void start(String fileName, String splitter, int limitNumber, String finalFile) throws IOException {
-        CSVReader reader = new CSVReader(splitter);
-        List<List<SimpleElement>> list = reader.readCSV(fileName);
+    public void start(String fileName, String splitter, int limitNumber, String finalFile) {
+        FileManager manager = new FileManager(splitter, limitNumber);
+        List<List<SimpleElement>> list = manager.readCSV(fileName);
         Sorter sorter = new Sorter();
         Map<Integer, Set<Integer>> foundRepeats = sorter.findRepeats(list);
         List<Set<Integer>> groupedGroups = sorter.groupGroups(foundRepeats);
         Map<Integer, List<Map<Integer, Set<Integer>>>> sortedGroups = sorter.sortGroups(groupedGroups);
         int bigGroups = sorter.calcBigGroups(groupedGroups, limitNumber);
-        FilePrinter printer = new FilePrinter(splitter, limitNumber);
-        printer.print(list, sortedGroups, bigGroups, finalFile);
+        manager.print(list, sortedGroups, bigGroups, finalFile);
     }
 }
