@@ -1,7 +1,7 @@
 package ru.job4j.garbage;
 
 public class User {
-    private String name ;
+    private String name;
     private long l = 9L;
 
 

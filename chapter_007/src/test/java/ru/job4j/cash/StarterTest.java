@@ -11,15 +11,7 @@ import static org.junit.Assert.*;
 
 public class StarterTest {
 
-    private static final String LN = System.lineSeparator();
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-//    private final Consumer<String> output = new Consumer<>() {
-//        private final PrintStream stdout = new PrintStream(out);
-//        @Override
-//        public void accept(String s) {
-//            stdout.printf(s);
-//        }
-//    };
 
     @Before
     public void loadOutput() {
@@ -34,31 +26,12 @@ public class StarterTest {
         Input input = new StubInput(list);
         Starter starter = new Starter(input);
         starter.start(path);
-        StringBuilder fileList = new StringBuilder();
-        fileList.append("The files in the folder: ")
-                .append(LN)
-                .append("fifth.txt")
-                .append(LN)
-                .append("first.txt")
-                .append(LN)
-                .append("fourth.txt")
-                .append(LN)
-                .append("second.txt")
-                .append(LN)
-                .append("third.txt")
-                .append(LN);
-        StringBuilder text = new StringBuilder();
-        text.append("fifth text file here")
-                .append(LN)
-                .append("fifth text file here")
-                .append(LN)
-                .append("fifth text file here")
-                .append(LN)
-                .append(LN);
-        String fileString = fileList.toString();
-        String textString = text.toString();
-        String expect = fileString + textString + fileString + textString + fileString;
-        assertThat(this.out.toString(), is(expect));
+        String expect = "fifth text file here";
+        String result = this.out.toString();
+        String[] array = result.split("\\n");
+
+        assertThat(array[6], is(expect));
+        assertThat(array[16], is(expect));
     }
 
 }

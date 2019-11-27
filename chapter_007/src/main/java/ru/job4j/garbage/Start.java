@@ -13,7 +13,7 @@ public class Start {
 
             for (int i = 0; i < 100; i++) {
                 new User("i");
-                System.out.print("Number "+ j + " " + i + " : ");
+                System.out.print("Number " + j + " " + i + " : ");
                 info();
             }
         }

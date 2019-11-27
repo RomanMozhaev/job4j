@@ -66,7 +66,8 @@ public class FileManagerTest {
                 .append("\"4\";\"10\";\"11\"")
                 .append("Group # 3")
                 .append("\"12\";\"13\";\"14\"");
-        List<List<SimpleElement>>source = new ArrayList<>();
+
+        List<List<SimpleElement>> source = new ArrayList<>();
         SimpleElement el1 = new SimpleElement("\"1\"", 0);
         SimpleElement el2 = new SimpleElement("\"2\"", 0);
         SimpleElement el3 = new SimpleElement("\"3\"", 0);

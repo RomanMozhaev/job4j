@@ -96,7 +96,7 @@ public class FileManager {
             if (it.hasNext()) {
                 d = it.next();
             }
-            int j = 0;
+            int j = -1;
             for (List<SimpleElement> row : list) {
                 j++;
                 if (j != d) {
