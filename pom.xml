@@ -218,5 +218,6 @@
         <module>tictactoe</module>
         <module>find</module>
         <module>parser</module>
+        <module>pingpong</module>
     </modules>
 </project>
