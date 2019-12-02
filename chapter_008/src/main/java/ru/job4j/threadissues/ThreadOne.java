@@ -12,7 +12,9 @@ public class ThreadOne implements Runnable {
 
     @Override
     public void run() {
-        while (i < 100) {
+        int j =0;
+        while (j < 100) {
+            j++;
             System.out.println(i++);
             try {
                 Thread.sleep(500);
