@@ -25,6 +25,10 @@ public class Downloader implements Runnable {
      */
     private String saveDir;
     /**
+     * the http connection.
+     */
+    private HttpURLConnection httpConn;
+    /**
      * the required maximum of the speed in bytes per sec.
      */
     private int requiredSpeed;
@@ -79,12 +83,9 @@ public class Downloader implements Runnable {
     @Override
     public void run() {
         try {
-            URL url = new URL(this.fileURL);
-            HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-            int responseCode = httpConn.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (initConnection()) {
                 String fileName = this.fileURL.substring(this.fileURL.lastIndexOf("/") + 1);
-                InputStream inputStream = httpConn.getInputStream();
+                InputStream inputStream = this.httpConn.getInputStream();
                 String saveFilePath = this.saveDir + File.separator + fileName;
                 FileOutputStream outputStream = new FileOutputStream(saveFilePath);
                 byte[] buffer = new byte[BUFFER_SIZE];
@@ -98,11 +99,7 @@ public class Downloader implements Runnable {
                     outputStream.write(buffer, 0, bytesRead);
                     bytesRead = inputStream.read(buffer);
                     if (this.sleepTime > 0) {
-                        try {
-                            Thread.sleep(sleepTime);
-                        } catch (InterruptedException ie) {
-                            LOG.error(ie.getMessage(), ie);
-                        }
+                        Thread.sleep(this.sleepTime);
                         this.sleepTime = 0;
                     }
                 }
@@ -112,11 +109,9 @@ public class Downloader implements Runnable {
                 int time = (int) ((System.currentTimeMillis() - startTime) / 1000);
                 System.out.println(String.format("Downloading complete. Total time: %d sec.", time));
                 System.out.println("All bytes: " + this.allBytes);
-            } else {
-                System.out.println("No file. Response code: " + responseCode);
             }
-            httpConn.disconnect();
-        } catch (IOException e) {
+            this.httpConn.disconnect();
+        } catch (IOException | InterruptedException e) {
             LOG.error(e.getMessage(), e);
         }
     }
@@ -134,4 +129,23 @@ public class Downloader implements Runnable {
         this.previousTime = now;
         this.sleepTime = 1000 * downloadedBytes / this.requiredSpeed - cycleTime;
     }
+
+    /**
+     * the method initializes HTTP connection. if connection fails - print the message.
+     * @return true if connection was established. false if it was not
+     * @throws IOException
+     */
+    private boolean initConnection() throws IOException {
+        boolean result = false;
+        URL url = new URL(this.fileURL);
+        this.httpConn = (HttpURLConnection) url.openConnection();
+        int responseCode = this.httpConn.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            result = true;
+        } else {
+            System.out.println("No file. Response code: " + responseCode);
+        }
+        return result;
+    }
+
 }
