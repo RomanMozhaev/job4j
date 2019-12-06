@@ -1,8 +1,6 @@
 package ru.job4j.userstorage;
 
 import net.jcip.annotations.ThreadSafe;
-
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -18,8 +16,8 @@ public class UserStorage {
     /**
      * the main constructor.
      */
-    public UserStorage() {
-        this.userMap = new ConcurrentHashMap<>();
+    public UserStorage(ConcurrentMap<Integer, User> map) {
+        this.userMap = map;
     }
 
     /**
@@ -27,7 +25,7 @@ public class UserStorage {
      * @param user - user for adding.
      * @return true if it was added, false - if not.
      */
-    public boolean add(User user) {
+    public synchronized boolean add(User user) {
         return this.userMap.putIfAbsent(user.getId(), user) == null;
     }
 
@@ -36,7 +34,7 @@ public class UserStorage {
      * @param user - the user for replacing
      * @return true if the user id was mapped and the user was replaced, false if not.
      */
-    public boolean update(User user) {
+    public synchronized boolean update(User user) {
         return this.userMap.replace(user.getId(), user) != null;
     }
 
@@ -45,7 +43,7 @@ public class UserStorage {
      * @param user the user which should be deleted.
      * @return true if the user was deleted or false if not.
      */
-    public boolean delete(User user) {
+    public synchronized boolean delete(User user) {
         return this.userMap.remove(user.getId(), user);
     }
 
@@ -56,7 +54,7 @@ public class UserStorage {
      * @param amount the value for transferring
      * @return true if users are mapped and supplier's amount more or equal to amount.
      */
-    public boolean transfer(int fromId, int toId, int amount) {
+    public synchronized boolean transfer(int fromId, int toId, int amount) {
         boolean result = false;
         User userFrom = this.userMap.get(fromId);
         User userTo = this.userMap.get(toId);
