@@ -12,7 +12,7 @@ public class UserStorageTest {
     @Test
     public void whenTransferThenTransferred() {
         ConcurrentMap<Integer, User> map = new ConcurrentHashMap<>();
-        UserStorage userStorage = new UserStorage(map);
+        UserStorage userStorage = new UserStorage();
         User user1 = new User(1, 1000);
         User user2 = new User(2, 1000);
         userStorage.add(user1);
