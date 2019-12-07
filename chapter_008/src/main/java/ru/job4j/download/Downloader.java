@@ -82,12 +82,11 @@ public class Downloader implements Runnable {
      */
     @Override
     public void run() {
-        try {
+        String fileName = this.fileURL.substring(this.fileURL.lastIndexOf("/") + 1);
+        String saveFilePath = this.saveDir + File.separator + fileName;
+        try (FileOutputStream outputStream = new FileOutputStream(saveFilePath)) {
             if (initConnection()) {
-                String fileName = this.fileURL.substring(this.fileURL.lastIndexOf("/") + 1);
                 InputStream inputStream = this.httpConn.getInputStream();
-                String saveFilePath = this.saveDir + File.separator + fileName;
-                FileOutputStream outputStream = new FileOutputStream(saveFilePath);
                 byte[] buffer = new byte[BUFFER_SIZE];
                 long startTime = System.currentTimeMillis();
                 this.previousTime = startTime;
@@ -103,7 +102,6 @@ public class Downloader implements Runnable {
                         this.sleepTime = 0;
                     }
                 }
-                outputStream.close();
                 inputStream.close();
                 timer.stop();
                 int time = (int) ((System.currentTimeMillis() - startTime) / 1000);
