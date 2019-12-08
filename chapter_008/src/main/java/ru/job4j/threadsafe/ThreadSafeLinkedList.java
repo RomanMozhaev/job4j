@@ -1,5 +1,7 @@
 package ru.job4j.threadsafe;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 import ru.job4j.dynamiclinkedlist.DynamicLinkedList;
 
 import java.io.*;
@@ -10,11 +12,13 @@ import java.util.Iterator;
  *
  * @param <E> - generic
  */
+@ThreadSafe
 public class ThreadSafeLinkedList<E> implements ThreadSafeList<E> {
 
     /**
      * the list where we save data.
      */
+    @GuardedBy("this")
     private final DynamicLinkedList<E> list;
 
     /**
@@ -92,24 +96,22 @@ public class ThreadSafeLinkedList<E> implements ThreadSafeList<E> {
      * @param list - the list for cloning
      * @return the cloned list.
      */
-    private DynamicLinkedList<E> copy(DynamicLinkedList<E> list) {
+    private synchronized DynamicLinkedList<E> copy(DynamicLinkedList<E> list) {
         DynamicLinkedList<E> newList = new DynamicLinkedList<>();
-        synchronized (this.list) {
-            Iterator<E> it = this.list.iterator();
-            while (it.hasNext()) {
-                E element = it.next();
-                try (ByteArrayOutputStream arrayOutput = new ByteArrayOutputStream()) {
-                    ObjectOutputStream objectOut = new ObjectOutputStream(arrayOutput);
-                    objectOut.writeObject(element);
-                    objectOut.close();
-                    ByteArrayInputStream arrayInput = new ByteArrayInputStream(arrayOutput.toByteArray());
-                    ObjectInputStream objectInput = new ObjectInputStream(arrayInput);
-                    E newElement = (E) objectInput.readObject();
-                    newList.add(newElement);
-                    arrayInput.close();
-                } catch (IOException | ClassNotFoundException e) {
-                    e.fillInStackTrace();
-                }
+        Iterator<E> it = list.iterator();
+        while (it.hasNext()) {
+            E element = it.next();
+            try (ByteArrayOutputStream arrayOutput = new ByteArrayOutputStream()) {
+                ObjectOutputStream objectOut = new ObjectOutputStream(arrayOutput);
+                objectOut.writeObject(element);
+                objectOut.close();
+                ByteArrayInputStream arrayInput = new ByteArrayInputStream(arrayOutput.toByteArray());
+                ObjectInputStream objectInput = new ObjectInputStream(arrayInput);
+                E newElement = (E) objectInput.readObject();
+                newList.add(newElement);
+                arrayInput.close();
+            } catch (IOException | ClassNotFoundException e) {
+                e.fillInStackTrace();
             }
         }
         return newList;
