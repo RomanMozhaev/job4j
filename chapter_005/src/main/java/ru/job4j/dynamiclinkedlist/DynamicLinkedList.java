@@ -1,5 +1,6 @@
 package ru.job4j.dynamiclinkedlist;
 
+import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -135,7 +136,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         };
     }
 
-    class Node<E> {
+    class Node<E> implements Serializable {
         E element;
         Node<E> next;
         Node<E> previous;
