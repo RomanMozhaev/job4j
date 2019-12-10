@@ -21,14 +21,17 @@ public class SimpleBlockingQueue<T> {
     /**
      * the maximal size of the queue.
      */
+    @GuardedBy("this")
     private final int fixSize;
     /**
      * the factor is true if the queue is full.
      */
+    @GuardedBy("this")
     private boolean writeBlockFactor = false;
     /**
      * the factor is true if the queue is empty.
      */
+    @GuardedBy("this")
     private boolean readBlockFactor = true;
 
     /**
@@ -46,7 +49,7 @@ public class SimpleBlockingQueue<T> {
      *
      * @return true if writing should be blocked.
      */
-    public boolean isWriteBlockFactor() {
+    public synchronized boolean isWriteBlockFactor() {
         return this.writeBlockFactor;
     }
 
@@ -55,7 +58,7 @@ public class SimpleBlockingQueue<T> {
      *
      * @return true if reading should be blocked.
      */
-    public boolean isReadBlockFactor() {
+    public synchronized boolean isReadBlockFactor() {
         return readBlockFactor;
     }
 
