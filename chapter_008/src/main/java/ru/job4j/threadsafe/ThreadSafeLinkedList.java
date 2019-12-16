@@ -3,8 +3,6 @@ package ru.job4j.threadsafe;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import ru.job4j.dynamiclinkedlist.DynamicLinkedList;
-
-import java.io.*;
 import java.util.Iterator;
 
 /**
@@ -98,21 +96,8 @@ public class ThreadSafeLinkedList<E> implements ThreadSafeList<E> {
      */
     private synchronized DynamicLinkedList<E> copy(DynamicLinkedList<E> list) {
         DynamicLinkedList<E> newList = new DynamicLinkedList<>();
-        Iterator<E> it = list.iterator();
-        while (it.hasNext()) {
-            E element = it.next();
-            try (ByteArrayOutputStream arrayOutput = new ByteArrayOutputStream()) {
-                ObjectOutputStream objectOut = new ObjectOutputStream(arrayOutput);
-                objectOut.writeObject(element);
-                objectOut.close();
-                ByteArrayInputStream arrayInput = new ByteArrayInputStream(arrayOutput.toByteArray());
-                ObjectInputStream objectInput = new ObjectInputStream(arrayInput);
-                E newElement = (E) objectInput.readObject();
-                newList.add(newElement);
-                arrayInput.close();
-            } catch (IOException | ClassNotFoundException e) {
-                e.fillInStackTrace();
-            }
+        for (E e : list) {
+            newList.add(e);
         }
         return newList;
     }
