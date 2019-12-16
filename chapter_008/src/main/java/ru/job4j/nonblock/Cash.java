@@ -40,11 +40,10 @@ public class Cash {
      */
     public Base update(Base model) throws OptimisticException {
         return this.map.computeIfPresent(model.getId(), (k, v) -> {
-            if (v.getVersion() == model.getVersion() - 1) {
-                return model;
-            } else {
+            if (v.getVersion() != model.getVersion() - 1) {
                 throw new OptimisticException("The model was modified by other thread.");
             }
+            return model;
         });
     }
 
