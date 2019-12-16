@@ -16,13 +16,13 @@ public class SimpleBlockingQueueTest {
         Thread producer = new Thread(
                 () -> {
                     for (int i = 0; i < 5; i++) {
-                        synchronized (queue) {
-                            while (queue.isWriteBlockFactor()) {
-                                try {
+                        while (queue.isWriteBlockFactor()) {
+                            try {
+                                synchronized (queue) {
                                     queue.wait();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
                                 }
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
                         }
                         if (!queue.offer(i)) {
@@ -35,20 +35,20 @@ public class SimpleBlockingQueueTest {
         producer.start();
         Thread consumer = new Thread(
                 () -> {
-                    synchronized (queue) {
-                        while (!(queue.isReadBlockFactor() && Thread.currentThread().isInterrupted())) {
-                            try {
-                                while (queue.isReadBlockFactor()) {
+                    while (!(queue.isReadBlockFactor() && Thread.currentThread().isInterrupted())) {
+                        try {
+                            while (queue.isReadBlockFactor()) {
+                                synchronized (queue) {
                                     queue.wait();
                                 }
-                                Integer el = queue.poll();
-                                if (el != null) {
-                                    buffer.add(el);
-                                }
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                Thread.currentThread().interrupt();
                             }
+                            Integer el = queue.poll();
+                            if (el != null) {
+                                buffer.add(el);
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            Thread.currentThread().interrupt();
                         }
                     }
                 }
