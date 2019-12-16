@@ -17,7 +17,7 @@ public class SimpleBlockingQueue<T> {
      * the queue.
      */
     @GuardedBy("this")
-    private Queue<T> queue;
+    private final Queue<T> queue;
     /**
      * the maximal size of the queue.
      */
@@ -39,7 +39,7 @@ public class SimpleBlockingQueue<T> {
      *
      * @param fixLength - the max queue size.
      */
-    public SimpleBlockingQueue(int fixLength) {
+    public SimpleBlockingQueue(final int fixLength) {
         this.fixSize = fixLength;
         this.queue = new LinkedList<>();
     }
