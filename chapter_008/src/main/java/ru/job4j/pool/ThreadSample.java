@@ -1,5 +1,7 @@
 package ru.job4j.pool;
 
+import ru.job4j.producerconsumer.SimpleBlockingQueue;
+
 /**
  * the class of the Thread sample which is pool consumer.
  */
@@ -11,48 +13,47 @@ public class ThreadSample implements Runnable {
     /**
      * the thread pool, the mutex.
      */
-    private final ThreadPool pool;
+    private final SimpleBlockingQueue<Runnable> queue;
 
     /**
      * the main constructor.
      *
-     * @param pool - the thread pool
-     * @param name - the name/ number of the thread.
+     * @param queue - the blocking queue.
+     * @param name  - the name/ number of the thread.
      */
-    public ThreadSample(ThreadPool pool, String name) {
+    public ThreadSample(final SimpleBlockingQueue<Runnable> queue, final String name) {
         this.t = new Thread(this, name);
-        this.pool = pool;
-        this.pool.addThread(this.t);
+        this.queue = queue;
     }
 
     /**
      * the run method. It finishes its work when interrupt was called.
+     * it waits while queue is blocked for reading.
      */
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                synchronized (this.pool) {
-                    doSomeWork(this.pool.getTask());
+        try {
+            while (!(this.queue.isReadBlockFactor() && this.t.isInterrupted())) {
+                while (this.queue.isReadBlockFactor()) {
+                    synchronized (this.queue) {
+                        this.queue.wait();
+                    }
                 }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                doSomeWork();
             }
+        } catch (InterruptedException e) {
+            this.t.interrupt();
+            e.printStackTrace();
         }
     }
 
     /**
      * the method for imitation of the incoming thread work.
-     * wait method is called if task is null.
-     *
-     * @param task - the incoming thread for execution
-     * @throws InterruptedException
      */
-    private void doSomeWork(Runnable task) throws InterruptedException {
-        if (task != null) {
-            System.out.println(Thread.currentThread().getName() + " " + task.toString());
-        } else {
-            this.pool.wait();
+    private void doSomeWork() {
+        Runnable work = this.queue.poll();
+        if (work != null) {
+            System.out.println(Thread.currentThread().getName() +work.toString());
         }
     }
 }
