@@ -33,16 +33,8 @@ public class Producer implements Runnable {
     @Override
     public void run() {
         while (this.element < 10) {
-            synchronized (this.queue) {
-                while (this.queue.isWriteBlockFactor()) {
-                    try {
-                        this.queue.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                write();
-            }
+            this.queue.writerWaiting();
+            write();
         }
     }
 

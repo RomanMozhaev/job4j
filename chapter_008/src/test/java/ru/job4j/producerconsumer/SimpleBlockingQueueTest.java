@@ -16,15 +16,7 @@ public class SimpleBlockingQueueTest {
         Thread producer = new Thread(
                 () -> {
                     for (int i = 0; i < 5; i++) {
-                        while (queue.isWriteBlockFactor()) {
-                            try {
-                                synchronized (queue) {
-                                    queue.wait();
-                                }
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                        queue.writerWaiting();
                         if (!queue.offer(i)) {
                             i--;
                         }
@@ -37,11 +29,7 @@ public class SimpleBlockingQueueTest {
                 () -> {
                     while (!(queue.isReadBlockFactor() && Thread.currentThread().isInterrupted())) {
                         try {
-                            while (queue.isReadBlockFactor()) {
-                                synchronized (queue) {
-                                    queue.wait();
-                                }
-                            }
+                            queue.readerWaiting();
                             Integer el = queue.poll();
                             if (el != null) {
                                 buffer.add(el);

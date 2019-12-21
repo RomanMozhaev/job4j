@@ -29,18 +29,14 @@ public class Consumer implements Runnable {
      */
     @Override
     public void run() {
-        synchronized (this.queue) {
-            try {
-                while (!(this.queue.isReadBlockFactor() && this.t.isInterrupted())) {
-                    while (this.queue.isReadBlockFactor()) {
-                        this.queue.wait();
-                    }
-                    read();
-                }
-            } catch (InterruptedException e) {
-                this.t.interrupt();
-                e.printStackTrace();
+        try {
+            while (!(this.queue.isReadBlockFactor() && this.t.isInterrupted())) {
+                this.queue.readerWaiting();
+                read();
             }
+        } catch (InterruptedException e) {
+            this.t.interrupt();
+            e.printStackTrace();
         }
     }
 

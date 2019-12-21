@@ -20,11 +20,8 @@ public class ProducerConsumer {
         do {
             if (p.t.getState() == Thread.State.TERMINATED) {
                 c.t.interrupt();
-                synchronized (queue) {
-                    queue.notifyAll();
-                }
+                queue.notifyAllThreads();
             }
         } while (c.t.getState() != Thread.State.TERMINATED);
-
     }
 }
