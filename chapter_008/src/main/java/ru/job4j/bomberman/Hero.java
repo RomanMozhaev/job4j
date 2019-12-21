@@ -1,5 +1,8 @@
 package ru.job4j.bomberman;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 /**
  * the thread for hero.
  */
@@ -19,14 +22,21 @@ public class Hero implements Runnable {
     private final Cell startPosition;
 
     /**
+     * the block for simultaneous start.
+     */
+    private final CyclicBarrier block;
+
+    /**
      * the main constructor.
-     * @param board - the play board.
+     *
+     * @param board         - the play board.
      * @param startPosition - the starting position.
      */
-    public Hero(Board board, Cell startPosition) {
-        this.t = new Thread(this, "Hero");
+    public Hero(Board board, Cell startPosition, String name, CyclicBarrier block) {
+        this.t = new Thread(this, name);
         this.board = board;
         this.startPosition = startPosition;
+        this.block = block;
 
     }
 
@@ -37,17 +47,22 @@ public class Hero implements Runnable {
     public void run() {
         Cell source = this.startPosition;
         this.board.blockStartPosition(source);
+        try {
+            block.await();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
         while (true) {
             Cell dist = getNewCell(source);
-            if (this.board.move(source, dist)) {
+            if (this.board.move(source, dist, 500)) {
                 source = dist;
-                System.out.println(source.getRow() + "  " + source.getColumn());
             }
         }
     }
 
     /**
      * the method provides the cell of the new hero's position.
+     *
      * @param source - the current hero's position.
      * @return cell.
      */
@@ -93,8 +108,9 @@ public class Hero implements Runnable {
     /**
      * the method check if the new position within the board. if it is not,
      * the method corrects the new position.
-     * @param source - the current position
-     * @param rowChange - the position change which should be checked in row direction.
+     *
+     * @param source       - the current position
+     * @param rowChange    - the position change which should be checked in row direction.
      * @param columnChange - the position change which should be checked in column direction.
      * @return the Cell for moving.
      */

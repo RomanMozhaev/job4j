@@ -1,5 +1,8 @@
 package ru.job4j.bomberman;
 
+import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,6 +24,8 @@ public class Board {
      */
     private final int columns;
 
+    private volatile int moving;
+
     /**
      * the main constructor.
      *
@@ -31,6 +36,14 @@ public class Board {
         this.board = new ReentrantLock[rows][columns];
         this.columns = columns;
         this.rows = rows;
+    }
+
+    public int getMoving() {
+        return moving;
+    }
+
+    public void setMoving(int moving) {
+        this.moving = moving;
     }
 
     /**
@@ -53,6 +66,7 @@ public class Board {
 
     /**
      * the board initialization.
+     * //////////the frame is under construction.//////////////////
      */
     public void init() {
         for (int i = 0; i < this.rows; i++) {
@@ -61,6 +75,22 @@ public class Board {
             }
 
         }
+
+        JFrame frame = new JFrame();
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+                setMoving(keyEvent.getKeyCode());
+            }
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+            }
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+
+            }
+        });
     }
 
     /**
@@ -80,10 +110,10 @@ public class Board {
      * @param dest   - the destination.
      * @return - true if the move was made successfully for 0,5 sec; false otherwise.
      */
-    public boolean move(Cell source, Cell dest) {
+    public boolean move(Cell source, Cell dest, long timeout) {
         boolean result = false;
         try {
-            result = this.board[dest.getRow()][dest.getColumn()].tryLock(500, TimeUnit.MILLISECONDS);
+            result = this.board[dest.getRow()][dest.getColumn()].tryLock(timeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
