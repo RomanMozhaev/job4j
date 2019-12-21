@@ -45,15 +45,6 @@ public class SimpleBlockingQueue<T> {
     }
 
     /**
-     * getter for write factor.
-     *
-     * @return true if writing should be blocked.
-     */
-    public synchronized boolean isWriteBlockFactor() {
-        return this.writeBlockFactor;
-    }
-
-    /**
      * getter for reading factor.
      *
      * @return true if reading should be blocked.
@@ -94,5 +85,35 @@ public class SimpleBlockingQueue<T> {
         }
         notify();
         return result;
+    }
+
+    /**
+     * makes the writer waited.
+     */
+    public synchronized void writerWaiting() {
+        while (this.writeBlockFactor) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * makes the reader waited.
+     * @throws InterruptedException
+     */
+    public synchronized void readerWaiting() throws InterruptedException {
+        while (this.readBlockFactor) {
+            this.wait();
+        }
+    }
+
+    /**
+     * wakes all threads.
+     */
+    public synchronized void notifyAllThreads() {
+        this.notifyAll();
     }
 }
