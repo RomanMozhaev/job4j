@@ -54,9 +54,6 @@ public class ThreadPool {
         for (Thread thread : this.threads) {
             thread.interrupt();
         }
-        synchronized (this.tasks) {
-            this.tasks.notifyAll();
-        }
     }
 
 }
