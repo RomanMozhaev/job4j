@@ -11,7 +11,7 @@ public class ThreadFactory {
     public static void main(String[] args) {
         int size = Runtime.getRuntime().availableProcessors();
         System.out.println("CPU quantity: " + size);
-        SimpleBlockingQueue<Runnable> queue = new SimpleBlockingQueue<>(size);
+        SimpleBlockingQueue<Runnable> queue = new SimpleBlockingQueue<>(size);;
         ThreadPool pool = new ThreadPool(queue);
         for (int i = 0; i < size; i++) {
             ThreadSample thread = new ThreadSample(queue, Integer.toString(i));
