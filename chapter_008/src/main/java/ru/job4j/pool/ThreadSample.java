@@ -53,7 +53,7 @@ public class ThreadSample implements Runnable {
     private void doSomeWork() {
         Runnable work = this.queue.poll();
         if (work != null) {
-            System.out.println(Thread.currentThread().getName() +work.toString());
+            System.out.println(Thread.currentThread().getName() + work.toString());
         }
     }
 }
