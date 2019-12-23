@@ -17,7 +17,7 @@ public class SimpleBlockingQueue<T> {
      * the queue.
      */
     @GuardedBy("this")
-    private Queue<T> queue;
+    private final Queue<T> queue;
     /**
      * the maximal size of the queue.
      */
@@ -39,18 +39,9 @@ public class SimpleBlockingQueue<T> {
      *
      * @param fixLength - the max queue size.
      */
-    public SimpleBlockingQueue(int fixLength) {
+    public SimpleBlockingQueue(final int fixLength) {
         this.fixSize = fixLength;
         this.queue = new LinkedList<>();
-    }
-
-    /**
-     * getter for write factor.
-     *
-     * @return true if writing should be blocked.
-     */
-    public synchronized boolean isWriteBlockFactor() {
-        return this.writeBlockFactor;
     }
 
     /**
@@ -94,5 +85,35 @@ public class SimpleBlockingQueue<T> {
         }
         notify();
         return result;
+    }
+
+    /**
+     * makes the writer waited.
+     */
+    public synchronized void writerWaiting() {
+        while (this.writeBlockFactor) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * makes the reader waited.
+     * @throws InterruptedException
+     */
+    public synchronized void readerWaiting() throws InterruptedException {
+        while (this.readBlockFactor) {
+            this.wait();
+        }
+    }
+
+    /**
+     * wakes all threads.
+     */
+    public synchronized void notifyAllThreads() {
+        this.notifyAll();
     }
 }
