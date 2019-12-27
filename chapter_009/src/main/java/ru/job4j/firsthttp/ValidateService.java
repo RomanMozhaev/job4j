@@ -2,29 +2,62 @@ package ru.job4j.firsthttp;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * the class for data validating.
+ */
 public class ValidateService implements Validate {
 
+    /**
+     * the instance of singleton
+     */
     private static final ValidateService INSTANCE = new ValidateService();
 
+    /**
+     * the memory store.
+     */
     private final Store memory = MemoryStore.getInstance();
-    private final String LN = System.lineSeparator();
+    /**
+     * the line separator.
+     */
+    private final static String LN = System.lineSeparator();
 
+    /**
+     * the main constructor.
+     */
     private ValidateService() {
 
     }
 
+    /**
+     * returns the instance of the singleton.
+     *
+     * @return - the instance.
+     */
     public static ValidateService getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * adds a new user to the memory.
+     *
+     * @param user - the user for adding
+     * @return true if the user was added; otherwise false.
+     */
     @Override
     public boolean add(User user) {
         boolean result = false;
-        if (user.getName() !=null && !user.getName().equals("") && findById(user.getId()) == null) {
+        if (user.getName() != null && !user.getName().equals("") && findById(user.getId()) == null) {
             result = this.memory.add(user);
         }
         return result;
     }
+
+    /**
+     * updates the mapped user.
+     *
+     * @param user - the user instance with new field.
+     * @return - true if updating was successful; otherwise false.
+     */
     @Override
     public boolean update(User user) {
         boolean result = false;
@@ -50,10 +83,23 @@ public class ValidateService implements Validate {
         }
         return result;
     }
+
+    /**
+     * deletes the user for the map. id filed used only for identification.
+     *
+     * @param user - the user for deleting.
+     * @return true if the entry was deleted; otherwise false.
+     */
     @Override
     public boolean delete(User user) {
         return this.memory.delete(user);
     }
+
+    /**
+     * returns all mapped data.
+     *
+     * @return the string with data.
+     */
     @Override
     public String findAll() {
         StringBuilder builder = new StringBuilder();
@@ -71,6 +117,13 @@ public class ValidateService implements Validate {
         });
         return builder.toString();
     }
+
+    /**
+     * finds the mapped user by id.
+     *
+     * @param id - the id for searching
+     * @return found user or null.
+     */
     @Override
     public User findById(int id) {
         User result = null;

@@ -1,5 +1,8 @@
 package ru.job4j.firsthttp;
 
+/**
+ * the class of user.
+ */
 public class User {
 
     private final int id;

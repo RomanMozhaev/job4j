@@ -10,11 +10,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * the servlet for adding, updating and deleting users from the memory.
+ */
 public class UserServlet extends HttpServlet {
 
+    /**
+     * the instance with working methods.
+     */
     private final Validate validate = ValidateService.getInstance();
+    /**
+     * the map with available functions.
+     */
     private final Map<String, Function<User, Boolean>> actions;
 
+    /**
+     * the main constructor with the actions-map initiation.
+     */
     public UserServlet() {
         this.actions = new HashMap<>();
         this.actions.put("add", add());
@@ -22,7 +34,14 @@ public class UserServlet extends HttpServlet {
         this.actions.put("delete", delete());
     }
 
-
+    /**
+     * allows to get the all data from the memory.
+     *
+     * @param req  - request
+     * @param resp -response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String list = this.validate.findAll();
@@ -32,6 +51,14 @@ public class UserServlet extends HttpServlet {
         writer.flush();
     }
 
+    /**
+     * allows to add, delete and update users data in the memory.
+     *
+     * @param req  - request
+     * @param resp -response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String response;
@@ -39,10 +66,15 @@ public class UserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String srgId = req.getParameter("id");
-        int id = Integer.getInteger(srgId, -1);
+        int id;
+        try {
+            id = Integer.parseInt(srgId);
+        } catch (NumberFormatException e) {
+            id = -1;
+        }
         User user = new User(id, name, email, -1);
         if (this.actions.containsKey(action)) {
-            if(this.actions.get(action).apply(user)) {
+            if (this.actions.get(action).apply(user)) {
                 response = "the action was finished successfully.";
             } else {
                 response = "the action was not implemented.";
@@ -56,12 +88,29 @@ public class UserServlet extends HttpServlet {
         writer.flush();
     }
 
+    /**
+     * the function for updating.
+     *
+     * @return
+     */
     private Function<User, Boolean> update() {
         return validate::update;
     }
+
+    /**
+     * the function for deleting.
+     *
+     * @return
+     */
     private Function<User, Boolean> delete() {
         return validate::delete;
     }
+
+    /**
+     * the function for adding.
+     *
+     * @return
+     */
     private Function<User, Boolean> add() {
         return validate::add;
     }
