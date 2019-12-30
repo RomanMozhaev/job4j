@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
@@ -23,6 +24,11 @@ public class UserServlet extends HttpServlet {
      * the map with available functions.
      */
     private final Map<String, Function<User, Boolean>> actions;
+
+    /**
+     * the line separator.
+     */
+    private final static String LN = System.lineSeparator();
 
     /**
      * the main constructor with the actions-map initiation.
@@ -44,10 +50,22 @@ public class UserServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String list = this.validate.findAll();
+        StringBuilder builder = new StringBuilder();
+        ConcurrentHashMap<Integer, User> map = this.validate.findAll();
+        map.forEach((i, user) -> {
+            builder.append(user.getId());
+            builder.append(LN);
+            builder.append(user.getName());
+            builder.append(LN);
+            builder.append(user.getEmail());
+            builder.append(LN);
+            builder.append(user.getCreateDate());
+            builder.append(LN);
+            builder.append(LN);
+        });
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(list);
+        writer.append(builder.toString());
         writer.flush();
     }
 

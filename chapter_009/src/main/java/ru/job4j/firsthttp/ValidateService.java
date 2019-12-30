@@ -16,10 +16,6 @@ public class ValidateService implements Validate {
      * the memory store.
      */
     private final Store memory = MemoryStore.getInstance();
-    /**
-     * the line separator.
-     */
-    private final static String LN = System.lineSeparator();
 
     /**
      * the main constructor.
@@ -101,21 +97,8 @@ public class ValidateService implements Validate {
      * @return the string with data.
      */
     @Override
-    public String findAll() {
-        StringBuilder builder = new StringBuilder();
-        ConcurrentHashMap<Integer, User> map = this.memory.getMap();
-        map.forEach((i, user) -> {
-            builder.append(user.getId());
-            builder.append(LN);
-            builder.append(user.getName());
-            builder.append(LN);
-            builder.append(user.getEmail());
-            builder.append(LN);
-            builder.append(user.getCreateDate());
-            builder.append(LN);
-            builder.append(LN);
-        });
-        return builder.toString();
+    public ConcurrentHashMap<Integer, User> findAll() {
+        return this.memory.getMap();
     }
 
     /**

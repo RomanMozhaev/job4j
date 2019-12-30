@@ -1,5 +1,7 @@
 package ru.job4j.firsthttp;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * the interface for validating classes.
  */
@@ -23,7 +25,7 @@ public interface Validate {
     /**
      * returns all mapped data.
      */
-    String findAll();
+    ConcurrentHashMap<Integer, User> findAll();
 
     /**
      * finds the mapped user by id.
