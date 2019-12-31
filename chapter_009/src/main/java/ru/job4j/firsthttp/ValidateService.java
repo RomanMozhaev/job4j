@@ -1,6 +1,6 @@
 package ru.job4j.firsthttp;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 /**
  * the class for data validating.
@@ -15,7 +15,7 @@ public class ValidateService implements Validate {
     /**
      * the memory store.
      */
-    private final Store memory = MemoryStore.getInstance();
+    private final Store memory = DBStore.getInstance();
 
     /**
      * the main constructor.
@@ -42,7 +42,7 @@ public class ValidateService implements Validate {
     @Override
     public boolean add(User user) {
         boolean result = false;
-        if (user.getName() != null) {
+        if (!user.getName().equals("")) {
             result = this.memory.add(user);
         }
         return result;
@@ -65,12 +65,12 @@ public class ValidateService implements Validate {
         if (listedUser != null) {
             id = listedUser.getId();
             date = listedUser.getCreateDate();
-            if (user.getName() != null) {
+            if (!user.getName().equals("")) {
                 name = user.getName();
             } else {
                 name = listedUser.getName();
             }
-            if (user.getEmail() != null) {
+            if (!user.getEmail().equals("")) {
                 email = user.getEmail();
             } else {
                 email = listedUser.getEmail();
@@ -97,8 +97,8 @@ public class ValidateService implements Validate {
      * @return the string with data.
      */
     @Override
-    public ConcurrentHashMap<Integer, User> findAll() {
-        return this.memory.getMap();
+    public Map<Integer, User> findAll() {
+        return this.memory.findAll();
     }
 
     /**
@@ -109,10 +109,7 @@ public class ValidateService implements Validate {
      */
     @Override
     public User findById(int id) {
-        User result = null;
-        if (id >= 0) {
-            result = this.memory.getMap().get(id);
-        }
-        return result;
+
+        return this.memory.findById(id);
     }
 }

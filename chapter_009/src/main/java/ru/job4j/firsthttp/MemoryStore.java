@@ -1,5 +1,6 @@
 package ru.job4j.firsthttp;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,8 +37,13 @@ public class MemoryStore implements Store {
     }
 
     @Override
-    public ConcurrentHashMap<Integer, User> getMap() {
+    public Map<Integer, User> findAll() {
         return this.map;
+    }
+
+    @Override
+    public User findById(int id) {
+        return this.map.get(id);
     }
 
     /**

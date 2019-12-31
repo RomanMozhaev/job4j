@@ -1,6 +1,7 @@
 package ru.job4j.firsthttp;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+
 
 /**
  * the interface for working with memory class.
@@ -12,7 +13,7 @@ public interface Store {
      *
      * @return
      */
-    ConcurrentHashMap<Integer, User> getMap();
+    Map<Integer, User> findAll();
 
     /**
      * adds the new user if the id is not mapped in the map.
@@ -37,4 +38,12 @@ public interface Store {
      * @return - true if the user was updated; otherwise false.
      */
     boolean update(User user);
+
+    /**
+     * returns the found user by id.
+     *
+     * @param id - the user id
+     * @return user if found; otherwise null.
+     */
+    User findById(int id);
 }

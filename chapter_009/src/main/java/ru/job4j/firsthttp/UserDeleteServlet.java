@@ -52,20 +52,29 @@ public class UserDeleteServlet extends HttpServlet {
      */
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String stgId = req.getParameter("id");
-        int id;
-        try {
-            id = Integer.parseInt(stgId);
-        } catch (NumberFormatException e) {
-            id = -1;
-        }
         String message;
-        if (this.validate.delete(new User(id))) {
+        if (this.validate.delete(new User(intOrDef(stgId, -1)))) {
             message = "The user was successfully deleted.";
         } else {
             message = "The user was not deleted.";
         }
         req.setAttribute("message", message);
         this.getServletContext().getRequestDispatcher("/result.jsp").forward(req, resp);
+    }
 
+    /**
+     * the method converts string to int or return def
+     * @param srgId - the string for converting to int
+     * @param def - default int
+     * @return int
+     */
+    private int intOrDef(String srgId, int def) {
+        int id;
+        try {
+            id = Integer.parseInt(srgId);
+        } catch (NumberFormatException e) {
+            id = def;
+        }
+        return id;
     }
 }

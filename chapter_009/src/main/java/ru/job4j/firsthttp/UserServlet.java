@@ -51,7 +51,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StringBuilder builder = new StringBuilder();
-        ConcurrentHashMap<Integer, User> map = this.validate.findAll();
+        Map<Integer, User> map = this.validate.findAll();
         map.forEach((i, user) -> {
             builder.append(user.getId());
             builder.append(LN);
