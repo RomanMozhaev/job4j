@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * the servlet deletes the user from the memory.
@@ -33,47 +32,15 @@ public class UserDeleteServlet extends HttpServlet {
      * @param resp
      * @throws IOException
      */
-    private void createDeleteForm(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        StringBuilder builder = new StringBuilder();
+    private void createDeleteForm(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String id = req.getParameter("id");
         User user = this.validate.findById(Integer.parseInt(id));
         if (user != null) {
-            builder.append("<!DOCTYPE html>")
-                    .append("<html lang=\"en\">")
-                    .append("<head>")
-                    .append("<meta charset=\"UTF-8\">")
-                    .append("<title>Title</title>")
-                    .append("</head>")
-                    .append("<body>")
-                    .append("Do you really want to delete this user?")
-                    .append("<br>")
-                    .append("<form action='")
-                    .append(req.getContextPath())
-                    .append("/delete?action=delete&id=")
-                    .append(id)
-                    .append("' method='post'>")
-                    .append("ID    : <input type='text' name='id' value='")
-                    .append(user.getId())
-                    .append("' size=60 disabled>")
-                    .append("<br>")
-                    .append("Name  : <input type='text' name='name' value='")
-                    .append(user.getName())
-                    .append("' size=60 disabled>")
-                    .append("<br>")
-                    .append("Email : <input type='text' name='email' value='")
-                    .append(user.getEmail())
-                    .append("' size=60 disabled>")
-                    .append("<br>")
-                    .append("<input type='submit' value='delete'>")
-                    .append("</form>")
-                    .append("</body>")
-                    .append("</html>");
-            resp.setContentType("text/html");
-            PrintWriter writer = new PrintWriter(resp.getOutputStream());
-            writer.append(builder);
-            writer.flush();
+            req.setAttribute("user", user);
+            this.getServletContext().getRequestDispatcher("/delete.jsp").forward(req, resp);
         } else {
-            resp.sendRedirect(req.getContextPath() + "/view");
+            req.setAttribute("message", "The user was not found.");
+            this.getServletContext().getRequestDispatcher("/result.jsp").forward(req, resp);
         }
     }
 
@@ -83,10 +50,22 @@ public class UserDeleteServlet extends HttpServlet {
      * @param resp
      * @throws IOException
      */
-    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String strId = req.getParameter("id");
-        int id = Integer.parseInt(strId);
-        this.validate.delete(new User(id, null, null, -1));
-        resp.sendRedirect(req.getContextPath() + "/view");
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String stgId = req.getParameter("id");
+        int id;
+        try {
+            id = Integer.parseInt(stgId);
+        } catch (NumberFormatException e) {
+            id = -1;
+        }
+        String message;
+        if (this.validate.delete(new User(id, null, null, -1))) {
+            message = "The user was successfully deleted.";
+        } else {
+            message = "The user was not deleted.";
+        }
+        req.setAttribute("message", message);
+        this.getServletContext().getRequestDispatcher("/result.jsp").forward(req, resp);
+
     }
 }

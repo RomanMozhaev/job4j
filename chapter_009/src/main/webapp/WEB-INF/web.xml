@@ -34,16 +34,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>UsersViewServlet</servlet-name>
-        <servlet-class>ru.job4j.firsthttp.UsersViewServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UsersViewServlet</servlet-name>
-        <url-pattern>/view</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>UserUpdateServlet</servlet-name>
         <servlet-class>ru.job4j.firsthttp.UserUpdateServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
