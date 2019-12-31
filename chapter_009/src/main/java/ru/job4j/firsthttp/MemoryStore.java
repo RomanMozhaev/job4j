@@ -7,11 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MemoryStore implements Store {
     /**
-     * the number for a next adding user.
-     */
-    private volatile int newId = 0;
-
-    /**
      * the instance for singleton.
      */
     private static final MemoryStore INSTANCE = new MemoryStore();
@@ -25,6 +20,11 @@ public class MemoryStore implements Store {
      */
     private MemoryStore() {
     }
+
+    /**
+     * the value of the next serial ID for adding user.
+     */
+    private volatile int serialID = 0;
 
     /**
      * returns the instance of the class.
@@ -49,18 +49,12 @@ public class MemoryStore implements Store {
     @Override
     public synchronized boolean add(User user) {
         boolean result = false;
-        int id = user.getId();
-        long date = user.getCreateDate();
-        if (date == -1) {
-            date = System.currentTimeMillis();
-            if (id == -1 || !this.map.containsKey(id)) {
-                if (id == -1) {
-                    id = generateNewId();
-                }
-                User newUser = new User(id, user.getName(), user.getEmail(), date);
-                this.map.put(newUser.getId(), newUser);
-                result = true;
-            }
+        int id = this.serialID;
+        User newUser = new User(id, user.getName(), user.getEmail(), user.getCreateDate());
+        if (!this.map.contains(newUser)
+                && this.map.put(newUser.getId(), newUser) == null) {
+            result = true;
+            this.serialID++;
         }
         return result;
     }
@@ -76,7 +70,8 @@ public class MemoryStore implements Store {
     @Override
     public synchronized boolean update(User user) {
         boolean result = false;
-        if (this.map.containsKey(user.getId())) {
+        if (!this.map.contains(user)
+                && this.map.containsKey(user.getId())) {
             this.map.put(user.getId(), user);
             result = true;
         }
@@ -92,17 +87,5 @@ public class MemoryStore implements Store {
     @Override
     public synchronized boolean delete(User user) {
         return this.map.remove(user.getId()) != null;
-    }
-
-    /**
-     * the method for new order number generation.
-     *
-     * @return - the order number.
-     */
-    private synchronized int generateNewId() {
-        do {
-            this.newId++;
-        } while (this.map.containsKey(this.newId));
-        return this.newId;
     }
 }

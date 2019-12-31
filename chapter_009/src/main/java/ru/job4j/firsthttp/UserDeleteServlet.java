@@ -59,7 +59,7 @@ public class UserDeleteServlet extends HttpServlet {
             id = -1;
         }
         String message;
-        if (this.validate.delete(new User(id, null, null, -1))) {
+        if (this.validate.delete(new User(id))) {
             message = "The user was successfully deleted.";
         } else {
             message = "The user was not deleted.";
