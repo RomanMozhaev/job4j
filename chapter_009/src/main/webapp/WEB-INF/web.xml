@@ -13,43 +13,43 @@
         <url-pattern>/echo</url-pattern>
     </servlet-mapping>
 
-<!--    <servlet>-->
-<!--        <servlet-name>UserServlet</servlet-name>-->
-<!--        <servlet-class>ru.job4j.firsthttp.UserServlet</servlet-class>-->
-<!--        <load-on-startup>0</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>UserServlet</servlet-name>-->
-<!--        <url-pattern>/user</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>ru.job4j.firsthttp.UserServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/user</url-pattern>
+    </servlet-mapping>
 
-<!--    <servlet>-->
-<!--        <servlet-name>UserCreateServlet</servlet-name>-->
-<!--        <servlet-class>ru.job4j.firsthttp.UserCreateServlet</servlet-class>-->
-<!--        <load-on-startup>0</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>UserCreateServlet</servlet-name>-->
-<!--        <url-pattern>/create</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <servlet>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <servlet-class>ru.job4j.firsthttp.UserCreateServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <url-pattern>/create</url-pattern>
+    </servlet-mapping>
 
-<!--    <servlet>-->
-<!--        <servlet-name>UserUpdateServlet</servlet-name>-->
-<!--        <servlet-class>ru.job4j.firsthttp.UserUpdateServlet</servlet-class>-->
-<!--        <load-on-startup>0</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>UserUpdateServlet</servlet-name>-->
-<!--        <url-pattern>/update</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <servlet>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <servlet-class>ru.job4j.firsthttp.UserUpdateServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
 
-<!--    <servlet>-->
-<!--        <servlet-name>UserDeleteServlet</servlet-name>-->
-<!--        <servlet-class>ru.job4j.firsthttp.UserDeleteServlet</servlet-class>-->
-<!--        <load-on-startup>0</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>UserDeleteServlet</servlet-name>-->
-<!--        <url-pattern>/delete</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <servlet>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <servlet-class>ru.job4j.firsthttp.UserDeleteServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
 </web-app>
