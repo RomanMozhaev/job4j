@@ -1,5 +1,6 @@
 package ru.job4j.firsthttp;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,7 +26,7 @@ public interface Validate {
     /**
      * returns all mapped data.
      */
-    ConcurrentHashMap<Integer, User> findAll();
+    Map<Integer, User> findAll();
 
     /**
      * finds the mapped user by id.
