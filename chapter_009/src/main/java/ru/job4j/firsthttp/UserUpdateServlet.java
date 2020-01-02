@@ -74,7 +74,7 @@ public class UserUpdateServlet extends HttpServlet {
             id = -1;
         }
         String message;
-        if (this.validate.update(new User(id, name, email, -1))) {
+        if (this.validate.update(new User(id, name, email))) {
             message = "The user was successfully updated.";
         } else {
             message = "The user was not updated.";

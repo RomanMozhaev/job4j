@@ -42,7 +42,7 @@ public class ValidateService implements Validate {
     @Override
     public boolean add(User user) {
         boolean result = false;
-        if (user.getName() != null && !user.getName().equals("") && findById(user.getId()) == null) {
+        if (user.getName() != null) {
             result = this.memory.add(user);
         }
         return result;
@@ -65,12 +65,12 @@ public class ValidateService implements Validate {
         if (listedUser != null) {
             id = listedUser.getId();
             date = listedUser.getCreateDate();
-            if (user.getName() != null && !user.getName().equals("")) {
+            if (user.getName() != null) {
                 name = user.getName();
             } else {
                 name = listedUser.getName();
             }
-            if (user.getEmail() != null && !user.getEmail().equals("")) {
+            if (user.getEmail() != null) {
                 email = user.getEmail();
             } else {
                 email = listedUser.getEmail();
