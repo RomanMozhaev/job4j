@@ -48,10 +48,10 @@ public class UserUpdateServlet extends HttpServlet {
         String jspPath;
         if (user != null) {
             req.setAttribute("user", user);
-            jspPath = "/update.jsp";
+            jspPath = "/WEB-INF/update.jsp";
         } else {
             req.setAttribute("message", "The user was not found.");
-            jspPath = "/result.jsp";
+            jspPath = "/WEB-INF/result.jsp";
         }
         this.getServletContext().getRequestDispatcher(jspPath).forward(req, resp);
     }
@@ -74,7 +74,7 @@ public class UserUpdateServlet extends HttpServlet {
             message = "The user was not updated.";
         }
         req.setAttribute("message", message);
-        this.getServletContext().getRequestDispatcher("/result.jsp").forward(req, resp);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
     }
 
     /**

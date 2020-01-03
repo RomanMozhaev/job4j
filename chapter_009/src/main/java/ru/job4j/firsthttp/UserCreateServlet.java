@@ -17,6 +17,11 @@ public class UserCreateServlet extends HttpServlet {
     private final Validate validate = ValidateService.getInstance();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.getServletContext().getRequestDispatcher("/WEB-INF/create.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
@@ -28,6 +33,6 @@ public class UserCreateServlet extends HttpServlet {
             message = "the adding was not implemented.";
         }
         req.setAttribute("message", message);
-        this.getServletContext().getRequestDispatcher("/createResult.jsp").forward(req, resp);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/createResult.jsp").forward(req, resp);
     }
 }
