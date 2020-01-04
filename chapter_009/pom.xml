@@ -31,7 +31,21 @@
             <version>42.2.8</version>
         </dependency>
 
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc &ndash;&gt;-->
+        <!-- https://mvnrepository.com/artifact/jstl/jstl -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/taglibs/standard -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc &ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>org.xerial</groupId>-->
 <!--            <artifactId>sqlite-jdbc</artifactId>-->
