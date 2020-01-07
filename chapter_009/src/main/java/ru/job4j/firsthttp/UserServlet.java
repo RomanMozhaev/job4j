@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
@@ -84,13 +83,15 @@ public class UserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String srgId = req.getParameter("id");
+        String photoId = req.getParameter("photoId");
+
         int id;
         try {
             id = Integer.parseInt(srgId);
         } catch (NumberFormatException e) {
             id = -1;
         }
-        User user = new User(id, name, email, -1);
+        User user = new User(id, name, email, -1, photoId);
         if (this.actions.containsKey(action)) {
             if (this.actions.get(action).apply(user)) {
                 response = "the action was finished successfully.";

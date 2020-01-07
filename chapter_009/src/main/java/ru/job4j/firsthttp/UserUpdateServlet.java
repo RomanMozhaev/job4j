@@ -1,10 +1,15 @@
 package ru.job4j.firsthttp;
 
+import org.apache.commons.fileupload.FileItem;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * the servlet for user data updating
@@ -26,52 +31,26 @@ public class UserUpdateServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        if (action == null) {
-            createUpdateForm(req, resp);
-        } else {
-            update(req, resp);
-        }
-
-    }
-
-    /**
-     * creates form for data modification.
-     *
-     * @param req
-     * @param resp
-     * @throws IOException
-     */
-    private void createUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String id = req.getParameter("id");
-        User user = this.validate.findById(Integer.parseInt(id));
-        String jspPath;
-        if (user != null) {
-            req.setAttribute("user", user);
-            jspPath = "/WEB-INF/update.jsp";
-        } else {
-            req.setAttribute("message", "The user was not found.");
-            jspPath = "/WEB-INF/result.jsp";
-        }
-        this.getServletContext().getRequestDispatcher(jspPath).forward(req, resp);
-    }
-
-    /**
-     * updates data. if the data was not updated, creates a message.
-     *
-     * @param req
-     * @param resp
-     * @throws IOException
-     */
-    private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String name = req.getParameter("name");
-        String email = req.getParameter("email");
-        String srgId = req.getParameter("id");
+        Upload upload = new Upload();
+        ServletContext servletContext = this.getServletConfig().getServletContext();
+        Map<String, Object> fields = upload.getFields(req, servletContext);
+        String name = (String) fields.get("name");
+        String email = (String) fields.get("email");
+        String srgId = (String) fields.get("id");
+        FileItem photoId = (FileItem) fields.get("photoId");
         String message;
-        if (this.validate.update(new User(intOrDef(srgId, -1), name, email))) {
+        String photoPath = upload.uploadPhoto(photoId);
+        User savedUser = this.validate.findById(intOrDef(srgId, -1));
+        String savedPhoto = savedUser.getPhotoId();
+
+        if (this.validate.update(new User(intOrDef(srgId, -1), name, email, photoPath))) {
             message = "The user was successfully updated.";
+            if (!photoPath.equals("")) {
+                new File(savedPhoto).delete();
+            }
         } else {
             message = "The user was not updated.";
+            new File(photoPath).delete();
         }
         req.setAttribute("message", message);
         this.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);

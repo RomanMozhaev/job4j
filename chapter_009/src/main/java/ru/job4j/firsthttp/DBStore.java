@@ -68,7 +68,8 @@ public class DBStore implements Store {
                 String name = set.getString("user_name");
                 String email = set.getString("user_email");
                 long date = set.getLong("create_time");
-                users.put(id, new User(id, name, email, date));
+                String photoId = set.getString("user_photo");
+                users.put(id, new User(id, name, email, date, photoId));
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -84,13 +85,14 @@ public class DBStore implements Store {
     @Override
     public boolean add(User user) {
         boolean result = false;
-        String query = "INSERT INTO users (user_name, user_email, create_time) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (user_name, user_email, create_time, user_photo) VALUES (?, ?, ?, ?)";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ) {
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
             st.setLong(3, user.getCreateDate());
+            st.setString(4, user.getPhotoId());
             st.executeUpdate();
             ResultSet set = st.getGeneratedKeys();
             if (set.next()) {
@@ -132,12 +134,13 @@ public class DBStore implements Store {
     @Override
     public boolean update(User user) {
         boolean result = false;
-        String query = "UPDATE users SET (user_name, user_email) = (?, ?) WHERE user_id = ?";
+        String query = "UPDATE users SET (user_name, user_email, user_photo) = (?, ?, ?) WHERE user_id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
-            st.setInt(3, user.getId());
+            st.setString(3, user.getPhotoId());
+            st.setInt(4, user.getId());
             int rows = st.executeUpdate();
             if (rows > 0) {
                 result = true;
@@ -167,7 +170,8 @@ public class DBStore implements Store {
                 String name = set.getString("user_name");
                 String email = set.getString("user_email");
                 long date = set.getLong("create_time");
-                user = new User(userId, name, email, date);
+                String photoId = set.getString("user_photo");
+                user = new User(userId, name, email, date, photoId);
             }
 
         } catch (Exception e) {

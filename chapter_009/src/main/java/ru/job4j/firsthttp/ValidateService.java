@@ -61,6 +61,7 @@ public class ValidateService implements Validate {
         String email;
         long date;
         int id;
+        String photoId;
         User listedUser = findById(user.getId());
         if (listedUser != null) {
             id = listedUser.getId();
@@ -75,7 +76,12 @@ public class ValidateService implements Validate {
             } else {
                 email = listedUser.getEmail();
             }
-            result = this.memory.update(new User(id, name, email, date));
+            if (!user.getPhotoId().equals("")) {
+                photoId = user.getPhotoId();
+            } else {
+                photoId = listedUser.getPhotoId();
+            }
+            result = this.memory.update(new User(id, name, email, date, photoId));
         }
         return result;
     }
