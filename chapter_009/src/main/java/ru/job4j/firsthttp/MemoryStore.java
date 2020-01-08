@@ -2,6 +2,7 @@ package ru.job4j.firsthttp;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * the class provides ability to work with map where users' data contains.
@@ -25,7 +26,7 @@ public class MemoryStore implements Store {
     /**
      * the value of the next serial ID for adding user.
      */
-    private volatile int serialID = 0;
+    private AtomicInteger serialID = new AtomicInteger();
 
     /**
      * returns the instance of the class.
@@ -53,14 +54,13 @@ public class MemoryStore implements Store {
      * @return - true if the user was added; otherwise false.
      */
     @Override
-    public synchronized boolean add(User user) {
+    public boolean add(User user) {
         boolean result = false;
-        int id = this.serialID;
+        int id = this.serialID.incrementAndGet();
         User newUser = new User(id, user.getName(), user.getEmail(), user.getCreateDate());
         if (!this.map.contains(newUser)
                 && this.map.put(newUser.getId(), newUser) == null) {
             result = true;
-            this.serialID++;
         }
         return result;
     }
@@ -74,7 +74,7 @@ public class MemoryStore implements Store {
      * @return - true if the user was updated; otherwise false.
      */
     @Override
-    public synchronized boolean update(User user) {
+    public boolean update(User user) {
         boolean result = false;
         if (!this.map.contains(user)
                 && this.map.containsKey(user.getId())) {
@@ -91,7 +91,7 @@ public class MemoryStore implements Store {
      * @return true if deleted; otherwise false.
      */
     @Override
-    public synchronized boolean delete(User user) {
+    public boolean delete(User user) {
         return this.map.remove(user.getId()) != null;
     }
 }

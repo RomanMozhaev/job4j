@@ -60,9 +60,9 @@ public class DBStore implements Store {
         Map<Integer, User> users = new HashMap<>();
         String query = "SELECT * FROM users";
         try (Connection connection = SOURCE.getConnection();
-             Statement st = connection.createStatement()
+             Statement st = connection.createStatement();
+             ResultSet set = st.executeQuery(query)
         ) {
-            ResultSet set = st.executeQuery(query);
             while (set.next()) {
                 int id = set.getInt("user_id");
                 String name = set.getString("user_name");
