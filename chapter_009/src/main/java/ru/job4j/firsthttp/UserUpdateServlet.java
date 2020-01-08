@@ -67,19 +67,29 @@ public class UserUpdateServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String srgId = req.getParameter("id");
-        int id;
-        try {
-            id = Integer.parseInt(srgId);
-        } catch (NumberFormatException e) {
-            id = -1;
-        }
         String message;
-        if (this.validate.update(new User(id, name, email, -1))) {
+        if (this.validate.update(new User(intOrDef(srgId, -1), name, email))) {
             message = "The user was successfully updated.";
         } else {
             message = "The user was not updated.";
         }
         req.setAttribute("message", message);
         this.getServletContext().getRequestDispatcher("/result.jsp").forward(req, resp);
+    }
+
+    /**
+     * the method converts string to int or return def
+     * @param srgId - the string for converting to int
+     * @param def - default int
+     * @return int
+     */
+    private int intOrDef(String srgId, int def) {
+        int id;
+        try {
+            id = Integer.parseInt(srgId);
+        } catch (NumberFormatException e) {
+            id = def;
+        }
+        return id;
     }
 }

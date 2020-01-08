@@ -1,4 +1,3 @@
-
 <%@ page import="ru.job4j.firsthttp.UserCreateServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
