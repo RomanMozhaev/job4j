@@ -1,24 +1,22 @@
-<%@ page import="ru.job4j.firsthttp.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-
-<%User user = (User) request.getAttribute("user");%>
-<form action="<%=request.getContextPath()%>/update?action=edit
-    &id=<%=user.getId()%>" method="post">
+<form action="${pageContext.servletContext.contextPath}/update?action=edit
+    &id=${user.id}" method="post">
     ID : <input type="text" name="id"
-                value="<%=user.getId()%>"
+                value="<c:out value="${user.id}"></c:out>"
                 size=60 disabled>
     <br>
     Name : <input type="text" name="name"
-                  value="<%=user.getName()%>"
+                  value="<c:out value="${user.name}"></c:out>"
                   size=60>
     <br>
     Email : <input type="text" name="email"
-                   value="<%=user.getEmail()%>"
+                   value="<c:out value="${user.email}"></c:out>"
                    size=60>
     <br>
     <input type="submit" value="commit">
