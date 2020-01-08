@@ -10,6 +10,7 @@
 <table border="1" bordercolor="#000000" cellspacing="0" cellpadding="2">
     <tr>
         <td>ID</td>
+        <td>Role</td>
         <td>Name</td>
         <td>Email</td>
         <td>Date</td>
@@ -17,6 +18,7 @@
     <c:forEach items="${users}" var="entry">
         <tr>
             <td><c:out value="${entry.value.id}"></c:out></td>
+            <td><c:out value="${entry.value.role}"></c:out></td>
             <td><c:out value="${entry.value.name}"></c:out></td>
             <td><c:out value="${entry.value.email}"></c:out></td>
             <td><c:out value="${entry.value.createDate}"></c:out></td>

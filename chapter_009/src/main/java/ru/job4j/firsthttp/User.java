@@ -12,6 +12,8 @@ public class User {
     private final String email;
     private final long createDate;
     private final String photoId;
+    private final String password;
+    private final String role;
 
     /**
      * this constructor is user for updating the user.
@@ -20,12 +22,14 @@ public class User {
      * @param email -the email of the user
      * @param photoId - the link to the photo
      */
-    public User(int id, String name, String email, String photoId) {
+    public User(int id, String name, String email, String photoId, String password, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.photoId = photoId;
         this.createDate = -1;
+        this.password = password;
+        this.role = role;
     }
 
     /**
@@ -34,12 +38,14 @@ public class User {
      * @param email - the email of the user
      * @param photoId - the link to the photo
      */
-    public User(String name, String email, String photoId) {
+    public User(String name, String email, String photoId, String password, String role) {
         this.photoId = photoId;
         this.id = -1;
         this.name = name;
         this.email = email;
         this.createDate = System.currentTimeMillis();
+        this.password = password;
+        this.role = role;
     }
 
     /**
@@ -53,6 +59,8 @@ public class User {
         this.name = null;
         this.email = null;
         this.createDate = -1;
+        this.password = null;
+        this.role = null;
     }
 
     /**
@@ -63,12 +71,14 @@ public class User {
      * @param createDate - the date of user creating
      * @param photoId
      */
-    public User(int id, String name, String email, long createDate, String photoId) {
+    public User(int id, String name, String email, long createDate, String photoId, String password, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.createDate = createDate;
         this.photoId = photoId;
+        this.password = password;
+        this.role = role;
     }
 
 
@@ -90,6 +100,14 @@ public class User {
 
     public String getPhotoId() {
         return photoId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     @Override

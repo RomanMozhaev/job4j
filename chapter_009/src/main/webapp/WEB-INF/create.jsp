@@ -5,9 +5,19 @@
 </head>
 <body>
 <form action="${pageContext.servletContext.contextPath}/create" method="post" enctype="multipart/form-data">
+    Role :
+<%--    <form action="/action_page.php">--%>
+        <select name="role">
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+        </select>
+        <br>
+<%--    </form>--%>
     Name : <input type="text" name="name" placeholder="enter the name (required)" size=60>
     <br>
     Email : <input type="text" name="email" placeholder="enter the email" size=60>
+    <br>
+    Password : <input type="password" name="password" placeholder="enter the password" size=60>
     <br>
     <div class="checkbox">
         Photo : <input type="file" name="file">

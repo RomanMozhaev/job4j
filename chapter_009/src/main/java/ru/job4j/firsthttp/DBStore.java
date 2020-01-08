@@ -34,7 +34,7 @@ public class DBStore implements Store {
      * the properties of the database are set.
      */
     private DBStore() {
-        SOURCE.setUrl("jdbc:postgresql://localhost:5432/server");
+        SOURCE.setUrl("jdbc:postgresql://localhost:5432/tracker");
         SOURCE.setUsername("postgres");
         SOURCE.setPassword("password");
         SOURCE.setMinIdle(5);
@@ -69,7 +69,9 @@ public class DBStore implements Store {
                 String email = set.getString("user_email");
                 long date = set.getLong("create_time");
                 String photoId = set.getString("user_photo");
-                users.put(id, new User(id, name, email, date, photoId));
+                String password = set.getString("password");
+                String role = set.getString("role");
+                users.put(id, new User(id, name, email, date, photoId, password, role));
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -85,7 +87,7 @@ public class DBStore implements Store {
     @Override
     public boolean add(User user) {
         boolean result = false;
-        String query = "INSERT INTO users (user_name, user_email, create_time, user_photo) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO users (user_name, user_email, create_time, user_photo, password, role) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ) {
@@ -93,6 +95,8 @@ public class DBStore implements Store {
             st.setString(2, user.getEmail());
             st.setLong(3, user.getCreateDate());
             st.setString(4, user.getPhotoId());
+            st.setString(5, user.getPassword());
+            st.setString(6, user.getRole());
             st.executeUpdate();
             ResultSet set = st.getGeneratedKeys();
             if (set.next()) {
@@ -134,13 +138,15 @@ public class DBStore implements Store {
     @Override
     public boolean update(User user) {
         boolean result = false;
-        String query = "UPDATE users SET (user_name, user_email, user_photo) = (?, ?, ?) WHERE user_id = ?";
+        String query = "UPDATE users SET (user_name, user_email, user_photo, password, role) = (?, ?, ?, ?, ?) WHERE user_id = ?";
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
             st.setString(3, user.getPhotoId());
-            st.setInt(4, user.getId());
+            st.setString(4, user.getPassword());
+            st.setString(5, user.getRole());
+            st.setInt(6, user.getId());
             int rows = st.executeUpdate();
             if (rows > 0) {
                 result = true;
@@ -171,7 +177,9 @@ public class DBStore implements Store {
                 String email = set.getString("user_email");
                 long date = set.getLong("create_time");
                 String photoId = set.getString("user_photo");
-                user = new User(userId, name, email, date, photoId);
+                String password = set.getString("password");
+                String role = set.getString("role");
+                user = new User(userId, name, email, date, photoId, password, role);
             }
 
         } catch (Exception e) {

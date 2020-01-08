@@ -14,10 +14,23 @@
                 value="<c:out value="${user.id}"></c:out>"
                 size=60 readonly>
     <br>
+    <c:if test="${user.role == 'admin'}">
+        Role :
+        <select name="role">
+            <option value=""></option>
+            <option value="admin">user</option>
+            <option value="user">admin</option>
+        </select>
+        <br>
+    </c:if>
     Name : <input type="text" name="name"
                   value="<c:out value="${user.name}"></c:out>"
                   size=60>
     <br>
+
+    Password : <input type="password" name="password" placeholder="leave blank or enter the new password" size=60>
+    <br>
+
     Email : <input type="text" name="email"
                    value="<c:out value="${user.email}"></c:out>"
                    size=60>

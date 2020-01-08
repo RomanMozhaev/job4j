@@ -13,6 +13,8 @@ Do you really want to delete this user?
              width="100px" height="100px"/></a>
     <br>
     ID : <input type="text" name="id" value="<c:out value="${user.id}"></c:out>" size=60 readonly>
+   <br>
+    Role : <input type="text" name="id" value="<c:out value="${user.role}"></c:out>" size=60 readonly>
     <br>
     Name : <input type="text" name="name" value="<c:out value="${user.name}"></c:out>" size=60 readonly>
     <br>
