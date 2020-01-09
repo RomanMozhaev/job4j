@@ -35,7 +35,7 @@ public class UserCreateServlet extends HttpServlet {
         String email = (String) fields.get("email");
         FileItem photoId = (FileItem) fields.get("photoId");
         String message;
-        String photoPath = upload.uploadPhoto(photoId);
+        String photoPath = upload.uploadPhoto(photoId, servletContext);
         User user = new User(name, email, photoPath);
         if (this.validate.add(user)) {
             message = "the adding was finished successfully.";

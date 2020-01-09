@@ -19,7 +19,9 @@
             <td><c:out value="${entry.value.id}"></c:out></td>
             <td><c:out value="${entry.value.name}"></c:out></td>
             <td><c:out value="${entry.value.email}"></c:out></td>
-            <td><c:out value="${entry.value.createDate}"></c:out></td>
+            <jsp:useBean id="myDate" class="java.util.Date"/>
+            <c:set target="${myDate}" property="time" value="${entry.value.createDate}"/>
+            <td><c:out value="${myDate}"></c:out></td>
             <td><a href="${pageContext.servletContext.contextPath}/download?photoId=${entry.value.photoId}">
                 <img src="${pageContext.servletContext.contextPath}/download?photoId=${entry.value.photoId}"
                      width="100px" height="100px"/></a></td>

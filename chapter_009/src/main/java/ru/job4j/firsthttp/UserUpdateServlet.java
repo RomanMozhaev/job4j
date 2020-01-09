@@ -39,7 +39,7 @@ public class UserUpdateServlet extends HttpServlet {
         String srgId = (String) fields.get("id");
         FileItem photoId = (FileItem) fields.get("photoId");
         String message;
-        String photoPath = upload.uploadPhoto(photoId);
+        String photoPath = upload.uploadPhoto(photoId, servletContext);
         User savedUser = this.validate.findById(intOrDef(srgId, -1));
         String savedPhoto = savedUser.getPhotoId();
 

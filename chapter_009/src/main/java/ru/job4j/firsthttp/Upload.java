@@ -53,9 +53,10 @@ public class Upload {
      * @param photoId
      * @return the map with fields.
      */
-    public String uploadPhoto(FileItem photoId) {
+    public String uploadPhoto(FileItem photoId, ServletContext servletContext) {
         String newFilePath = "";
-        File folder = new File("/home/romanm/images");
+        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+        File folder = new File(repository + "/images");
         if (!folder.exists()) {
             folder.mkdir();
         }
