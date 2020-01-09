@@ -57,7 +57,9 @@ public class MemoryStore implements Store {
     public boolean add(User user) {
         boolean result = false;
         int id = this.serialID.incrementAndGet();
-        User newUser = new User(id, user.getName(), user.getEmail(), user.getCreateDate(), user.getPhotoId());
+        User newUser = new User(id, user.getName(), user.getEmail(),
+                user.getCreateDate(), user.getPhotoId(),
+                user.getPassword(), user.getRole());
         if (!this.map.contains(newUser)
                 && this.map.put(newUser.getId(), newUser) == null) {
             result = true;

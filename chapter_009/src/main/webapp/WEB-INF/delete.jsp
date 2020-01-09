@@ -14,6 +14,8 @@ Do you really want to delete this user?
     <br>
     ID : <input type="text" name="id" value="<c:out value="${user.id}"></c:out>" size=60 readonly>
     <br>
+    Role : <input type="text" name="id" value="<c:out value="${user.role}"></c:out>" size=60 readonly>
+    <br>
     Name : <input type="text" name="name" value="<c:out value="${user.name}"></c:out>" size=60 readonly>
     <br>
     Email : <input type="text" name="email" value="<c:out value="${user.email}"></c:out>" size=60 readonly>

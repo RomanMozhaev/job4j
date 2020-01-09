@@ -38,12 +38,17 @@ public class UserUpdateServlet extends HttpServlet {
         String email = (String) fields.get("email");
         String srgId = (String) fields.get("id");
         FileItem photoId = (FileItem) fields.get("photoId");
+        String password = (String) fields.get("password");
+        String role = (String) fields.get("role");
+        if (role == null) {
+            role = "";
+        }
         String message;
         String photoPath = upload.uploadPhoto(photoId, servletContext);
         User savedUser = this.validate.findById(intOrDef(srgId, -1));
         String savedPhoto = savedUser.getPhotoId();
 
-        if (this.validate.update(new User(intOrDef(srgId, -1), name, email, photoPath))) {
+        if (this.validate.update(new User(intOrDef(srgId, -1), name, email, photoPath, password, role))) {
             message = "The user was successfully updated.";
             if (!photoPath.equals("")) {
                 new File(savedPhoto).delete();
