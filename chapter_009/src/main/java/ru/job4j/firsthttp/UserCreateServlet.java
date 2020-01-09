@@ -20,14 +20,7 @@ public class UserCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
-        String srgId = req.getParameter("id");
-        int id;
-        try {
-            id = Integer.parseInt(srgId);
-        } catch (NumberFormatException e) {
-            id = -1;
-        }
-        User user = new User(id, name, email, -1);
+        User user = new User(name, email);
         String message;
         if (this.validate.add(user)) {
             message = "the adding was finished successfully.";
