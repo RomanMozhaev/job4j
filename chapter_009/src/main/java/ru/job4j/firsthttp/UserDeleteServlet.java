@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -52,11 +53,15 @@ public class UserDeleteServlet extends HttpServlet {
      */
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String stgId = req.getParameter("id");
-        String message;
-        if (this.validate.delete(new User(intOrDef(stgId, -1)))) {
-            message = "The user was successfully deleted.";
-        } else {
-            message = "The user was not deleted.";
+        String message = "The user was not deleted.";
+        String photo;
+        User user = this.validate.findById(intOrDef(stgId, -1));
+        if (user != null) {
+            photo = user.getPhotoId();
+            if (this.validate.delete(user)) {
+                message = "The user was successfully deleted.";
+                new File(photo).delete();
+            }
         }
         req.setAttribute("message", message);
         this.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);

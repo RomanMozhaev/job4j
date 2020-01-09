@@ -34,6 +34,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>UserUpdateFormServlet</servlet-name>
+        <servlet-class>ru.job4j.firsthttp.UserUpdateFormServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserUpdateFormServlet</servlet-name>
+        <url-pattern>/updateForm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>UserDeleteServlet</servlet-name>
         <servlet-class>ru.job4j.firsthttp.UserDeleteServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
@@ -42,6 +52,7 @@
         <servlet-name>UserDeleteServlet</servlet-name>
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>UsersViewServlet</servlet-name>
         <servlet-class>ru.job4j.firsthttp.UsersViewServlet</servlet-class>
@@ -50,5 +61,15 @@
     <servlet-mapping>
         <servlet-name>UsersViewServlet</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>ru.job4j.firsthttp.DownloadServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/download</url-pattern>
     </servlet-mapping>
 </web-app>
