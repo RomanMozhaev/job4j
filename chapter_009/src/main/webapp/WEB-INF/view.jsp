@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
@@ -8,7 +7,7 @@
 <form action="${pageContext.servletContext.contextPath}/create" method="get">
     <input type="submit" value="Add a new user">
 </form>
-<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="2" >
+<table border="1" bordercolor="#000000" cellspacing="0" cellpadding="2">
     <tr>
         <td>ID</td>
         <td>Name</td>
@@ -23,13 +22,16 @@
             <jsp:useBean id="myDate" class="java.util.Date"/>
             <c:set target="${myDate}" property="time" value="${entry.value.createDate}"/>
             <td><c:out value="${myDate}"></c:out></td>
+            <td><a href="${pageContext.servletContext.contextPath}/download?photoId=${entry.value.photoId}">
+                <img src="${pageContext.servletContext.contextPath}/download?photoId=${entry.value.photoId}"
+                     width="100px" height="100px"/></a></td>
             <td>
                 <form action="${pageContext.servletContext.contextPath}/delete?id=${entry.value.id}" method="post">
                     <input type="submit" value="delete">
                 </form>
             </td>
             <td>
-                <form action="${pageContext.servletContext.contextPath}/update?id=${entry.value.id}" method="post">
+                <form action="${pageContext.servletContext.contextPath}/updateForm?id=${entry.value.id}" method="post">
                     <input type="submit" value="update">
                 </form>
             </td>

@@ -1,7 +1,6 @@
 package ru.job4j.firsthttp;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * the interface for validating classes.
