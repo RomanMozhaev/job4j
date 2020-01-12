@@ -1,13 +1,11 @@
 package ru.job4j.firsthttp;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ValidateStub implements Validate {
     private final Map<Integer, User> store = new HashMap<>();
-    private int ids = 0;
+    private int ids = 1;
 
     @Override
     public boolean add(User user) {
@@ -21,22 +19,22 @@ public class ValidateStub implements Validate {
 
     @Override
     public boolean update(User user) {
-        return false;
+        return this.store.put(user.getId(), user) != null;
     }
 
     @Override
     public boolean delete(User user) {
-        return false;
+        return this.store.remove(user.getId()) != null;
     }
 
     @Override
     public Map<Integer, User> findAll() {
-        return null;
+        return this.store;
     }
 
     @Override
     public User findById(int id) {
-        return null;
+        return this.store.get(id);
     }
 
     @Override

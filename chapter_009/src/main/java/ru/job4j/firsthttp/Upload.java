@@ -19,6 +19,10 @@ import java.util.Map;
  */
 public class Upload {
 
+    public static Upload getUploadInstance()  {
+        return new Upload();
+    }
+
     /**
      * the method collects all fields' values to the map
      *

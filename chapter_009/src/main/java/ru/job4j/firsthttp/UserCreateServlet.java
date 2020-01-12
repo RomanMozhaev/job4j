@@ -2,6 +2,7 @@ package ru.job4j.firsthttp;
 
 import org.apache.commons.fileupload.FileItem;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +28,8 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Upload upload = new Upload();
-        File repository = (File) this.getServletConfig().getServletContext().getAttribute("javax.servlet.context.tempdir");
+        Upload upload = Upload.getUploadInstance();
+        File repository = (File) this.getServletContext().getAttribute("javax.servlet.context.tempdir");
         Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
