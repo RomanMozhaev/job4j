@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ValidateService.class, Upload.class, UserCreateServlet.class})
+@PrepareForTest({ValidateService.class})
 @PowerMockIgnore({"org.apache.logging.log4j.*", "com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "org.w3c.dom.*", "javax.management.*"})
 public class UserCreateServletTest {
 
