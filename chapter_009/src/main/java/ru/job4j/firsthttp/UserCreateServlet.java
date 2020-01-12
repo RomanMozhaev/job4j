@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -29,7 +30,8 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Upload upload = Upload.getUploadInstance();
-        File repository = (File) this.getServletContext().getAttribute("javax.servlet.context.tempdir");
+        HttpSession session = req.getSession();
+        File repository = (File) session.getServletContext().getAttribute("javax.servlet.context.tempdir");
         Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
@@ -46,6 +48,6 @@ public class UserCreateServlet extends HttpServlet {
             new File(photoPath).delete();
         }
         req.setAttribute("message", message);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/createResult.jsp").forward(req, resp);
+        session.getServletContext().getRequestDispatcher("/WEB-INF/createResult.jsp").forward(req, resp);
     }
 }
