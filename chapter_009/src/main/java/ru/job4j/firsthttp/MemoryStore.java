@@ -60,8 +60,7 @@ public class MemoryStore implements Store {
         User newUser = new User(id, user.getName(), user.getEmail(),
                 user.getCreateDate(), user.getPhotoId(),
                 user.getPassword(), user.getRole());
-        if (!this.map.contains(newUser)
-                && this.map.put(newUser.getId(), newUser) == null) {
+        if (this.map.putIfAbsent(newUser.getId(), newUser) == null) {
             result = true;
         }
         return result;
@@ -78,9 +77,7 @@ public class MemoryStore implements Store {
     @Override
     public boolean update(User user) {
         boolean result = false;
-        if (!this.map.contains(user)
-                && this.map.containsKey(user.getId())) {
-            this.map.put(user.getId(), user);
+        if (this.map.replace(user.getId(), user) != null) {
             result = true;
         }
         return result;

@@ -29,7 +29,7 @@ public class ValidateService implements Validate {
      *
      * @return - the instance.
      */
-    public static ValidateService getInstance() {
+    public static Validate getInstance() {
         return INSTANCE;
     }
 
