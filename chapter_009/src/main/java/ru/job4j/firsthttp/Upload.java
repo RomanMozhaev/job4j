@@ -25,10 +25,9 @@ public class Upload {
      * @param req
      * @return
      */
-    public Map<String, Object> getFields(HttpServletRequest req, ServletContext servletContext) {
+    public Map<String, Object> getFields(HttpServletRequest req, File repository) {
         Map<String, Object> fields = new HashMap<>();
         DiskFileItemFactory factory = new DiskFileItemFactory();
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(repository);
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
@@ -53,9 +52,8 @@ public class Upload {
      * @param photoId
      * @return the map with fields.
      */
-    public String uploadPhoto(FileItem photoId, ServletContext servletContext) {
+    public String uploadPhoto(FileItem photoId, File repository) {
         String newFilePath = "";
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         File folder = new File(repository + "/images");
         if (!folder.exists()) {
             folder.mkdir();

@@ -2,7 +2,6 @@ package ru.job4j.firsthttp;
 
 import org.apache.commons.fileupload.FileItem;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,15 +28,15 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Upload upload = new Upload();
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        Map<String, Object> fields = upload.getFields(req, servletContext);
+        File repository = (File) this.getServletConfig().getServletContext().getAttribute("javax.servlet.context.tempdir");
+        Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
         FileItem photoId = (FileItem) fields.get("photoId");
         String password = (String) fields.get("password");
         String role = (String) fields.get("role");
         String message;
-        String photoPath = upload.uploadPhoto(photoId, servletContext);
+        String photoPath = upload.uploadPhoto(photoId, repository);
         User user = new User(name, email, photoPath, password, role);
         if (this.validate.add(user)) {
             message = "the adding was finished successfully.";

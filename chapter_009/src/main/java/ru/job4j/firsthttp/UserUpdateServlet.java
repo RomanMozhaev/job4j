@@ -32,8 +32,8 @@ public class UserUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Upload upload = new Upload();
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        Map<String, Object> fields = upload.getFields(req, servletContext);
+        File repository = (File) this.getServletConfig().getServletContext().getAttribute("javax.servlet.context.tempdir");
+        Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
         String srgId = (String) fields.get("id");
@@ -44,7 +44,7 @@ public class UserUpdateServlet extends HttpServlet {
             role = "";
         }
         String message;
-        String photoPath = upload.uploadPhoto(photoId, servletContext);
+        String photoPath = upload.uploadPhoto(photoId, repository);
         User savedUser = this.validate.findById(intOrDef(srgId, -1));
         String savedPhoto = savedUser.getPhotoId();
 
