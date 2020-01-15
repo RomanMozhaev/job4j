@@ -7,22 +7,58 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var name = $('#first').val();
+            var surname = $('#second').val();
+            var gender = "";
+            var radios = document.getElementsByName('gender');
+            for (var i = 0; i !== radios.length; i++) {
+                var radio = radios[i];
+                if (radio.checked) {
+                    gender = "checked";
+                }
+            }
+            var massage = "";
+            if (name === "") {
+                massage += document.getElementById('label_first').innerText;
+            }
+            if (surname === "") {
+                if (massage !== "") {
+                    massage += ", ";
+                }
+                massage += document.getElementById('label_second').innerText;
+            }
+            if (gender === "") {
+                if (massage !== "") {
+                    massage += ", ";
+                }
+                massage += document.getElementById('label_gender').innerText;
+            }
+            if (massage !== "") {
+
+                alert("the follow field can't be empty: " + massage);
+            }
+            return false;
+        }
+    </script>
 </head>
 <body>
-
-<form action="/action_page.php">
+<div class="container">
     <div class="form-group">
-        <label for="first">First Name:</label>
+        <label id="label_first" for="first">First Name</label>
         <input type="text" class="form-control" id="first">
     </div>
     <div class="form-group">
-        <label for="second">Second Name:</label>
+        <label id="label_second" for="second">Second Name</label>
         <input type="text" class="form-control" id="second">
     </div>
     <div class="form-group">
-        <label for="gender">Gender: </label>
-        <input type="radio" name="gender" value="male" id="gender"> Male
-        <input type="radio" name="gender" value="female"> Female<br>
+        <label id="label_gender">Gender</label><br>
+        <label for="radio_male">Male: </label>
+        <input type="radio" name="gender" value="male" id="radio_male">
+        <label for="radio_female">Female: </label>
+        <input type="radio" name="gender" value="female" id="radio_female"><br>
     </div>
     <div>
         <label for="desc">Description: </label><br>
@@ -30,13 +66,12 @@
         <br>
     </div>
     <div>
-        <input type="submit" class="form-control" value="send">
+        <input type="button" class="form-control" onclick="return validate();" value="send">
     </div>
-</form>
-
+</div>
 <div class="container">
     <h2>Users</h2>
-    <table class="table" >
+    <table class="table">
         <thead>
         <tr>
             <th>Firstname</th>
@@ -63,6 +98,5 @@
         </tbody>
     </table>
 </div>
-
 </body>
 </html>
