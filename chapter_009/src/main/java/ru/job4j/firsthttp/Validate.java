@@ -31,4 +31,12 @@ public interface Validate {
      * finds the mapped user by id.
      */
     User findById(int id);
+
+    /**
+     * the method for checking the user name and password.
+     * @param name the user name.
+     * @param password the user password.
+     * @return true if name and password matched; otherwise false.
+     */
+    int isCredential(String name, String password);
 }

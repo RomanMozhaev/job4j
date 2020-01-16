@@ -62,6 +62,8 @@ public class ValidateService implements Validate {
         long date;
         int id;
         String photoId;
+        String password;
+        String role;
         User listedUser = findById(user.getId());
         if (listedUser != null) {
             id = listedUser.getId();
@@ -81,7 +83,17 @@ public class ValidateService implements Validate {
             } else {
                 photoId = listedUser.getPhotoId();
             }
-            result = this.memory.update(new User(id, name, email, date, photoId));
+            if (!user.getPassword().equals("")) {
+                password = user.getPassword();
+            } else {
+                password = listedUser.getPassword();
+            }
+            if (!user.getRole().equals("")) {
+                role = user.getRole();
+            } else {
+                role = listedUser.getRole();
+            }
+            result = this.memory.update(new User(id, name, email, date, photoId, password, role));
         }
         return result;
     }
@@ -117,5 +129,17 @@ public class ValidateService implements Validate {
     public User findById(int id) {
 
         return this.memory.findById(id);
+    }
+
+    public int isCredential(String name, String password) {
+        int result = -1;
+        for (Map.Entry<Integer, User> entry : this.memory.findAll().entrySet()) {
+            User user = entry.getValue();
+            if (user.getName().equals(name) && user.getPassword().equals(password)) {
+                result = user.getId();
+                break;
+            }
+        }
+        return result;
     }
 }
