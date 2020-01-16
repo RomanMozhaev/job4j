@@ -16,7 +16,7 @@
             for (var i = 0; i !== radios.length; i++) {
                 var radio = radios[i];
                 if (radio.checked) {
-                    gender = "checked";
+                    gender = document.getElementById("radio" + i).getAttribute('value');
                 }
             }
             var massage = "";
@@ -36,10 +36,19 @@
                 massage += document.getElementById('label_gender').innerText;
             }
             if (massage !== "") {
-
                 alert("the follow field can't be empty: " + massage);
+            } else {
+                addRow(name, surname, gender);
             }
             return false;
+        }
+
+        function addRow(name, surname, gender) {
+            $('#table tr:last').after('<tr>' +
+                '<td>' + name +'</td>' +
+                '<td>' + surname +'</td>' +
+                '<td>' + gender +'</td>' +
+                '</tr>');
         }
     </script>
 </head>
@@ -55,10 +64,10 @@
     </div>
     <div class="form-group">
         <label id="label_gender">Gender</label><br>
-        <label for="radio_male">Male: </label>
-        <input type="radio" name="gender" value="male" id="radio_male">
-        <label for="radio_female">Female: </label>
-        <input type="radio" name="gender" value="female" id="radio_female"><br>
+        <label for="radio0">Male: </label>
+        <input type="radio" name="gender" value="male" id="radio0">
+        <label for="radio1">Female: </label>
+        <input type="radio" name="gender" value="female" id="radio1"><br>
     </div>
     <div>
         <label for="desc">Description: </label><br>
@@ -71,11 +80,11 @@
 </div>
 <div class="container">
     <h2>Users</h2>
-    <table class="table">
+    <table id="table" class="table">
         <thead>
         <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
+            <th>First name</th>
+            <th>Last name</th>
             <th>Gender</th>
         </tr>
         </thead>
