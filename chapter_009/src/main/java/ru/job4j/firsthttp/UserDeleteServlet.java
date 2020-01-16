@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 
@@ -35,13 +36,14 @@ public class UserDeleteServlet extends HttpServlet {
      */
     private void createDeleteForm(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String id = req.getParameter("id");
+        HttpSession session = req.getSession();
         User user = this.validate.findById(Integer.parseInt(id));
         if (user != null) {
             req.setAttribute("user", user);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/delete.jsp").forward(req, resp);
+            session.getServletContext().getRequestDispatcher("/WEB-INF/delete.jsp").forward(req, resp);
         } else {
             req.setAttribute("message", "The user was not found.");
-            this.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
+            session.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
         }
     }
 
@@ -64,7 +66,7 @@ public class UserDeleteServlet extends HttpServlet {
             }
         }
         req.setAttribute("message", message);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
+        req.getSession().getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
     }
 
     /**

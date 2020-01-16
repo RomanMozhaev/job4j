@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -31,9 +32,12 @@ public class UserUpdateServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Upload upload = new Upload();
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        Map<String, Object> fields = upload.getFields(req, servletContext);
+        Upload upload = Upload.getUploadInstance();
+        HttpSession session = req.getSession();
+        File repository = (File) session.getServletContext().getAttribute("javax.servlet.context.tempdir");
+
+//        File repository = (File) this.getServletContext().getAttribute("javax.servlet.context.tempdir");
+        Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
         String srgId = (String) fields.get("id");
@@ -44,13 +48,15 @@ public class UserUpdateServlet extends HttpServlet {
             role = "";
         }
         String message;
-        String photoPath = upload.uploadPhoto(photoId, servletContext);
+        String photoPath = upload.uploadPhoto(photoId, repository);
         User savedUser = this.validate.findById(intOrDef(srgId, -1));
-        String savedPhoto = savedUser.getPhotoId();
-
+        String savedPhoto = "";
+        if (savedUser != null) {
+            savedPhoto = savedUser.getPhotoId();
+        }
         if (this.validate.update(new User(intOrDef(srgId, -1), name, email, photoPath, password, role))) {
             message = "The user was successfully updated.";
-            if (!photoPath.equals("")) {
+            if (!photoPath.equals("") && !savedPhoto.equals("")) {
                 new File(savedPhoto).delete();
             }
         } else {
@@ -58,13 +64,14 @@ public class UserUpdateServlet extends HttpServlet {
             new File(photoPath).delete();
         }
         req.setAttribute("message", message);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
+        session.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
     }
 
     /**
      * the method converts string to int or return def
+     *
      * @param srgId - the string for converting to int
-     * @param def - default int
+     * @param def   - default int
      * @return int
      */
     private int intOrDef(String srgId, int def) {

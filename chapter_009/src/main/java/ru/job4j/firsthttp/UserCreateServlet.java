@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -28,16 +29,17 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Upload upload = new Upload();
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        Map<String, Object> fields = upload.getFields(req, servletContext);
+        Upload upload = Upload.getUploadInstance();
+        HttpSession session = req.getSession();
+        File repository = (File) session.getServletContext().getAttribute("javax.servlet.context.tempdir");
+        Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
         FileItem photoId = (FileItem) fields.get("photoId");
         String password = (String) fields.get("password");
         String role = (String) fields.get("role");
         String message;
-        String photoPath = upload.uploadPhoto(photoId, servletContext);
+        String photoPath = upload.uploadPhoto(photoId, repository);
         User user = new User(name, email, photoPath, password, role);
         if (this.validate.add(user)) {
             message = "the adding was finished successfully.";
@@ -46,6 +48,6 @@ public class UserCreateServlet extends HttpServlet {
             new File(photoPath).delete();
         }
         req.setAttribute("message", message);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/createResult.jsp").forward(req, resp);
+        session.getServletContext().getRequestDispatcher("/WEB-INF/createResult.jsp").forward(req, resp);
     }
 }
