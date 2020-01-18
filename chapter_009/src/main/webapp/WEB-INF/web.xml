@@ -62,15 +62,15 @@
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>UsersViewServlet</servlet-name>
-        <servlet-class>ru.job4j.firsthttp.UsersViewServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UsersViewServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>UsersViewServlet</servlet-name>-->
+<!--        <servlet-class>ru.job4j.firsthttp.UsersViewServlet</servlet-class>-->
+<!--        <load-on-startup>0</load-on-startup>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>UsersViewServlet</servlet-name>-->
+<!--        <url-pattern>/</url-pattern>-->
+<!--    </servlet-mapping>-->
 
     <servlet>
         <servlet-name>DownloadServlet</servlet-name>
@@ -92,14 +92,14 @@
         <url-pattern>/signin</url-pattern>
     </servlet-mapping>
 
-    <filter>
-        <filter-name>AuthorizationFilter</filter-name>
-        <filter-class>ru.job4j.firsthttp.AuthorizationFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthorizationFilter</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
+<!--    <filter>-->
+<!--        <filter-name>AuthorizationFilter</filter-name>-->
+<!--        <filter-class>ru.job4j.firsthttp.AuthorizationFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>AuthorizationFilter</filter-name>-->
+<!--        <url-pattern>*</url-pattern>-->
+<!--    </filter-mapping>-->
 
     <filter>
         <filter-name>CreateFilter</filter-name>

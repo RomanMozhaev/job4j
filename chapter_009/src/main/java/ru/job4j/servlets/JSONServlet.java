@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 public class JSONServlet extends HttpServlet {
 
@@ -21,7 +22,11 @@ public class JSONServlet extends HttpServlet {
         reader.lines().forEach(sb::append);
         ObjectMapper mapper = new ObjectMapper();
         String json = sb.toString();
-        JsonUser user = mapper.readValue(json, JsonUser.class);
+        Map map = mapper.readValue(json, Map.class);
+        String name = (String) map.get("name");
+        String surname = (String) map.get("surname");
+        String gender = (String) map.get("gender");
+        JsonUser user = new JsonUser(name, surname, gender);
         if (this.memory.add(user)) {
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
