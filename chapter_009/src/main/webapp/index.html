@@ -38,22 +38,42 @@
             if (massage !== "") {
                 alert("the follow field can't be empty: " + massage);
             } else {
-                addRow(name, surname, gender);
+                var user = {
+                    name: name,
+                    surname: surname,
+                    gender: gender
+                };
+                jsonResponse(user);
             }
             return false;
         }
 
-        function addRow(name, surname, gender) {
+
+        function jsonResponse(user) {
+            var url = "http://localhost:8080/users/json";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(user),
+                success: [function($data) {
+                    addRow($data);
+                }],
+                dataType: 'json'
+            });
+        }
+
+        function addRow(user) {
             $('#table tr:last').after('<tr>' +
-                '<td>' + name +'</td>' +
-                '<td>' + surname +'</td>' +
-                '<td>' + gender +'</td>' +
+                '<td>' + user.name + '</td>' +
+                '<td>' + user.surname + '</td>' +
+                '<td>' + user.gender + '</td>' +
                 '</tr>');
+            document.dataForm.reset();
         }
     </script>
 </head>
 <body>
-<div class="container">
+<form name="dataForm" class="container">
     <div class="form-group">
         <label id="label_first" for="first">First Name</label>
         <input type="text" class="form-control" id="first">
@@ -77,7 +97,7 @@
     <div>
         <input type="button" class="form-control" onclick="return validate();" value="send">
     </div>
-</div>
+</form>
 <div class="container">
     <h2>Users</h2>
     <table id="table" class="table">
