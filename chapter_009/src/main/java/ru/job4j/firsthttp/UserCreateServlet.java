@@ -1,6 +1,7 @@
 package ru.job4j.firsthttp;
 
 import org.apache.commons.fileupload.FileItem;
+import org.json.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,11 +26,6 @@ public class UserCreateServlet extends HttpServlet {
     private final Validate validate = ValidateService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/WEB-INF/create.jsp").forward(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Upload upload = Upload.getUploadInstance();
         HttpSession session = req.getSession();
@@ -35,19 +33,37 @@ public class UserCreateServlet extends HttpServlet {
         Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
-        FileItem photoId = (FileItem) fields.get("photoId");
-        String password = (String) fields.get("password");
+        FileItem photoId = (FileItem) fields.get("pic");
+        String password = (String) fields.get("pass");
         String role = (String) fields.get("role");
-        String message;
+        String city = (String) fields.get("city");
+        String state = (String) fields.get("state");
         String photoPath = upload.uploadPhoto(photoId, repository);
-        User user = new User(name, email, photoPath, password, role);
-        if (this.validate.add(user)) {
-            message = "the adding was finished successfully.";
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("email", email);
+        map.put("photoId", photoPath);
+        map.put("password", password);
+        map.put("role", role);
+        map.put("city", city);
+        map.put("state", state);
+        User user = new User(map);
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        JSONObject status = new JSONObject();
+        Integer result = this.validate.add(user);
+        User addedUser = this.validate.findById(result);
+        if (result > -1) {
+            status.put("status", "valid");
+            status.put("id", result.toString());
+            status.put("pic", addedUser.getPhotoId());
+            status.put("date", addedUser.getCreateDate());
         } else {
-            message = "the adding was not implemented.";
+            status.put("status", "invalid");
             new File(photoPath).delete();
         }
-        req.setAttribute("message", message);
-        session.getServletContext().getRequestDispatcher("/WEB-INF/createResult.jsp").forward(req, resp);
+        writer.append(status.toString());
+        writer.flush();
     }
 }

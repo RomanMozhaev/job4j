@@ -1,5 +1,6 @@
 package ru.job4j.firsthttp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -7,6 +8,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +31,7 @@ public class Upload {
      * @param req
      * @return
      */
-    public Map<String, Object> getFields(HttpServletRequest req, File repository) {
+    public Map getFields(HttpServletRequest req, File repository) {
         Map<String, Object> fields = new HashMap<>();
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setRepository(repository);
@@ -38,7 +40,7 @@ public class Upload {
             List<FileItem> items = upload.parseRequest(req);
             for (FileItem item : items) {
                 if (!item.isFormField()) {
-                    fields.put("photoId", item);
+                    fields.put("pic", item);
                 } else {
                     fields.put(item.getFieldName(), item.getString());
                 }
@@ -48,7 +50,6 @@ public class Upload {
         }
         return fields;
     }
-
 
     /**
      * the method uploads picture of the user.
@@ -62,7 +63,7 @@ public class Upload {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        if (!photoId.getName().equals("")) {
+        if (photoId != null) {
             String filePath = folder + File.separator + photoId.getName();
             int i = 0;
             newFilePath = filePath;

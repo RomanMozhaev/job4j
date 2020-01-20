@@ -1,6 +1,7 @@
 package ru.job4j.firsthttp;
 
 import org.apache.commons.fileupload.FileItem;
+import org.json.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,36 +38,51 @@ public class UserUpdateServlet extends HttpServlet {
         Upload upload = Upload.getUploadInstance();
         HttpSession session = req.getSession();
         File repository = (File) session.getServletContext().getAttribute("javax.servlet.context.tempdir");
-
-//        File repository = (File) this.getServletContext().getAttribute("javax.servlet.context.tempdir");
         Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
         String srgId = (String) fields.get("id");
-        FileItem photoId = (FileItem) fields.get("photoId");
-        String password = (String) fields.get("password");
+        FileItem photoId = (FileItem) fields.get("pic");
+        String password = (String) fields.get("pass");
         String role = (String) fields.get("role");
-        if (role == null) {
-            role = "";
-        }
-        String message;
+        String city = (String) fields.get("city");
+        String state = (String) fields.get("state");
         String photoPath = upload.uploadPhoto(photoId, repository);
         User savedUser = this.validate.findById(intOrDef(srgId, -1));
         String savedPhoto = "";
         if (savedUser != null) {
             savedPhoto = savedUser.getPhotoId();
         }
-        if (this.validate.update(new User(intOrDef(srgId, -1), name, email, photoPath, password, role))) {
-            message = "The user was successfully updated.";
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        JSONObject status = new JSONObject();
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("email", email);
+        map.put("photoId", photoPath);
+        map.put("password", password);
+        map.put("role", role);
+        map.put("city", city);
+        map.put("state", state);
+        if (this.validate.update(new User(intOrDef(srgId, -1), map))) {
+            status.put("status", "valid");
+//            status.put("id", srgId);
+//            status.put("name", name);
+//            status.put("email", email);
+//            status.put("city", city);
+//            status.put("state", state);
+//            status.put("role", role);
+            status.put("pic", photoPath);
             if (!photoPath.equals("") && !savedPhoto.equals("")) {
                 new File(savedPhoto).delete();
             }
         } else {
-            message = "The user was not updated.";
+            status.put("status", "invalid");
             new File(photoPath).delete();
         }
-        req.setAttribute("message", message);
-        session.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(req, resp);
+        writer.append(status.toString());
+        writer.flush();
     }
 
     /**
