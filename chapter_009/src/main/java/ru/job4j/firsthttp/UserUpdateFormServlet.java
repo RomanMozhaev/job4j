@@ -1,13 +1,10 @@
 package ru.job4j.firsthttp;
 
-import org.json.JSONObject;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * the servlet for creating update form
@@ -31,21 +28,13 @@ public class UserUpdateFormServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         User user = this.validate.findById(Integer.parseInt(id));
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        JSONObject status = new JSONObject();
         if (user != null) {
-            status.put("status", "valid");
-            status.put("id", user.getId());
-            status.put("name", user.getName());
-            status.put("email", user.getEmail());
-            status.put("city", user.getCity());
-            status.put("state", user.getState());
+            req.setAttribute("user", user);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/update.jsp").forward(req, resp);
         } else {
-            status.put("status", "invalid");
+            resp.sendRedirect(req.getContextPath() + "/");
         }
-        writer.append(status.toString());
-        writer.flush();
+
+
     }
 }
