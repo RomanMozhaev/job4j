@@ -1,6 +1,7 @@
 package ru.job4j.firsthttp;
 
 import org.apache.commons.fileupload.FileItem;
+import org.json.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 /**
@@ -35,19 +37,22 @@ public class UserCreateServlet extends HttpServlet {
         Map<String, Object> fields = upload.getFields(req, repository);
         String name = (String) fields.get("name");
         String email = (String) fields.get("email");
-        FileItem photoId = (FileItem) fields.get("photoId");
-        String password = (String) fields.get("password");
+        FileItem photoId = (FileItem) fields.get("pic");
+        String password = (String) fields.get("pass");
         String role = (String) fields.get("role");
-        String message;
         String photoPath = upload.uploadPhoto(photoId, repository);
         User user = new User(name, email, photoPath, password, role);
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        JSONObject status = new JSONObject();
         if (this.validate.add(user)) {
-            message = "the adding was finished successfully.";
+            status.put("status", "valid");
         } else {
-            message = "the adding was not implemented.";
+            status.put("status", "invalid");
             new File(photoPath).delete();
         }
-        req.setAttribute("message", message);
-        session.getServletContext().getRequestDispatcher("/WEB-INF/createResult.jsp").forward(req, resp);
+        writer.append(status.toString());
+        writer.flush();
     }
 }

@@ -28,15 +28,13 @@ public class UserUpdateFormServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         User user = this.validate.findById(Integer.parseInt(id));
-        String jspPath;
         if (user != null) {
             req.setAttribute("user", user);
-            jspPath = "/WEB-INF/update.jsp";
+            this.getServletContext().getRequestDispatcher("/WEB-INF/update.jsp").forward(req, resp);
         } else {
-            req.setAttribute("message", "The user was not found.");
-            jspPath = "/WEB-INF/result.jsp";
+            resp.sendRedirect(req.getContextPath() + "/");
         }
-        this.getServletContext().getRequestDispatcher(jspPath).forward(req, resp);
+
 
     }
 }
