@@ -1,5 +1,6 @@
 package ru.job4j.firsthttp;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,8 +41,8 @@ public class ValidateService implements Validate {
      * @return true if the user was added; otherwise false.
      */
     @Override
-    public boolean add(User user) {
-        boolean result = false;
+    public int add(User user) {
+        int result = -1;
         if (!user.getName().equals("")) {
             result = this.memory.add(user);
         }
@@ -64,6 +65,8 @@ public class ValidateService implements Validate {
         String photoId;
         String password;
         String role;
+        String city;
+        String state;
         User listedUser = findById(user.getId());
         if (listedUser != null) {
             id = listedUser.getId();
@@ -88,12 +91,31 @@ public class ValidateService implements Validate {
             } else {
                 password = listedUser.getPassword();
             }
-            if (!user.getRole().equals("")) {
+            if (!user.getRole().equals("none")) {
                 role = user.getRole();
             } else {
                 role = listedUser.getRole();
             }
-            result = this.memory.update(new User(id, name, email, date, photoId, password, role));
+            if (!user.getCity().equals("")) {
+                city = user.getCity();
+            } else {
+                city = listedUser.getCity();
+            }
+            if (!user.getState().equals("")) {
+                state = user.getState();
+            } else {
+                state = listedUser.getState();
+            }
+            Map<String, String> map = new HashMap<>();
+            map.put("name", name);
+            map.put("email", email);
+            map.put("photoId", photoId);
+            map.put("password", password);
+            map.put("role", role);
+            map.put("city", city);
+            map.put("state", state);
+
+            result = this.memory.update(new User(id, date, map));
         }
         return result;
     }

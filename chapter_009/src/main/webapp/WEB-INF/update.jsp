@@ -112,6 +112,16 @@
                            value="<c:out value="${user.email}"></c:out>">
                 </div>
                 <div class="form-group">
+                    <label for="city">Email: </label>
+                    <input type="text" class="form-control" name="city" id="city"
+                           value="<c:out value="${user.city}"></c:out>">
+                </div>
+                <div class="form-group">
+                    <label for="state">Email: </label>
+                    <input type="text" class="form-control" name="state" id="state"
+                           value="<c:out value="${user.state}"></c:out>">
+                </div>
+                <div class="form-group">
                     <label for="pic">Photo: </label>
                     <input type="file" class="form-control" name="file" id="pic">
                 </div>

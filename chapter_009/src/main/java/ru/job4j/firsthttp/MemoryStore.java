@@ -1,5 +1,6 @@
 package ru.job4j.firsthttp;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,17 +55,24 @@ public class MemoryStore implements Store {
      * @return - true if the user was added; otherwise false.
      */
     @Override
-    public boolean add(User user) {
-        boolean result = false;
+    public int add(User user) {
+        int result = -1;
         int id = this.serialID.incrementAndGet();
-        User newUser = new User(id, user.getName(), user.getEmail(),
-                user.getCreateDate(), user.getPhotoId(),
-                user.getPassword(), user.getRole());
+        Map<String, String> map = new HashMap<>();
+        map.put("name", user.getName());
+        map.put("email", user.getEmail());
+        map.put("photoId", user.getPhotoId());
+        map.put("password", user.getPassword());
+        map.put("role", user.getRole());
+        map.put("city", user.getCity());
+        map.put("state", user.getState());
+        User newUser = new User(id, user.getCreateDate(), map);
         if (this.map.putIfAbsent(newUser.getId(), newUser) == null) {
-            result = true;
+            result = newUser.getId();
         }
         return result;
     }
+
 
 
     /**

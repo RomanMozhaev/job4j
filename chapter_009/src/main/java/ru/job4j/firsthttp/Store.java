@@ -21,7 +21,7 @@ public interface Store {
      * @param user the new user.
      * @return - true if the user was added; otherwise false.
      */
-    boolean add(User user);
+    int add(User user);
 
     /**
      * deletes the user from the map.

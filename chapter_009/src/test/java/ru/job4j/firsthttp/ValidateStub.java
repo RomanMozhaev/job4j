@@ -8,13 +8,19 @@ public class ValidateStub implements Validate {
     private int ids = 1;
 
     @Override
-    public boolean add(User user) {
+    public int add(User user) {
         int id = ids++;
-        User newUser = new User(id, user.getName(),
-                user.getEmail(), user.getPhotoId(),
-                user.getPassword(), user.getRole());
-        User result = this.store.put(id, newUser);
-        return result == null;
+        Map<String, String> map = new HashMap<>();
+        map.put("name", user.getName());
+        map.put("email", user.getEmail());
+        map.put("photoId", user.getPhotoId());
+        map.put("password", user.getPassword());
+        map.put("role", user.getRole());
+        map.put("city", user.getCity());
+        map.put("state", user.getState());
+        User newUser = new User(id, map);
+        this.store.put(id, newUser);
+        return id;
     }
 
     @Override

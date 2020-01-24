@@ -10,7 +10,7 @@ public interface Validate {
     /**
      * adds a new user to the memory.
      */
-    boolean add(User user);
+    int add(User user);
 
     /**
      * updates the mapped user.
