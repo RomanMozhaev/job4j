@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,6 +45,8 @@ public class UserUpdateServlet extends HttpServlet {
         FileItem photoId = (FileItem) fields.get("pic");
         String password = (String) fields.get("pass");
         String role = (String) fields.get("role");
+        String city = (String) fields.get("city");
+        String state = (String) fields.get("state");
         String photoPath = upload.uploadPhoto(photoId, repository);
         User savedUser = this.validate.findById(intOrDef(srgId, -1));
         String savedPhoto = "";
@@ -54,8 +57,23 @@ public class UserUpdateServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         JSONObject status = new JSONObject();
-        if (this.validate.update(new User(intOrDef(srgId, -1), name, email, photoPath, password, role))) {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("email", email);
+        map.put("photoId", photoPath);
+        map.put("password", password);
+        map.put("role", role);
+        map.put("city", city);
+        map.put("state", state);
+        if (this.validate.update(new User(intOrDef(srgId, -1), map))) {
             status.put("status", "valid");
+//            status.put("id", srgId);
+//            status.put("name", name);
+//            status.put("email", email);
+//            status.put("city", city);
+//            status.put("state", state);
+//            status.put("role", role);
+            status.put("pic", photoPath);
             if (!photoPath.equals("") && !savedPhoto.equals("")) {
                 new File(savedPhoto).delete();
             }

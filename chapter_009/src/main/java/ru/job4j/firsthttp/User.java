@@ -1,5 +1,6 @@
 package ru.job4j.firsthttp;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -14,38 +15,43 @@ public class User {
     private final String photoId;
     private final String password;
     private final String role;
+    private final String city;
+    private final String state;
 
     /**
      * this constructor is user for updating the user.
-     *  @param id    - the id of the user
-     * @param name  - the name of the user
-     * @param email -the email of the user
-     * @param photoId - the link to the photo
+     *
+     * @param id      - the id of the user
+     * @param map  - the map which contains parameters.
      */
-    public User(int id, String name, String email, String photoId, String password, String role) {
+    public User(int id, Map<String, String> map) {
         this.id = id;
-        this.name = name;
-        this.email = email;
-        this.photoId = photoId;
         this.createDate = -1;
-        this.password = password;
-        this.role = role;
+        this.name = map.get("name");
+        this.email = map.get("email");
+        this.photoId = map.get("photoId");
+        this.password = map.get("password");
+        this.role = map.get("role");
+        this.city = map.get("city");
+        this.state = map.get("state");
     }
 
     /**
      * this constructor is used for creating a new user.
-     *  @param name  - the name of the user
-     * @param email - the email of the user
-     * @param photoId - the link to the photo
+     *
+     * @param map  - the map which contains parameters.
      */
-    public User(String name, String email, String photoId, String password, String role) {
-        this.photoId = photoId;
+    public User(Map<String, String> map) {
         this.id = -1;
-        this.name = name;
-        this.email = email;
         this.createDate = System.currentTimeMillis();
-        this.password = password;
-        this.role = role;
+        this.name = map.get("name");
+        this.email = map.get("email");
+        this.photoId = map.get("photoId");
+        this.password = map.get("password");
+        this.role = map.get("role");
+        this.city = map.get("city");
+        this.state = map.get("state");
+
     }
 
     /**
@@ -61,24 +67,28 @@ public class User {
         this.createDate = -1;
         this.password = null;
         this.role = null;
+        this.city = null;
+        this.state = null;
     }
 
     /**
      * the constructor for adding to the map
-     *  @param id         - the id of the user
-     * @param name       - the name of the user
-     * @param email      -  the email of the user
+     *
+     * @param id         - the id of the user
      * @param createDate - the date of user creating
-     * @param photoId
+     * @param map  - the map which contains parameters.
+
      */
-    public User(int id, String name, String email, long createDate, String photoId, String password, String role) {
+    public User(int id, long createDate, Map<String, String> map) {
         this.id = id;
-        this.name = name;
-        this.email = email;
         this.createDate = createDate;
-        this.photoId = photoId;
-        this.password = password;
-        this.role = role;
+        this.name = map.get("name");
+        this.email = map.get("email");
+        this.photoId = map.get("photoId");
+        this.password = map.get("password");
+        this.role = map.get("role");
+        this.city = map.get("city");
+        this.state = map.get("state");
     }
 
 
@@ -110,7 +120,13 @@ public class User {
         return role;
     }
 
+    public String getCity() {
+        return city;
+    }
 
+    public String getState() {
+        return state;
+    }
 
     @Override
     public boolean equals(Object o) {

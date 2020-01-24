@@ -45,11 +45,13 @@ public class UserServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         HttpSession session = mock(HttpSession.class);
         ServletContext context = mock(ServletContext.class);
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
         ServletOutputStream stream = mock(ServletOutputStream.class);
         when(request.getSession()).thenReturn(session);
         when(response.getOutputStream()).thenReturn(stream);
         when(session.getServletContext()).thenReturn(context);
         when(context.getAttribute("javax.servlet.context.tempdir")).thenReturn(new File(""));
+        when(context.getRequestDispatcher("/WEB-INF/createResult.jsp")).thenReturn(dispatcher);
         UserCreateServlet servlet = new UserCreateServlet();
         servlet.doPost(request, response);
         Map<Integer, User> map = validate.findAll();
@@ -116,10 +118,13 @@ public class UserServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         HttpSession session = mock(HttpSession.class);
         ServletContext context = mock(ServletContext.class);
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
         ServletOutputStream stream = mock(ServletOutputStream.class);
         when(request.getSession()).thenReturn(session);
         when(response.getOutputStream()).thenReturn(stream);
         when(session.getServletContext()).thenReturn(context);
+        when(context.getRequestDispatcher("/WEB-INF/result.jsp")).thenReturn(dispatcher);
+        when(context.getRequestDispatcher("/WEB-INF/delete.jsp")).thenReturn(dispatcher);
         Map<String, String> userMap = new HashMap<>();
         userMap.put("name", "User1");
         userMap.put("email", "user@mail");
