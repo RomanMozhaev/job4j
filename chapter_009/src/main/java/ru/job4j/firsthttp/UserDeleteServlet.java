@@ -23,41 +23,6 @@ public class UserDeleteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        if (action == null) {
-            createDeleteForm(req, resp);
-        } else {
-            delete(req, resp);
-        }
-    }
-
-    /**
-     * shows the user's data which will be deleted.
-     *
-     * @param req
-     * @param resp
-     * @throws IOException
-     */
-    private void createDeleteForm(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String id = req.getParameter("id");
-        HttpSession session = req.getSession();
-        User user = this.validate.findById(Integer.parseInt(id));
-        if (user != null) {
-            req.setAttribute("user", user);
-            session.getServletContext().getRequestDispatcher("/WEB-INF/delete.jsp").forward(req, resp);
-        } else {
-            resp.sendRedirect(req.getContextPath() + "/");
-        }
-    }
-
-    /**
-     * deletes the user.
-     *
-     * @param req
-     * @param resp
-     * @throws IOException
-     */
-    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String stgId = req.getParameter("id");
         String message = "invalid";
         String photo;

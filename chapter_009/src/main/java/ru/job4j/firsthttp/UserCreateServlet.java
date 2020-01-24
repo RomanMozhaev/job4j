@@ -26,11 +26,6 @@ public class UserCreateServlet extends HttpServlet {
     private final Validate validate = ValidateService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/WEB-INF/create.jsp").forward(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Upload upload = Upload.getUploadInstance();
         HttpSession session = req.getSession();
