@@ -273,5 +273,6 @@
         <module>parser</module>
         <module>pingpong</module>
         <module>cinema</module>
+        <module>loanapp</module>
     </modules>
 </project>

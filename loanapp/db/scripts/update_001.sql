@@ -1,0 +1,2 @@
+CREATE TABLE applications (app_id serial primary key, first_name varchar(100), second_name varchar(100), pid int, term int, sum int, country varchar(10));
+CREATE TABLE blacklist (pid int, first_name varchar(100), second_name varchar(100));
