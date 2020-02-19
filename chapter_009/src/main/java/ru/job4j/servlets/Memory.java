@@ -1,7 +1,5 @@
 package ru.job4j.servlets;
 
-import ru.job4j.firsthttp.MemoryStore;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -18,6 +16,9 @@ public class Memory {
     private AtomicInteger serialID = new AtomicInteger();
 
     Map<Integer, JsonUser> map = new ConcurrentHashMap<>();
+
+    private Memory() {
+    }
 
     public static Memory getInstance() {
         return INSTANCE;
