@@ -3,8 +3,5 @@
 
 # job4j
 http://job4j.ru/
-Этот файл с ошибкой. Ошибка.
-Моя цель - пройти курс job4j за 6 месяцев и в конце года сменить место работы, став УСПЕШНЫМ Java разаботчиком!
-В курсе производилась работа с ветках git.
+This repository includes different projects. One of the project is Users List located in the folder "userslist".
 
-Создание новой ветки через IDEA
