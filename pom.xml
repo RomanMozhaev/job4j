@@ -272,5 +272,6 @@
         <module>find</module>
         <module>parser</module>
         <module>pingpong</module>
+        <module>userslist</module>
     </modules>
 </project>
