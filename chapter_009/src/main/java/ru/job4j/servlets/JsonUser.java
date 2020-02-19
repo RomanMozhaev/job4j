@@ -2,12 +2,9 @@ package ru.job4j.servlets;
 
 public class JsonUser {
 
-    private String name;
-    private String surname;
-    private String gender;
-
-    public JsonUser() {
-    }
+    private final String name;
+    private final String surname;
+    private final String gender;
 
     public JsonUser(String name, String surname, String gender) {
         this.name = name;
@@ -27,15 +24,4 @@ public class JsonUser {
         return gender;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 }
