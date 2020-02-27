@@ -273,5 +273,6 @@
         <module>parser</module>
         <module>pingpong</module>
         <module>userslist</module>
+        <module>cinema</module>
     </modules>
 </project>
