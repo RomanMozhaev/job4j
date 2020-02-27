@@ -274,5 +274,6 @@
         <module>pingpong</module>
         <module>userslist</module>
         <module>cinema</module>
+        <module>loanapp</module>
     </modules>
 </project>
