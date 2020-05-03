@@ -3,5 +3,7 @@
 
 # job4j
 http://job4j.ru/
-This repository includes different projects. One of the project is Users List located in the folder "userslist".
+# 
+The repository with different tasks and projects from the very beginning to the middle of the course.
+
 
